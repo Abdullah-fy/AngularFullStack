@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+/* @import "animate.css"; */
+
+:root {
+    --primary-color: #FF6B6B;
+    --secondary-color: #FF5252;
+    --active-color: #FF3D3D;
+}
+
