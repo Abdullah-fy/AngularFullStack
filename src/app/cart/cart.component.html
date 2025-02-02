@@ -1,0 +1,32 @@
+<div class="cart-container">
+    <h2 class="cart-title">Your Shopping Cart</h2>
+  
+    @if (cartItems.length > 0) {
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th colspan="2">Manage</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of cartItems; track item.productId) {
+            <tr>
+              <td>{{ item.productName }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>                
+                <button class="btn btn-sm btn-outline-primary" (click)="addToCart(item.productId,1 )">+</button>
+                <button class="btn btn-sm btn-outline-primary" (click)="decreaseCartItem(item.productId,1 )">-</button>
+                <button class="btn btn-sm btn-outline-danger" (click)="removeFromCart(item.productId)">Remove</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+  
+      <button class="btn btn-danger mt-3" (click)="clearCart()">Clear Cart</button>
+    } @else {
+      <p>Your cart is empty. Add some items!</p>
+    }
+  </div>
