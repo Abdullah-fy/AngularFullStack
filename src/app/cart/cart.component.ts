@@ -13,7 +13,9 @@ export class CartComponent implements OnInit {
 
   constructor(private cartService: CartService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadCart();
+  }
 
   //load cart item
   loadCart(): void {
@@ -38,6 +40,14 @@ export class CartComponent implements OnInit {
       error:(err)=> console.error('Error removing item from cart:',err)
     })
   };
+
+  //decrese item quantity in cart
+  decreaseCartItem(productId:string,quantity:number=1):void{
+    this.cartService.decreaseCartItem(this.customerId,productId,quantity).subscribe({
+      next: ()=> this.loadCart(),
+      error:(err)=> console.error("Error decreasing item quantity:",err) 
+    })
+  }
 
   //clear the entire cart when checkout
   clearCart():void{
