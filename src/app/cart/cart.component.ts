@@ -9,6 +9,7 @@ import { CartService } from '../_service/cart.service';
 })
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
+  total: any[] = [];
   customerId: string = 'yasoo'; //change later
 
   constructor(private cartService: CartService) {}
@@ -20,7 +21,7 @@ export class CartComponent implements OnInit {
   //load cart item
   loadCart(): void {
     this.cartService.getCart(this.customerId).subscribe({
-      next: (data) => {this.cartItems = data.items},
+      next: (data) => {this.cartItems = data.items,this.total=data.totalAmount},
       error:(error)=>{console.error('Error loading cart:',error)}
     });
   };
