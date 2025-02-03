@@ -124,3 +124,24 @@ a:hover {
 .arrow{
     font-size: 2rem;
 }
+
+/* unavlaible section */
+.unavailable-section{
+  margin-top: 15vh;
+  margin-bottom: 3vh;
+  color: #c2c2c2;
+}
+.unavailable-item {
+  opacity: 0.8;  
+  background-color: #fadddf; 
+}
+
+.unavailable-item .quantity-control input,
+.unavailable-item .quantity-control button {
+  background-color: #e0e0e0;  
+  border-color: #e0e0e0;
+  color: #ff6b6b;
+  cursor: not-allowed;  
+}
+
+

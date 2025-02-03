@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../_service/cart.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cart',
@@ -30,7 +31,11 @@ export class CartComponent implements OnInit {
   addToCart(productId:string,quantity:number=1):void{
     this.cartService.addToCart(this.customerId,productId,quantity).subscribe({
       next:()=>this.loadCart(),
-      error:(err)=> console.error('error adding item to cart:',err),
+      error:(err)=> {Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err.error.message,
+      });},
     })
   };
 
@@ -57,5 +62,10 @@ export class CartComponent implements OnInit {
       error:(err)=> console.error('Error cleaning cart:',err)
     })
   };
+
+  //unavailable section
+  get unavailableItems() {
+    return this.cartItems.filter(item => !item.isAvailable).length>0;
+  }
 
 }
