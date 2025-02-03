@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../_service/cart.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cart',
@@ -9,6 +10,7 @@ import { CartService } from '../_service/cart.service';
 })
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
+  total: any[] = [];
   customerId: string = 'yasoo'; //change later
 
   constructor(private cartService: CartService) {}
@@ -20,7 +22,7 @@ export class CartComponent implements OnInit {
   //load cart item
   loadCart(): void {
     this.cartService.getCart(this.customerId).subscribe({
-      next: (data) => {this.cartItems = data.items},
+      next: (data) => {this.cartItems = data.items,this.total=data.totalAmount},
       error:(error)=>{console.error('Error loading cart:',error)}
     });
   };
@@ -29,7 +31,11 @@ export class CartComponent implements OnInit {
   addToCart(productId:string,quantity:number=1):void{
     this.cartService.addToCart(this.customerId,productId,quantity).subscribe({
       next:()=>this.loadCart(),
-      error:(err)=> console.error('error adding item to cart:',err),
+      error:(err)=> {Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err.error.message,
+      });},
     })
   };
 
@@ -56,5 +62,10 @@ export class CartComponent implements OnInit {
       error:(err)=> console.error('Error cleaning cart:',err)
     })
   };
+
+  //unavailable section
+  get unavailableItems() {
+    return this.cartItems.filter(item => !item.isAvailable).length>0;
+  }
 
 }
