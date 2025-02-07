@@ -3,22 +3,27 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../_models/user';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-profile',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent implements OnInit{
-
+  
   user: User = {
     firstName: '',
-    lastName: '',
+    lastName: '', 
     email: '',
+    password: '',
     role: 'customer',
     isActive: 1
   }
+
+  password: string = '';
+  confirmPassword: string = '';
 
   roles = ['customer', 'seller', 'admin', 'manager', 'cashier', 'salesClerk', 'supplier'];
 
