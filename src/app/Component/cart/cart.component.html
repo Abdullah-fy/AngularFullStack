@@ -55,12 +55,11 @@
       </div>
       } }
       <!-- Loop through cart items -->
-       @if(unavailableItems){
+      @if(unavailableItems){
       <div class="col unavailable-section">
         <h4><b>Not Available</b></h4>
       </div>
-    }
-      @for (item of cartItems; track item.productId) { @if(!item.isAvailable){
+      } @for (item of cartItems; track item.productId) { @if(!item.isAvailable){
       <div class="row border-top border-bottom unavailable-item">
         <div class="row main align-items-center">
           <div class="col-2">
@@ -107,12 +106,13 @@
         <h2><b>Summary</b></h2>
       </div>
       <hr />
-      @for (item of cartItems; track $index) {
+      @for (item of cartItems; track $index) { @if(item.isAvailable){
+
       <div class="row">
         <div class="col" style="padding-left: 0">{{ item.quantity }} ITEMS</div>
         <div class="col text-right">&euro;{{ item.quantity * item.price }}</div>
       </div>
-      }
+      } }
 
       <div
         class="row"
