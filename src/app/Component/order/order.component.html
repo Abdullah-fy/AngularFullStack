@@ -1,0 +1,21 @@
+<div class="order-form">
+    <h2>Place an Order</h2>
+    
+    <form (ngSubmit)="placeOrder()">
+      <label for="customerId">Customer ID:</label>
+      <input id="customerId" type="text" [(ngModel)]="Order.customerId" name="customerId" required />
+  
+      <label for="phoneNumber">Phone Number:</label>
+      <input id="phoneNumber" type="number" [(ngModel)]="Order.PhoneNumber" name="phoneNumber" required />
+  
+      <label for="paymentMethod">Payment Method:</label>
+      
+     
+  
+      <label for="shippingAddress">Shipping Address:</label>
+      <input id="shippingAddress" type="text" [(ngModel)]="Order.shippingAddress" name="shippingAddress" required />
+  
+      <button type="submit">Place Order</button>
+    </form>
+  </div>
+  
