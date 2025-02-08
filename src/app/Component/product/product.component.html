@@ -6,15 +6,16 @@
 <div class="container mt-4"> 
 
    <div class="row mb-4 my-5">
-        <!-- Search Bar -->
+        <!-- search -->
         <div class="col-md-4">
             <div class="mb-4">
-                <div class="input-group">
+                <div class="input-group"> 
                     <input 
                         type="text" 
                         class="form-control" 
                         [(ngModel)]="search" 
                         placeholder="Search products..."
+                        (input)="onSearchChange()"
                     />
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button">
@@ -25,11 +26,11 @@
             </div>
         </div>
 
-        <!-- Category Filter -->
+        <!-- category -->
         <div class="col-md-4">
             <div class="input-group mb-3">
                 <label class="input-group-text" for="inputGroupSelect">Categories</label>
-                <select class="form-select" id="inputGroupSelect">
+                <select class="form-select" id="inputGroupSelect" (change)="filterProducts()" [(ngModel)]="select">
                   <option value="1">All</option>
                   <option value="2">For Her</option>
                   <option value="3">For Him</option>
@@ -37,27 +38,27 @@
             </div>
         </div>
 
-        <!-- Price Filter -->
+        <!-- price -->
         <div class="col-md-4">
             <div class="input-group mb-3">
                 <label class="input-group-text">Price</label>
-                <input type="number" class="form-control" placeholder="Min Price" >
-                <input type="number" class="form-control" placeholder="Max Price" >
+                <input type="number" class="form-control" placeholder="Min Price" [(ngModel)]="minPrice" (input)="filterProducts()">
+                <input type="number" class="form-control" placeholder="Max Price" [(ngModel)]="maxPrice" (input)="filterProducts()">
             </div>
         </div>
    </div>
    <hr>
 
-   <!-- Products Display -->
+   <!-- list products -->
    <div class="row gy-4">
-        <div *ngFor="let product of products" class="col-md-4 col-sm-6 mb-4">
+        <div *ngFor="let product of filteredProducts" class="col-md-4 col-sm-6 mb-4">
             <div class="card shadow-sm custom-sahdow">
                 <img [src]="product.images[0]" alt="" class="card-img-top">
                 <div class="card-body text-center">
                     <h5 class="card-title">{{product.name}}</h5>
                     <p class="card-text">{{product.description}}</p>
                     <p class="fw-bold">Price: ${{product.price}}</p>
-                    <button class="custom-btn">View Details</button>
+                    <button class="custom-btn" (click)="viewDetails(product._id)">View Details</button>
                 </div>
             </div>
         </div>

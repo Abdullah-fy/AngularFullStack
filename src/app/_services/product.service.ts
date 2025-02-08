@@ -7,7 +7,7 @@ import { Product } from '../_models/product';
   providedIn: 'root'
 })
 
-export class ProductService {
+export class ProductService { 
 
   constructor(private http: HttpClient) { }
 
@@ -17,22 +17,22 @@ export class ProductService {
   getAll():Observable<Product[]> {
     return this.http.get<Product[]>(`${this.url}/products`);
   }
-
-  // get filtered ptoducts
-  getFilteredProducts(category: string, minPrice:number | null, maxPrice: number | null) {
+  
+  // get filtered products
+  getFilteredProducts(category: string, search: string = '', minPrice: number | null = null, maxPrice: number | null = null): Observable<Product[]> {
     let params = new HttpParams();
 
-    if(category !== "1") {
-      params = params.set('category', category);
-    }
-    if(minPrice !== null) {
-      params = params.set('minPrice', minPrice.toString());
-    }
-    if(maxPrice !== null) {
-      params = params.set('maxPrice', maxPrice.toString());
-    }
+    if (category) params = params.set('category', category);
+    if (search) params = params.set('search', search);
+    if (minPrice !== null) params = params.set('minPrice', minPrice.toString());
+    if (maxPrice !== null) params = params.set('maxPrice', maxPrice.toString());
 
-    return this.http.get<any[]>(`${this.url}/filteredProducts`, {params});
+    return this.http.get<Product[]>(`${this.url}/filteredProducts`, { params });
   }
 
+  //get product by id
+  getProductById(id: number) {
+    return this.http.get<Product[]>(`${this.url}/${id}`);
+  }
+  
 } 
