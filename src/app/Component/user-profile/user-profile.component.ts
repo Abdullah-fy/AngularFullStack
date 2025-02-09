@@ -30,7 +30,7 @@ export class UserProfileComponent implements OnInit{
   constructor(private userService: UserService) {}
 
   loadUserProfile(): void {
-    this.userService.getById().subscribe(data => {
+    this.userService.getById("mariam").subscribe(data => {
       this.user = data;
     });
   }
