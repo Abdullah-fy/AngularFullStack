@@ -23,7 +23,10 @@
             <a class="nav-link" routerLink="cart">Card</a>
           </li>
       </ul>
-      <div class="navbar-nav ms-auto">
+      <div class="navbar-nav ms-auto" *ngIf="auth.isLoggedIn()" >
+        <button class="btn btn-outline-success" type="button" routerLink="logout" (click)="auth.logout()" >logout</button>
+      </div>
+      <div *ngIf="!auth.isLoggedIn()" >
         <button class="btn btn-outline-success me-2" type="button" routerLink="signup">Signup</button>
         <button class="btn btn-outline-success" type="button" routerLink="login">Login</button>
       </div>

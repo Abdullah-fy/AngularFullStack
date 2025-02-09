@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from './../../_services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -11,7 +12,7 @@ import { AuthService } from './../../_services/auth.service';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
         (response) => {
           console.log('User logged in successfully!', response);
           localStorage.setItem('token' , JSON.stringify(response));
+          this.router.navigate(['/home']);
         },
         error => console.error('Error logging in', error)
       );
