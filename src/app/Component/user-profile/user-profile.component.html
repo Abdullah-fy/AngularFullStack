@@ -1,27 +1,136 @@
-<!-- <div class="user-profile">
-    <h2>User Profile</h2>
-    <form (ngSubmit)="update()">
-      <label>First Name:</label>
-      <input type="text" [(ngModel)]="user.firstName" name="firstName" required />
-  
-      <label>Last Name:</label>
-      <input type="text" [(ngModel)]="user.lastName" name="lastName" required />
-  
-      <label>Email:</label>
-      <input type="email" [(ngModel)]="user.email" name="email" required disabled />
-  
-      <label>Role:</label>
-      <select [(ngModel)]="user.role" name="role" required>
-        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
-      </select>
-  
-      <label>Active Status:</label>
-      <select [(ngModel)]="user.isActive" name="isActive">
-        <option [value]="1">Active</option>
-        <option [value]="0">Inactive</option>
-      </select>
-  
-      <button type="submit">Update Profile</button>
+<div class="container mt-4">
+  <div class="card shadow-lg p-4">
+    <h3 class="text-center mb-4">User Profile</h3>
+    
+    <form class="row g-3" (ngSubmit)="update()">
+      
+      <div class="col-md-6">
+        <label for="firstName" class="form-label">First Name</label>
+        <input 
+        type="text" 
+        name="firstName" 
+        class="form-control" 
+        id="firstName" 
+        required
+        [(ngModel)]="user.firstName" 
+        pattern = "^[A-Za-z]+([ '-][A-Za-z]+)*$"
+        #firstNameInput = "ngModel"
+        >
+        <div class="text-danger" *ngIf = "firstNameInput.invalid && (firstNameInput.dirty)">
+          <div *ngIf = "firstNameInput.hasError('required')">First name is required</div>
+          <div *ngIf = "firstNameInput.hasError('pattern')">Invalid name format</div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input 
+        type="text" 
+        name="lastName" 
+        class="form-control" 
+        id="lastName" 
+        required
+        [(ngModel)]="user.lastName" 
+        pattern = "^[A-Za-z]+([ '-][A-Za-z]+)*$"
+        #lastNameInput = "ngModel"
+        >
+        <div class="text-danger" *ngIf = "lastNameInput.invalid && (lastNameInput.dirty)">
+          <div *ngIf = "lastNameInput.hasError('required')">Last name is required</div>
+          <div *ngIf = "lastNameInput.hasError('pattern')">Invalid name format</div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <label for="email" class="form-label">Email</label>
+        <input 
+        type="email" 
+        name="email" 
+        class="form-control" 
+        id="email" 
+        required
+        [(ngModel)]="user.email" 
+
+        #emailInput = "ngModel"
+        >
+        <div class="text-danger" *ngIf = "emailInput.invalid && (emailInput.dirty)">
+          <div *ngIf = "emailInput.hasError('required')">Email is required</div>
+          <div *ngIf = "emailInput.hasError('email')">Invalid email format</div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="password" class="form-label">Password</label>
+        <input 
+        type="password" 
+        name="password" 
+        class="form-control" 
+        id="password"
+        required
+        [(ngModel)]="user.password" 
+        pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$"
+        #passwordInput = "ngModel"
+        >
+        <div class="text-danger" *ngIf = "passwordInput.invalid && (passwordInput.dirty)">
+          <div *ngIf = "passwordInput.hasError('required')">Password is required</div>
+          <div *ngIf = "passwordInput.hasError('pattern')">Invalid password format</div>
+        </div>   
+      </div>
+
+      <div class="col-md-6">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <input 
+        type="password"  
+        name="confirmPassword" 
+        class="form-control" 
+        id="confirmPassword"
+        required
+        [(ngModel)]="confirmPassword"
+        #confirmPasswordInput = "ngModel"
+        >
+        <div class="text-danger" *ngIf = "confirmPasswordInput.invalid && (confirmPasswordInput.dirty)">
+          <div *ngIf = "confirmPasswordInput.hasError('passwordInput')">password must match</div>
+        </div>
+      </div>
+
+      <div class="col-12 mt-3">
+        <button class="btn custom-btn px-4" type="submit" [disabled]="password.length < 6 || confirmPassword !== password">
+          Update Profile
+        </button>
+      </div>
+
     </form>
+
+    <div class="card p-4 my-5">
+      <h3 class="text-center mb-4">My Orders</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>twitter</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-   -->
