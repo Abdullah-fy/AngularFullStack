@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../_services/cart.service';
 import Swal from 'sweetalert2';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
   total: any[] = [];
-  customerId: string = 'yasoo'; //change later
+  customerId: string = '67a92c4db4bab0f09cbd40c3'; //change later
 
   constructor(private cartService: CartService) {}
 
