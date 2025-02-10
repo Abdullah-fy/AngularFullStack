@@ -57,6 +57,7 @@ export class SignupComponent implements OnInit {
         (response) => {
           console.log('User logged in successfully!', response);
           localStorage.setItem('token' , response.token );
+          localStorage.setItem( 'userId', response.data.newUser._id );
           this.router.navigate(['/home']);
         },
         error => console.error('Error registering user', error)
