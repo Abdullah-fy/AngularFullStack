@@ -1,24 +1,35 @@
-
-<div class="container mt-5" *ngIf="products">
+<div class="container my-5" *ngIf="product">
   <div class="row">
-    <!-- Image Column -->
+   
     <div class="col-md-6 text-center">
-      <!-- <img [src]="products.images" alt="" class="img-fluid"> -->
+      <img src="{{product.images[0]}}" alt="" class="img-fluid">
     </div>
 
-    <!-- Product Details Column -->
     <div class="col-md-6">
-      <!-- <h2>{{ products.name }}</h2> -->
-      <!-- <p class="text-muted">{{ products.description }}</p> -->
-      <!-- <h3 class="text-primary">${{ products.price | number:'1.2-2' }}</h3> -->
+      <h2>{{product.name}}</h2> 
+      <p>{{product.description}}</p>
+      <h3>${{product.price}}</h3>
 
-      <div class="mt-4">
-        <button class="btn btn-primary me-2">Add to Cart</button>
-        <!-- <button class="btn btn-danger" (click)="goBack()">Back to Products</button> -->
+      <!-- another image for product -->
+
+      <!-- <div class="text-center mt-3 *ngIf="product.images?.length > 1">
+        <img src="{{product.images[1]}}" alt="Product Image 2" class="img-fluid">
+      </div> -->
+
+      <!-- quantity -->
+      <div class="quantity-control my-4">
+        <button class="btn btn-outline-secondary" (click)="decreaseQuantity()">-</button>
+        <span class="mx-3">{{ quantity }}</span>
+        <button class="btn btn-outline-secondary" (click)="increaseQuantity()">+</button>
+      </div>
+
+      <div class="my-5">
+        <button class="btn custom-btn me-2" (click)="addToCart()">Add to Cart</button>
+        <button class="btn custom-btn" (click)="goBack()"><i class="fas fa-arrow-left"></i> Continue Shopping</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Loading message -->
-<p class="text-center mt-5" *ngIf="!products">Loading product details...</p>
+
+<p class="text-center mt-5" *ngIf="!product">Loading product details...</p>

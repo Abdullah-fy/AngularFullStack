@@ -8,4 +8,4 @@ export class Product {
         public images: [string], 
         public stockQuantity: number, 
         public SellerInfo: {_id: number, name: string}) {}
-}
+} 
