@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../_models/product';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -31,8 +32,8 @@ export class ProductService {
   }
 
   //get product by id
-  getProductById(id: number) {
-    return this.http.get<Product[]>(`${this.url}/${id}`);
+  getProductById(id: number) : Observable<Product>{
+    return this.http.get<Product>(`${this.url}/products/${id}`); 
   }
   
 } 
