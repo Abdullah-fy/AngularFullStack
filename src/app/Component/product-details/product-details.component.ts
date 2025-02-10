@@ -17,7 +17,7 @@ export class ProductDetailsComponent implements OnInit {
   product: Product | null = null; 
   quantity: number = 1;
   customerId: string = "yasoo"
-  productId: string = "";
+  productId: string = "1";
 
   constructor( private productService: ProductService, private route: ActivatedRoute, private router: Router, private cartService: CartService) {}
 

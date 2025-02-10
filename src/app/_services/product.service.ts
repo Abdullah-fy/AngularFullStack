@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Product } from '../_models/product';
 
 
-@Injectable({
+@Injectable({ 
   providedIn: 'root'
 })
 
@@ -35,5 +35,6 @@ export class ProductService {
   getProductById(id: number) : Observable<Product>{
     return this.http.get<Product>(`${this.url}/products/${id}`); 
   }
+
   
 } 

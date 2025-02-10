@@ -35,8 +35,6 @@ export class UserProfileComponent implements OnInit {
 
   roles = ['customer', 'seller', 'admin', 'manager', 'cashier', 'salesClerk', 'supplier'];
 
-  // constructor(private userService: UserService) {}
-
   // loadUserProfile(): void {
   //   this.userService.getById("mariam").subscribe(data => {
   //     this.user = data;
