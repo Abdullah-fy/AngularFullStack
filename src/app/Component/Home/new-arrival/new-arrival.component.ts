@@ -48,7 +48,7 @@ export class NewArrivalComponent implements OnInit{
     });
   }
 
-  viewDetails(productId: number) {
+  viewDetails(productId: string) {
     this.router.navigate(['/product', productId]);
   }
 

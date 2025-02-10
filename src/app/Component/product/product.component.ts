@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit { 
 
   products: Product[] = []; 
   filteredProducts: Product[] = []; 
@@ -77,7 +77,7 @@ export class ProductComponent implements OnInit {
     this.filterProducts(); 
   }
 
-  viewDetails(productId: number) {
+  viewDetails(productId: string) {
     this.router.navigate(['/product', productId]);
   }
 }

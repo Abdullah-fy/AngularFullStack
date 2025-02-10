@@ -37,7 +37,7 @@ export class BestSellerComponent implements OnInit{
     this.bestSellers = this.products.filter(product => product.isBestSeller || product.salesCount >= 50);
   }
 
-  viewDetails(productId: number) {
+  viewDetails(productId: string) {
     this.router.navigate(['/product', productId]);
   }
 }

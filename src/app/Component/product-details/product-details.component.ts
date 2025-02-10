@@ -10,23 +10,24 @@ import  Swal  from 'sweetalert2';
 @Component({
   selector: 'app-product-details',
   imports: [CommonModule, FormsModule],
-  templateUrl: './product-details.component.html', 
+  templateUrl: './product-details.component.html',  
   styleUrl: './product-details.component.css'
 })
 export class ProductDetailsComponent implements OnInit {
   product: Product | null = null; 
   quantity: number = 1;
-  customerId: string = "yasoo"
-  productId: string = "1";
+  customerId: string = "yasoo" 
+  productId: string | null = null;
 
   constructor( private productService: ProductService, private route: ActivatedRoute, private router: Router, private cartService: CartService) {}
 
   ngOnInit(): void {
-    const productId = Number(this.route.snapshot.paramMap.get('id')); 
-
-    this.productService.getProductById(productId).subscribe((data) => {
-      this.product = data;
-    });
+    this.productId = this.route.snapshot.paramMap.get('id'); 
+      if(this.productId) {
+        this.productService.getProductById(this.productId).subscribe((data) => {
+          this.product = data;
+      });
+      }
   }
 
   goBack() {
@@ -46,8 +47,8 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart(): void {
-    if(this.product) {
-      this.cartService.addToCart(this.customerId, this.productId, this.quantity).subscribe ({
+    if(this.product && this.productId) {
+      this.cartService.addToCart(this.productId, this.quantity).subscribe ({
         next: ()=> {
           Swal.fire({
             icon: 'success',
