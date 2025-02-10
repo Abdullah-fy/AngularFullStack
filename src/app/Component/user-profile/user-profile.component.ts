@@ -29,10 +29,27 @@ export class UserProfileComponent implements OnInit {
     }, { validators: this.matchPassword });
   }
 
+
+  password: string = '';
+  confirmPassword: string = '';
+
+  roles = ['customer', 'seller', 'admin', 'manager', 'cashier', 'salesClerk', 'supplier'];
+
+  // constructor(private userService: UserService) {}
+
+  // loadUserProfile(): void {
+  //   this.userService.getById("mariam").subscribe(data => {
+  //     this.user = data;
+  //   });
+
+
   matchPassword: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { passwordMismatch: true };
+
+
+
   }
 
   onSubmit() {

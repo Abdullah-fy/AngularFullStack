@@ -47,9 +47,7 @@
           </div>
           <div class="col">&euro; {{ item.price }}</div>
           <div class="col">
-            <p class="close" (click)="removeFromCart(item.productId)">
-              &#10005;
-            </p>
+            <p class="btn-close" (click)="removeFromCart(item.productId)"></p>
           </div>
         </div>
       </div>
@@ -88,9 +86,7 @@
           </div>
           <div class="col">&euro; {{ item.price }}</div>
           <div class="col">
-            <p class="close" (click)="removeFromCart(item.productId)">
-              &#10005;
-            </p>
+            <p class="btn-close" (click)="removeFromCart(item.productId)"></p>
           </div>
         </div>
       </div>
@@ -121,7 +117,7 @@
         <div class="col">TOTAL PRICE</div>
         <div class="col text-right">&euro; {{ total }}</div>
       </div>
-      <button class="btn1">CHECKOUT</button>
+      <button class="btn1" [routerLink]="'/order'">CHECKOUT</button>
     </div>
   </div>
 </div>

@@ -10,7 +10,7 @@ import  Swal  from 'sweetalert2';
 @Component({
   selector: 'app-product-details',
   imports: [CommonModule, FormsModule],
-  templateUrl: './product-details.component.html',
+  templateUrl: './product-details.component.html', 
   styleUrl: './product-details.component.css'
 })
 export class ProductDetailsComponent implements OnInit {

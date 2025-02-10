@@ -26,12 +26,12 @@ export class UserService {
 
   
 
-  private url = 'http://localhost:3000/'  
+  private url = 'http://localhost:3000/users/'  
 
   constructor(private http: HttpClient) { }
 
-  getById(): Observable<User> {
-    return this.http.get<User>(this.url);
+  getById(email:any): Observable<User> {
+    return this.http.get<User>(this.url+email);
   }
 
   update(user: User): Observable<User> {

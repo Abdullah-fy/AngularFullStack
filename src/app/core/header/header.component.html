@@ -1,0 +1,34 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
+    <a class="navbar-brand" href="#">Noc</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['home']" routerLinkActive="router-link-active"  routerLinkActive="router-link-active" >Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="products">Products</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">About Us</a>
+          </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Connect Us</a>
+          </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="cart">Card</a>
+          </li>
+      </ul>
+      <div class="navbar-nav ms-auto" *ngIf="auth.isLoggedIn()" >
+        <button class="btn btn-outline-success" type="button" routerLink="logout" (click)="auth.logout()" >logout</button>
+      </div>
+      <div *ngIf="!auth.isLoggedIn()" >
+        <button class="btn btn-outline-success me-2" type="button" routerLink="signup">Signup</button>
+        <button class="btn btn-outline-success" type="button" routerLink="login">Login</button>
+      </div>
+    </div>
+  </nav>

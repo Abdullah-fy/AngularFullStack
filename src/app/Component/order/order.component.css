@@ -1,0 +1,36 @@
+:root {
+    --primary-color: #ff6b6b;
+    --secondary-color: #ff5252;
+    --active-color: #ff3d3d;
+  }
+.shadow-box {
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+}
+.payment-methods .btn {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.payment-methods .btn:hover {
+    background-color: var(--active-color);
+    color: #fff;
+  }
+.payment-methods .btn.active {
+  background-color: var(--active-color);
+  color: #fff;
+}
+
+.card {
+  margin: auto;
+  margin-top: 5%;
+  margin-bottom: 8%;
+  max-width: 90%;
+  width: 90%;
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 1.5);
+  border-radius: 1rem;
+  border: transparent;
+}
