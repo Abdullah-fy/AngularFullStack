@@ -31,8 +31,8 @@ export class ProductService {
   }
 
   //get product by id
-  getProductById(id: number) {
-    return this.http.get<Product[]>(`${this.url}/${id}`);
+  getProductById(id: string) {
+    return this.http.get<Product>(`${this.url}/products/${id}`);
   }
   
 } 

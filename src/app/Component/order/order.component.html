@@ -7,8 +7,8 @@
 </header>
 
 <div class="card">
-  <div class="container mt-4">
-    <div class="row">
+  <div class="container">
+    <div class="row mt-5">
       <div class="col-md-8">
         <div class="shadow-box">
           <h5><i class="fas fa-user"></i> Personal Information</h5>
@@ -20,6 +20,7 @@
                 type="number"
                 class="form-control"
                 [(ngModel)]="Order.CreditCardNumber"
+                [class.is-invalid]="submitted && !Order.CreditCardNumber"
                 oninput="this.value = this.value.slice(0, 16)"
                 name="CreditCardNumber"
                 required
@@ -32,13 +33,19 @@
                   <select
                     class="form-select me-2"
                     [(ngModel)]="Order.ExpiryMonth"
+                    [class.is-invalid]="submitted && !Order.ExpiryMonth"
                     name="ExpiryMonth"
                   >
                     @for (month of months; track month) {
                     <option [value]="month">{{ month }}</option>
                     }
                   </select>
-                  <select class="form-select" [(ngModel)]="Order.ExpiryYear" name="ExpiryYear">
+                  <select
+                    class="form-select"
+                    [(ngModel)]="Order.ExpiryYear"
+                    [class.is-invalid]="submitted && !Order.ExpiryYear"
+                    name="ExpiryYear"
+                  >
                     @for (year of years; track year) {
                     <option [value]="year">{{ year }}</option>
                     }
@@ -51,6 +58,7 @@
                   type="number"
                   class="form-control"
                   [(ngModel)]="Order.CVVCode"
+                  [class.is-invalid]="submitted && !Order.CVVCode"
                   name="CVVCode"
                   oninput="this.value = this.value.slice(0, 3)"
                   required
@@ -62,13 +70,13 @@
               <input type="text" class="form-control" minlength="10" />
             </div>
           </form>
-        }
+          }
         </div>
       </div>
-    
+      
 
-      <div class="col-md-4">
-        <div class="shadow-box mb-4">
+      <div class="col-md-4 mt-4 mt-md-0">
+        <div class="shadow-box mb-6">
           <h5><i class="fas fa-credit-card"></i> Payment Method</h5>
           <div class="payment-methods">
             <button
@@ -94,27 +102,30 @@
             </button>
             <button
               class="btn btn-outline-primary"
-              [class.active]="Order.paymentMethod === paymentMethod.BankTransfer"
+              [class.active]=" Order.paymentMethod === paymentMethod.BankTransfer"
               (click)="selectPaymentMethod(paymentMethod.BankTransfer)"
             >
               <i class="fa-solid fa-money-bill-transfer"></i> bank_transfer
             </button>
             <button
-            class="btn btn-outline-primary"
-            [class.active]="Order.paymentMethod === paymentMethod.CashOnDelivery"
-            (click)="selectPaymentMethod(paymentMethod.CashOnDelivery)"
+              class="btn btn-outline-primary"
+              [class.active]="Order.paymentMethod === paymentMethod.CashOnDelivery"
+              (click)="selectPaymentMethod(paymentMethod.CashOnDelivery)"
             >
               <i class="fas fa-file-invoice"></i> COD
             </button>
           </div>
         </div>
-        <div class="shadow-box">
+        <div class="shadow-box mt-4">
           <h5><i class="fas fa-shipping-fast"></i> Shipping Information</h5>
-          <p><strong> {{Name}}</strong></p>
+          <p>
+            <strong> {{ Name }}</strong>
+          </p>
           <input
             type="text"
             class="form-control"
             [(ngModel)]="Order.shippingAddress"
+            [class.is-invalid]="submitted && !Order.shippingAddress"
             placeholder="Shipping Address"
             name="shippingAddress"
             required
@@ -123,6 +134,7 @@
             type="number"
             class="form-control mt-4"
             [(ngModel)]="Order.PhoneNumber"
+            [class.is-invalid]="submitted && !Order.PhoneNumber"
             placeholder="Phone Number"
             name="PhoneNumber"
             oninput="this.value = this.value.slice(0, 12)"
@@ -132,8 +144,9 @@
       </div>
     </div>
 
-    <div class="my-4">
-      <a href="#" class="btn btn-link">Go Back to Shop</a>
+    <div class="my-4 Checkout">
+      <a href="cart" class="arrow">&leftarrow;</a
+      ><span class="text-muted">Back to shop</span>
       <button class="btn btn-success btn-lg" (click)="placeOrder()">
         Place your Order <i class="fas fa-arrow-right"></i>
       </button>
