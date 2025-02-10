@@ -7,5 +7,8 @@ export class Product {
         public category: string, 
         public images: [string], 
         public stockQuantity: number, 
+        public createdAt: string  = "",
+        public isBestSeller: boolean,
+        public salesCount: number,
         public SellerInfo: {_id: number, name: string}) {}
-}
+} 
