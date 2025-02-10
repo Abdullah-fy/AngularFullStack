@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -28,7 +28,37 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  forgetPassword(email: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/forget-password`, email);
+  // forgetPassword(email: any): Observable<any> {
+  //   return this.http.post(`${this.baseUrl}/forgetPassword`, email);
+  // }
+
+  forgetPassword(email: string): Observable<any> {
+    console.log('Sending reset link request to backend:', `${this.baseUrl}/forgetPassword`);
+    return this.http.post(`${this.baseUrl}/forgetPassword`, { email }).pipe(
+      catchError((error) => {
+        console.error('Error sending reset link:', error);
+        return throwError(() => error);
+      })
+    );
   }
+
+
+  resetPassword(token: string, password: string, passwordConfirm: string): Observable<any> {
+    console.log('Sending reset password request to backend:', `${this.baseUrl}/resetPassword/${token}`);
+    return this.http.patch(`${this.baseUrl}/resetPassword/${token}`, { password, passwordConfirm }).pipe(
+      catchError((error) => {
+        console.error('Error resetting password:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  // resetPassword(data: { token: string; password: string }): Observable<any> {
+  //   return this.http.post(`${this.baseUrl}/resetPassword`, data).pipe(
+  //     catchError((error) => {
+  //       console.error('Error resetting password:', error);
+  //       return throwError(() => error);
+  //     })
+  //   );
+  // }
 }
