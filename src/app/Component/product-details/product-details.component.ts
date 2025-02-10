@@ -22,12 +22,19 @@ export class ProductDetailsComponent implements OnInit {
   constructor( private productService: ProductService, private route: ActivatedRoute, private router: Router, private cartService: CartService) {}
 
   ngOnInit(): void {
+
     this.productId = this.route.snapshot.paramMap.get('id'); 
       if(this.productId) {
         this.productService.getProductById(this.productId).subscribe((data) => {
           this.product = data;
       });
       }
+
+    const productId = String(this.route.snapshot.paramMap.get('id')); 
+    this.productService.getProductById(productId).subscribe((data) => {
+      this.product = data;
+    });
+
   }
 
   goBack() {
@@ -48,7 +55,7 @@ export class ProductDetailsComponent implements OnInit {
 
   addToCart(): void {
     if(this.product && this.productId) {
-      this.cartService.addToCart(this.productId, this.quantity).subscribe ({
+      this.cartService.addToCart(this.product._id, this.quantity).subscribe ({
         next: ()=> {
           Swal.fire({
             icon: 'success',
@@ -56,7 +63,7 @@ export class ProductDetailsComponent implements OnInit {
             text: 'Product added to cart successfully!',
           }).then(() => {
             this.router.navigate(['/cart']);
-          })
+          });
         },
         error: (error) => {
           Swal.fire({
@@ -65,8 +72,7 @@ export class ProductDetailsComponent implements OnInit {
             text: error.error.message,
           });
         }
-      });
+      }) 
     }
-    
   }
 }
