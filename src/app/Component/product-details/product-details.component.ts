@@ -22,8 +22,7 @@ export class ProductDetailsComponent implements OnInit {
   constructor( private productService: ProductService, private route: ActivatedRoute, private router: Router, private cartService: CartService) {}
 
   ngOnInit(): void {
-    const productId = Number(this.route.snapshot.paramMap.get('id')); 
-
+    const productId = String(this.route.snapshot.paramMap.get('id')); 
     this.productService.getProductById(productId).subscribe((data) => {
       this.product = data;
     });
@@ -47,7 +46,7 @@ export class ProductDetailsComponent implements OnInit {
 
   addToCart(): void {
     if(this.product) {
-      this.cartService.addToCart(this.customerId, this.productId, this.quantity).subscribe ({
+      this.cartService.addToCart(this.product._id, this.quantity).subscribe ({
         next: ()=> {
           Swal.fire({
             icon: 'success',
