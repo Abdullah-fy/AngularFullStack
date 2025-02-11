@@ -63,3 +63,4 @@ For more information on using the Angular CLI, including detailed command refere
 update here
 
 ##v0.1 after the first version of auth
+##v0.3 after reset password
