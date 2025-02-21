@@ -16,7 +16,10 @@ export enum PaymentMethod {
       public ExpiryMonth?:number,
       public ExpiryYear?:number,
       public CVVCode?:number,
-
+      public orderStatus?: 'pending' | 'shipped' | 'canceled',
+      public quantity?: number,
+      public price?: number,
+      public total?: number
     ) {}
   }
   

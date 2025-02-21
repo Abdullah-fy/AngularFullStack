@@ -5,17 +5,38 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { order } from '../../_models/order';
+import { OrderService } from '../../_services/order.service';
+import { AuthService } from '../../_services/auth.service';
 
 @Component({
   selector: 'app-user-profile',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
-})
+}) 
 export class UserProfileComponent implements OnInit {
+  orderhistory: any[] = [];
+  customerId: string = "";
   userForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private orderService: OrderService, private authService: AuthService) { }
+
+  getOrderHistory(): void {
+    if(this.customerId) {
+      this.orderService.getOrderByCustomerId(this.customerId).subscribe(
+        {
+          next: (data) => {
+            this.orderhistory = data;
+            console.log('Order History:', this.orderhistory);
+          },
+          error: (error) => {
+            console.error('error fetchinh order history: ', error);
+          }
+        }
+      );
+    }
+  }
 
   ngOnInit(): void {
     this.userForm = this.formBuilder.nonNullable.group({
@@ -27,6 +48,10 @@ export class UserProfileComponent implements OnInit {
       role: ['', Validators.required],
       isActive: [1]
     }, { validators: this.matchPassword });
+
+    this.customerId = this.authService.getCurrentUserId();
+
+    this.getOrderHistory();
   }
 
 
@@ -68,4 +93,6 @@ export class UserProfileComponent implements OnInit {
       });
     }
   }
+
+
 }

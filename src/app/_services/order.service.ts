@@ -16,4 +16,8 @@ export class OrderService {
     const httpOptions = new HttpHeaders(this.getData.getAuthHeaders());
     return this.http.post(`${this.apiUrl}/add`,Order,{headers: new HttpHeaders(this.getData.getAuthHeaders())});
   }
+
+  getOrderByCustomerId(customerId: string): Observable<order[]>{
+    return this.http.get<order[]>(`${this.apiUrl}?customerId=${customerId}`); 
+  }
 }

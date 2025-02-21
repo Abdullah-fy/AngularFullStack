@@ -29,7 +29,7 @@ export class CartComponent implements OnInit {
       next: (data) => {
         this.cartItems = data.items.map((item:any) => ({
           ...item,
-          productName: 'Loading...', // Placeholder
+          productName: 'Loading...', // Placeholder 
           productImage: '' // Placeholder image
         }));
 
