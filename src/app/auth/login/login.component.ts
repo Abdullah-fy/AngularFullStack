@@ -27,8 +27,16 @@ export class LoginComponent implements OnInit {
         (response) => {
           console.log('User logged in successfully!', response);
           localStorage.setItem('token' , JSON.stringify(response));
-          this.router.navigate(['/home']);
-        },
+          let token = localStorage.getItem('token');
+          // let role = userData ? JSON.parse(userData) : null;
+          // console.log(role.role);
+          // if(role.role == 'admin')
+          // {
+            // this.router.navigate(['/dashboard']);
+          // }else{ 
+                this.router.navigate(['/home']);
+        //  }
+      },
         error => console.error('Error logging in', error)
       );
     }
