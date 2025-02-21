@@ -11,4 +11,8 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   constructor(public auth: AuthService) {}
+  // isNavbarOpen = false;
+  // toggleNavbar() {
+  //   this.isNavbarOpen = !this.isNavbarOpen;
+  // }
 }
