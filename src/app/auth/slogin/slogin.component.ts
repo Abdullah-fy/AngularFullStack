@@ -1,0 +1,37 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthStaffServiceTsService } from '../../../app/_services/auth.staff.service.ts.service';
+import { Router, RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-slogin',
+  imports: [ReactiveFormsModule],
+  templateUrl: './slogin.component.html',
+  styleUrl: './slogin.component.css'
+})
+export class SloginComponent {
+  loginForm!: FormGroup;
+  constructor(private fb: FormBuilder, private authService: AuthStaffServiceTsService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
+    });
+  }
+
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+      this.authService.slogin(this.loginForm.value).subscribe(
+        (response) => {
+          console.log('User logged in successfully!', response);
+          // localStorage.setItem('stoken' , JSON.stringify(response));
+          localStorage.setItem('stoken', response.stoken);
+          let stoken = localStorage.getItem('stoken');
+                this.router.navigate(['/home']);
+      },
+        error => console.error('Error logging in', error)
+      );
+    }
+  }
+}
