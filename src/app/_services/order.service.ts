@@ -5,6 +5,7 @@ import {order} from '../_models/order'
 import { getData } from './getData.service';
 
 @Injectable({
+
   providedIn: 'root'
 })
 export class OrderService {
@@ -16,4 +17,16 @@ export class OrderService {
     const httpOptions = new HttpHeaders(this.getData.getAuthHeaders());
     return this.http.post(`${this.apiUrl}/add`,Order,{headers: new HttpHeaders(this.getData.getAuthHeaders())});
   }
+
+//Era oder.service 
+getorders(sellerId:any):Observable<any>{
+  return this.http.get(`${this.apiUrl}/getSellerOrders/${sellerId}`);
+}
+
+updateitemstatus(orderId:any,productId:any,newStatus:any):Observable<any>{
+  return this.http.put(`${this.apiUrl}/${orderId}/items/${productId}/status`, { newStatus });
+}
+
+
+
 }

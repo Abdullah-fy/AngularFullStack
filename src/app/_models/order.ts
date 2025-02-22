@@ -5,9 +5,21 @@ export enum PaymentMethod {
     BankTransfer = 'bank_transfer',
     CashOnDelivery = 'cash_on_delivery'
   }
+
+  export interface OrderItem {
+    productId: string;
+    sellerId: string;
+    quantity: number;
+    price: number;
+    isAvailable?: boolean;
+    itemStatus?: 'rejected' | 'pending' | 'approved';
+  }
   
   export class order {
     constructor(
+      //added items array 
+      public _id?:string,
+      public items?: OrderItem[],
       public customerId?: string,
       public PhoneNumber?: number, 
       public paymentMethod?: PaymentMethod, 
@@ -16,7 +28,6 @@ export enum PaymentMethod {
       public ExpiryMonth?:number,
       public ExpiryYear?:number,
       public CVVCode?:number,
-
     ) {}
   }
   
