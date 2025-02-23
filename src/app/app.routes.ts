@@ -10,7 +10,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
-
+import {CashierHomeComponent } from './Component/Cashier/cashier-home/cashier-home.component'
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full' }, 
     {path: 'home', component:HomeComponent},  
@@ -25,5 +25,11 @@ export const routes: Routes = [
   { path: 'forgetPassword', component: ForgetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
+  { 
+    path: "cashier/getInventory", 
+    loadChildren: () => import('./Component/Cashier/Cashier.routes').then(m => m.default) 
+  }
+  
+
 
 ];
