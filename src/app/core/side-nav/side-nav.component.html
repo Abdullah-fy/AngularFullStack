@@ -6,11 +6,8 @@
         <a mat-list-item class="item"routerLink="/cashier/getInventory" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
             Home
         </a>
-        <a mat-list-item class="item" routerLink="/checkout" routerLinkActive="active-link">
+        <a mat-list-item class="item" routerLink="/cashier/getInventory/checkout" routerLinkActive="active-link">
             Checkout
-        </a>
-        <a mat-list-item class="item" routerLink="/orders" routerLinkActive="active-link">
-            Orders
         </a>
     </mat-nav-list>
     </mat-sidenav>
@@ -18,7 +15,7 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary">
         <button mat-icon-button (click)="isSideNavOpen = !isSideNavOpen">
-          <mat-icon><i class="fa-solid fa-bars"></i> </mat-icon>
+          <i class="fa-solid fa-bars"></i> 
         </button>
         <span>Cashier {{cashierData?.firstName}} {{cashierData?.lastName}}</span>
       </mat-toolbar>

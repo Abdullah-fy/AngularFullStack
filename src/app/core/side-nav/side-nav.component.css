@@ -4,7 +4,7 @@
   --active-color: #ff3d3d;
 }
 .sidenav-container {
-  height: 100vh; /* Full height */
+  height: 100vh; 
 }
 
 mat-sidenav {
@@ -20,7 +20,7 @@ mat-toolbar {
 }
 
 .content {
-  padding: 16px; /* Add some padding to the main content */
+  padding: 16px; 
 }
 
 .item:hover{
@@ -36,3 +36,8 @@ mat-toolbar {
   border-left: 4px solid var(--active-color);
   color: white;
 }
+
+.mat-sidenav-content{
+  padding-left: 6%;
+}
+

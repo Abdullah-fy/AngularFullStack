@@ -8,6 +8,7 @@ import { Product } from '../../../_models/product';
 import { ProductService } from '../../../_services/product.service';
 import Swal from 'sweetalert2';
 import { CartService } from '../../../_services/cart.service';
+import { error } from 'jquery';
 
 @Component({
   selector: 'app-cashier-home',
@@ -35,7 +36,7 @@ export class CashierHomeComponent implements OnInit {
   inventoryName: any;
 
   ngOnInit(): void {
-    const branchId = '67b86e1ea3fa0e2deca91884';
+    const branchId = '67bb6911389062153fbdc3ae';
     const cashierId='67b88cb8a3fa0e2deca918a3'
     this.fetchProduct(branchId);
   }
@@ -47,7 +48,6 @@ export class CashierHomeComponent implements OnInit {
           ...item,
           productName: 'Loading...', // Placeholder
           productImage: '',
-          quantity: 1
         }));
         this.inventoryName = data.branchLocation;
 
@@ -83,18 +83,14 @@ export class CashierHomeComponent implements OnInit {
         });
       },
     });
-  }
 
-  //reomve from cart
-  removeFromCart(productId: string): void {
-    this.cartService.removeFromCart(productId).subscribe({
-      error: (err) => console.error('Error removing item from cart:', err),
-    });
-  }
-  //decrese
-  decreaseCartItem(productId: string, quantity: number = 1): void {
-    this.cartService.decreaseCartItem(productId, quantity).subscribe({
-      error: (err) => console.error('Error decreasing item quantity:', err),
-    });
-  }
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "itam add to cart",
+      showConfirmButton: false,
+      timer: 1000
+  })
+
+}
 }
