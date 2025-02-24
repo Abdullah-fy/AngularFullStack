@@ -11,6 +11,9 @@ import { AuthGuard } from './guard/auth-guard.guard';
 import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import {CashierHomeComponent } from './Component/Cashier/cashier-home/cashier-home.component'
+import { SloginComponent } from './auth/slogin/slogin.component';
+import { SsignupComponent } from './auth/ssignup/ssignup.component';
+import { AuthStaffGuardGuard } from './guard/auth-staff-guard.guard';
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full' }, 
     {path: 'home', component:HomeComponent},  
@@ -25,11 +28,10 @@ export const routes: Routes = [
   { path: 'forgetPassword', component: ForgetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
+  { path: 'slogin', component: SloginComponent },
+  { path: 'ssignup', component: SsignupComponent   },
   { 
-    path: "cashier/getInventory", 
+    path: "cashier/getInventory", canActivate: [AuthStaffGuardGuard],
     loadChildren: () => import('./Component/Cashier/Cashier.routes').then(m => m.default) 
   }
-  
-
-
 ];

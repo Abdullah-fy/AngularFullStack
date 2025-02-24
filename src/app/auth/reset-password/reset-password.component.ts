@@ -82,19 +82,27 @@ export class ResetPasswordComponent implements OnInit {
         next: (response) => {
           console.log('Password reset response:', response);
           Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: response.message || 'Password updated successfully.',
-            timer: 3000,
-            showConfirmButton: false,
-          });
+                      title: 'Success!',
+                      text: response.message || 'Password Updated successfully',
+                      icon: 'success',
+                      toast: true, // Enable toast mode
+                      position: 'top-end', // Position: top-right
+                      showConfirmButton: false,
+                      timer: 3000, // Auto-close after 3 seconds
+                      timerProgressBar: true, // Show progress bar
+                    });
           this.router.navigate(['/home']);
         },
         error: (err) => { Swal.fire({
-                                            icon: 'error',
-                                            title: 'error occur while reset',
-                                            text: err.message || 'An error occurred during reset'
-                                  });
+                    title: 'Oops...',
+                    text: err.message,
+                    icon: 'error',
+                    toast: true, 
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000, 
+                    timerProgressBar: true,
+                  });
                                 }
     });
     }

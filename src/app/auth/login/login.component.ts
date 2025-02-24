@@ -26,6 +26,16 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
+          Swal.fire({
+                      title: 'Success!',
+                      text: response.message || 'You are logged in now.',
+                      icon: 'success',
+                      toast: true, // Enable toast mode
+                      position: 'top-end', // Position: top-right
+                      showConfirmButton: false,
+                      timer: 3000, // Auto-close after 3 seconds
+                      timerProgressBar: true, // Show progress bar
+                    });
           console.log('User logged in successfully!', response);
           // localStorage.setItem('token' , JSON.stringify(response));
           localStorage.setItem('token', response.token);
@@ -33,10 +43,15 @@ export class LoginComponent implements OnInit {
                 this.router.navigate(['/home']);
       },
         error: (err) => { Swal.fire({
-                                    icon: 'error',
-                                    title: 'error occur while signup',
-                                    text: err.message || 'An error occurred during login'
-                          });
+                    title: 'Oops...',
+                    text: err.message,
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                  });
                         }
             
     });

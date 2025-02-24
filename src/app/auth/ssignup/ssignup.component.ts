@@ -4,6 +4,7 @@ import { AuthService } from './../../_services/auth.service';
 import { Route, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthStaffServiceTsService } from '../../_services/auth.staff.service.ts.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ssignup',
@@ -58,18 +59,36 @@ export class SsignupComponent {
       this.signupForm.markAllAsTouched();
       return;
     }
-    this.authService.ssignup(this.signupForm. value).subscribe(
-      (response) => {
+    this.authService.ssignup(this.signupForm. value).subscribe({
+      next: (response) => {
+        Swal.fire({
+                    title: 'Success!',
+                    text: response.message || 'You are logged in now.',
+                    icon: 'success',
+                    toast: true, // Enable toast mode
+                    position: 'top-end', // Position: top-right
+                    showConfirmButton: false,
+                    timer: 3000, // Auto-close after 3 seconds
+                    timerProgressBar: true, // Show progress bar
+                  });
         console.log('User logged in successfully!', response);
         localStorage.setItem('stoken' , response.stoken );
         // localStorage.setItem( 'userId', response.data.newUser._id );
-        this.router.navigate(['/home']);
+        this.router.navigate(['/cashier/getInventory']);
       },
-      error => {
-        console.error('Error registering user', error);
-        alert('Registration failed. Please try again.');
+      error: (err) => {
+        Swal.fire({
+          title: 'Oops...',
+          text: err.message,
+          icon: 'error',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
       }
-    );
+  });
   }
 
   }
