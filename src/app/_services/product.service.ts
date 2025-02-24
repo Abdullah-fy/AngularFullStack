@@ -72,5 +72,10 @@ export class ProductService {
     );
   }
 
+  //update product stock
+  updateStock(productId: string, quantity: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/products/${productId}/stock`, { quantity });
+  }
+
   
 } 

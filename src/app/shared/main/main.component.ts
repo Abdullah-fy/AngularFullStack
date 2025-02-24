@@ -9,12 +9,29 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { ChangeDetectionStrategy } from '@angular/core';
+import {UpdateStockComponent} from '../update-stock/update-stock.component';
+import { MatIconModule } from '@angular/material/icon';
+import { 
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+
+
+
 
 
 
 @Component({
   selector: 'app-main',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule,CommonModule,MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatDialogContent,MatDialogClose,MatDialogTitle,MatDialogActions],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css',
   changeDetection: ChangeDetectionStrategy.Default
@@ -33,15 +50,22 @@ export class MainComponent implements OnInit {
       console.log(this.sellerId);
       console.log(this.options); 
 
-      /////
       this.productService.products$.subscribe(products => {
         this.sellerProducts = products;
       });
+
+      //order anlysis 
+      // var ordderanalysis:any[]=this.countApprovedItemsByMonthv(this.sellerOrders);
+      // console.log('here');
+      
+      // console.log('hell'+ordderanalysis);
   }
 
+  
   loadSellerProduct(){
     this.productService.getProducts().subscribe({
       next:(data)=>{this.sellerProducts=[...data],console.log(data);
+        this.filteredProducts = [...data];
         this.cdr.detectChanges();},
       error:(error)=>{console.error('Error loading seller products:', error);}
     }) 
@@ -105,7 +129,13 @@ export class MainComponent implements OnInit {
   loadSellerOrders(sellerId:any)
   {
     this.orderService.getorders(sellerId).subscribe({
-      next:(data)=>{this.sellerOrders=data,console.log(data)},
+      next:(data)=>{this.sellerOrders=data,console.log(data);
+        var ordderanalysis=this.countApprovedItemsByMonthv(this.sellerOrders);
+        
+        console.log('here',this.countApprovedItemsByMonth(this.sellerOrders));
+        
+        console.log('Monthly counts:', JSON.stringify(ordderanalysis, null, 2));
+      },
       error:(error)=>{console.error('Error loading seller products:', error);}
     })
   }
@@ -145,6 +175,110 @@ openFormDialog(): void {
     }
   });
 }
+
+
+//////analysis ///////
+//1. orders analysis 
+countApprovedItemsByMonth(orders: order[]) {
+  const monthlyCounts = new Array(12).fill(0);
+
+  orders.forEach(order => {
+    if (!order.updatedAt) return;
+    
+    const orderDate: Date |any = order.updatedAt ? new Date(order.updatedAt) : undefined;
+    if (isNaN(orderDate.getTime())) return;
+
+    // Only process orders from target year
+    if (orderDate.getFullYear() !== 2025) return;
+
+    const monthIndex = orderDate.getMonth(); // 0-11 (January-December)
+    const approvedCount = order.items?.filter(
+      item => item.itemStatus === 'approved'
+    ).length;
+
+    monthlyCounts[monthIndex] += approvedCount;
+  });
+
+  return monthlyCounts;
+}
+
+///
+ countApprovedItemsByMonthv(orders: order[]): { month: string; count: number }[] {
+  const monthlyCounts = new Map<string, number>();
+  const years = new Set<number>();
+
+  orders.forEach(order => {
+    if (!order.updatedAt) return;
+    const orderDate: Date |any = order.updatedAt ? new Date(order.updatedAt) : undefined;
+    if (isNaN(orderDate.getTime())) return;
+
+    console.log('data'+orderDate);
+
+    const year = orderDate.getFullYear();
+    years.add(year);
+
+    const monthKey = `${year}-${(orderDate.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}`;
+
+      console.log('month'+monthKey);
+
+    const approvedCount:any = order?.items?.filter(
+      (item: any) => item.itemStatus === 'approved'
+    ).length;
+
+    monthlyCounts.set(monthKey, (monthlyCounts.get(monthKey) || 0) + approvedCount);
+  });
+
+  // Generate all months for collected years with proper formatting
+  const allMonths: { month: string; count: number }[] = [];
+  years.forEach(year => {
+    for (let month = 1; month <= 12; month++) {
+      const monthKey = `${year}-${month.toString().padStart(2, '0')}`;
+      allMonths.push({
+        month: monthKey,
+        count: monthlyCounts.get(monthKey) || 0
+      });
+    }
+  });
+
+  return allMonths.sort((a, b) => a.month.localeCompare(b.month));
+}
+
+
+//update stock 
+openUpdateStockDialog(product: Product): void {
+  const dialogRef = this.dialog.open(UpdateStockComponent, {
+    data: { currentStock: product.stockQuantity }
+  });
+
+  dialogRef.afterClosed().subscribe(updateQty => {
+    if (updateQty > 0) {
+      this.productService.updateStock(product._id, updateQty).subscribe({
+        next: () => this.loadSellerProduct(),
+        error: (err) => console.error('Update failed:', err)
+      });
+    }
+  });
+} 
+
+
+//search product
+searchTerm: string = '';
+filteredProducts: any[] = [];
+
+applyFilter() {
+  if (!this.searchTerm) {
+    this.filteredProducts = [...this.sellerProducts];
+    return;
+  }
+  
+  this.filteredProducts = this.sellerProducts.filter(product => 
+    product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+  );
+}
+
+
 
   
 

@@ -290,8 +290,16 @@
                 <div class="">
                   <h5 class="mb-0">Products</h5>
                 </div>
+                <div class="ms-3">
+                  <!-- Search input -->
+                  <input type="text" 
+                         class="form-control" 
+                         placeholder="Search by name..." 
+                         [(ngModel)]="searchTerm"
+                         (input)="applyFilter()">
+                </div>
                 <div class="dropdown">
-                    <a class="dropdown-item" href="Products.html">See All</a>
+                    <!-- <a class="dropdown-item" href="Products.html">See All</a> -->
                 </div>
               </div>
 
@@ -310,13 +318,16 @@
                     </tr>
                   </thead>
                   <tbody id="producttbody">
-                    @for (item of sellerProducts; track item._id) {
+                    @for (item of filteredProducts; track item._id) {
                       <tr>
                           <td>{{item._id}}</td>
                           <td>{{item.name}}</td>
                           <td>{{item.price}}</td>
                           <td>{{item.category}}</td>
                           <td> 
+                            <button mat-icon-button color="primary" (click)="openUpdateStockDialog(item)">
+                              <mat-icon>edit</mat-icon>
+                            </button>
                             {{item.stockQuantity}}
                               <!-- <button (click)="delete(item.id)">delete</button> -->
                               <!-- <button type="button" class="btn btn-secondary btn-sm" (click)="openDialog(item._id)">Delete</button> -->
