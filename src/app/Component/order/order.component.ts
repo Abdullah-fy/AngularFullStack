@@ -89,7 +89,7 @@ export class OrderComponent implements OnInit {
 
     Swal.fire({
       icon: "success",
-      title: 'Your order has been placed succeddfully',
+      title: 'Your order has been placed successfully',
     })
 
     this.router.navigate(['/home']);

@@ -55,7 +55,7 @@ export class ProductDetailsComponent implements OnInit {
 
   addToCart(): void {
     if(this.product && this.productId) {
-      this.cartService.addToCart(this.product._id, this.quantity).subscribe ({
+      this.cartService.addToCart(this.productId, this.quantity).subscribe ({
         next: ()=> {
           Swal.fire({
             icon: 'success',

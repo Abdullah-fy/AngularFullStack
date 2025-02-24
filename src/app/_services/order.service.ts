@@ -18,6 +18,7 @@ export class OrderService {
     return this.http.post(`${this.apiUrl}/add`,Order,{headers: new HttpHeaders(this.getData.getAuthHeaders())});
   }
 
+
 //Era oder.service 
 getorders(sellerId:any):Observable<any>{
   return this.http.get(`${this.apiUrl}/getSellerOrders/${sellerId}`);
@@ -28,5 +29,10 @@ updateitemstatus(orderId:any,productId:any,newStatus:any):Observable<any>{
 }
 
 
+
+
+  getOrderByCustomerId(customerId: string): Observable<order[]>{
+    return this.http.get<order[]>(`${this.apiUrl}?customerId=${customerId}`); 
+  }
 
 }

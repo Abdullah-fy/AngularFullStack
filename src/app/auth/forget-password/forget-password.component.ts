@@ -1,8 +1,15 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../_services/auth.service'; // Adjust the path as needed
 import { catchError, throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
@@ -29,16 +36,33 @@ export class ForgetPasswordComponent {
 
       console.log('Sending reset link for email:', email);
 
-      this.authService.forgetPassword(email).subscribe(
-        (response) => {
+      this.authService.forgetPassword(email).subscribe({
+        next: (response) => {
           console.log('Reset link sent successfully:', response);
-          alert('A password reset link has been sent to your email.');
+          Swal.fire({
+            title: 'Success!',
+            text: response.message || 'Reset Link Sent Successfully',
+            icon: 'success',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
         },
-        (error) => {
-          console.error('Error sending reset link:', error);
-          alert('An error occurred while sending the reset link. Please try again.');
-        }
-      );
+        error: (err) => {
+          Swal.fire({
+            title: 'Oops...',
+            text: err.message,
+            icon: 'error',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        },
+      });
     }
   }
 
