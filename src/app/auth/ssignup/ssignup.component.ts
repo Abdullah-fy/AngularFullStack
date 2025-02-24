@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ssignup',
-  imports: [ReactiveFormsModule, RouterLink, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './ssignup.component.html',
   styleUrl: './ssignup.component.css',
 })
