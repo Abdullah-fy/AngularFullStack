@@ -20,6 +20,7 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { SellerAnalysisComponent } from '../seller-analysis/seller-analysis.component';
 
 
 
@@ -31,7 +32,9 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [FormsModule,CommonModule,MatIconModule,
     MatButtonModule,
     MatDialogModule,
-    MatDialogContent,MatDialogClose,MatDialogTitle,MatDialogActions],
+    MatDialogContent,MatDialogClose,MatDialogTitle,MatDialogActions,
+    SellerAnalysisComponent,
+  ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css',
   changeDetection: ChangeDetectionStrategy.Default
@@ -280,6 +283,7 @@ applyFilter() {
 
 
 
-  
+  ////sslaes analysis data 
+  monthlySalesData: number[] = [0,0,1,4,8,0,0,0,1,4,8,10];
 
 }
