@@ -91,6 +91,8 @@ export class SsignupComponent {
         });
         console.log('User logged in successfully!', response);
         localStorage.setItem('stoken', response.stoken);
+        localStorage.setItem('StaffId', response.data.newStaff._id);
+        localStorage.setItem('role', response.data.newStaff.role);
         // localStorage.setItem( 'userId', response.data.newUser._id );
         this.router.navigate(['/cashier/getInventory']);
       },

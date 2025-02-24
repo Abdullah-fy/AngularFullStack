@@ -47,6 +47,8 @@ export class SloginComponent {
           console.log('User logged in successfully!', response);
           // localStorage.setItem('stoken' , JSON.stringify(response));
           localStorage.setItem('stoken', response.stoken);
+          localStorage.setItem('StaffId', response.StaffId);
+          localStorage.setItem('role', response.role);
           let stoken = localStorage.getItem('stoken');
           this.router.navigate(['/cashier/getInventory']);
         },
