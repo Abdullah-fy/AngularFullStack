@@ -46,4 +46,9 @@ export class SideNavComponent implements OnInit {
     });
   }
 
+  logout()
+  {
+    localStorage.clear();
+  }
+
 }
