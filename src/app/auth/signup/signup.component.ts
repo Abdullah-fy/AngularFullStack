@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { AuthService } from './../../_services/auth.service';
 import { Route, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink, CommonModule],
@@ -53,14 +54,20 @@ export class SignupComponent implements OnInit {
         this.signupForm.markAllAsTouched();
         return;
       }
-      this.authService.signup(this.signupForm.value).subscribe(
-        (response) => {
+      this.authService.signup(this.signupForm.value).subscribe({
+        next: (response) => {
           console.log('User logged in successfully!', response);
           localStorage.setItem('token' , response.token );
           localStorage.setItem( 'userId', response.data.newUser._id );
           this.router.navigate(['/home']);
         },
-        error => console.error('Error registering user', error)
-      );
+        error: (err) => {
+          Swal.fire({
+                    icon: 'error',
+                    title: 'error occur while signup',
+                    text: err.message || 'An error occurred during signup'
+          });
+        }
+  });
     }
   }

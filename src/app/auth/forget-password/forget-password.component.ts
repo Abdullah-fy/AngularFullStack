@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { AuthService } from '../../_services/auth.service'; // Adjust the path as needed
 import { catchError, throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
@@ -29,16 +30,25 @@ export class ForgetPasswordComponent {
 
       console.log('Sending reset link for email:', email);
 
-      this.authService.forgetPassword(email).subscribe(
-        (response) => {
+      this.authService.forgetPassword(email).subscribe({
+        next: (response) => {
           console.log('Reset link sent successfully:', response);
-          alert('A password reset link has been sent to your email.');
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: response.message || 'Password reset successfully.',
+            timer: 3000,
+            showConfirmButton: false,
+          });
         },
-        (error) => {
-          console.error('Error sending reset link:', error);
-          alert('An error occurred while sending the reset link. Please try again.');
-        }
-      );
+        error: (err) => {
+                  Swal.fire({
+                            icon: 'error',
+                            title: 'error occur while signup',
+                            text: err.message || 'An error occurred during signup'
+                  });
+                }
+    });
     }
   }
 

@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from './../../_services/auth.service';
 import { Router, RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, CommonModule],
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -20,25 +22,54 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
-
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe(
-        (response) => {
+      this.authService.login(this.loginForm.value).subscribe({
+        next: (response) => {
           console.log('User logged in successfully!', response);
-          localStorage.setItem('token' , JSON.stringify(response));
+          // localStorage.setItem('token' , JSON.stringify(response));
+          localStorage.setItem('token', response.token);
           let token = localStorage.getItem('token');
-          // let role = userData ? JSON.parse(userData) : null;
-          // console.log(role.role);
-          // if(role.role == 'admin')
-          // {
-            // this.router.navigate(['/dashboard']);
-          // }else{ 
                 this.router.navigate(['/home']);
-        //  }
       },
-        error => console.error('Error logging in', error)
-      );
+        error: (err) => { Swal.fire({
+                                    icon: 'error',
+                                    title: 'error occur while signup',
+                                    text: err.message || 'An error occurred during login'
+                          });
+                        }
+            
+    });
     }
   }
-}
+  // onSubmit(): void {
+    
+  //   if (this.loginForm.valid) {
+  //     this.loginForm.markAllAsTouched();
+  //       return;
+  //     }
+  //     this.authService.login(this.loginForm.value).subscribe({
+  //       next: (response) => {
+  //         console.log('User logged in successfully!', response);
+  //         localStorage.setItem('token' , JSON.stringify(response));
+  //         let token = localStorage.getItem('token');
+  //         // let role = userData ? JSON.parse(userData) : null;
+  //         // console.log(role.role);
+  //         // if(role.role == 'admin')
+  //         // {
+  //           // this.router.navigate(['/dashboard']);
+  //         // }else{ 
+  //               this.router.navigate(['/home']);
+  //       //  }
+  //     },
+  //       error : (err) => {
+  //                 Swal.fire({
+  //                           icon: 'error',
+  //                           title: 'error occur while signup',
+  //                           text: err.message || 'An error occurred during login'
+  //                 });
+  //               }
+  //   });
+  //   }
+  }
+

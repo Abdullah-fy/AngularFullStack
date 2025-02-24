@@ -50,8 +50,9 @@
       </select>
     </div>
 
-    <button type="submit">Sign Up</button>
+    <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
 
+    
     <a [routerLink]="['/login']" routerLinkActive="router-link-active" class="centered-link">
       Already have an account?
     </a>

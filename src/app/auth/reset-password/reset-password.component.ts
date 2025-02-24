@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../_services/auth.service';
 import { catchError, throwError } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reset-password',
@@ -18,7 +19,8 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.resetPasswordForm = this.fb.group(
       {
@@ -59,7 +61,6 @@ export class ResetPasswordComponent implements OnInit {
     }
   }
 
-
   onSubmit() {
     if (this.resetPasswordForm.valid) {
       const { password, passwordConfirm } = this.resetPasswordForm.value;
@@ -77,18 +78,58 @@ export class ResetPasswordComponent implements OnInit {
       }
   
       // Send both password and passwordConfirm to the backend
-      this.authService.resetPassword(this.token, password, passwordConfirm).subscribe(
-        (response) => {
+      this.authService.resetPassword(this.token, password, passwordConfirm).subscribe({
+        next: (response) => {
           console.log('Password reset response:', response);
-          alert('Your password has been reset successfully.');
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: response.message || 'Password updated successfully.',
+            timer: 3000,
+            showConfirmButton: false,
+          });
+          this.router.navigate(['/home']);
         },
-        (error) => {
-          console.error('Error resetting password:', error);
-          alert('An error occurred while resetting your password. Please try again.');
-        }
-      );
+        error: (err) => { Swal.fire({
+                                            icon: 'error',
+                                            title: 'error occur while reset',
+                                            text: err.message || 'An error occurred during reset'
+                                  });
+                                }
+    });
     }
   }
+
+
+  // onSubmit() {
+  //   if (this.resetPasswordForm.valid) {
+  //     const { password, passwordConfirm } = this.resetPasswordForm.value;
+  
+  //     console.log('Reset Password Form Submitted:', {
+  //       token: this.token,
+  //       password: password,
+  //       passwordConfirm: passwordConfirm,
+  //     });
+  
+  //     if (!this.token) {
+  //       console.error('Token is undefined. Cannot proceed.');
+  //       alert('An error occurred. Please try again.');
+  //       return;
+  //     }
+  
+  //     // Send both password and passwordConfirm to the backend
+  //     this.authService.resetPassword(this.token, password, passwordConfirm).subscribe(
+  //       (response) => {
+  //         console.log('Password reset response:', response);
+  //         alert('Your password has been reset successfully.');
+  //       },
+  //       (error) => {
+  //         console.error('Error resetting password:', error);
+  //         alert('An error occurred while resetting your password. Please try again.');
+  //       }
+  //     );
+  //   }
+  // }
 
 
   // onSubmit() {
