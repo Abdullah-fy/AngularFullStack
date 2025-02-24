@@ -1,11 +1,9 @@
-General Styles
-* {
+General Styles * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Form Container */
 .form-container {
   display: flex;
   justify-content: center;
@@ -29,7 +27,6 @@ form:hover {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Form Title */
 h2 {
   text-align: center;
   color: #333;
@@ -38,7 +35,6 @@ h2 {
   font-weight: 600;
 }
 
-/* Label Styling */
 label {
   display: block;
   font-size: 14px;
@@ -47,7 +43,6 @@ label {
   font-weight: 500;
 }
 
-/* Input Fields Styling */
 input,
 select {
   width: 100%;
@@ -67,7 +62,6 @@ select:focus {
   background-color: #fff;
 }
 
-/* Button Styling */
 button {
   width: 100%;
   padding: 12px;
@@ -89,7 +83,6 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Error Message */
 .error-message {
   color: red;
   font-size: 14px;
@@ -97,7 +90,6 @@ button:disabled {
   margin-bottom: 15px;
 }
 
-/* Responsive Design */
 @media (max-width: 480px) {
   form {
     padding: 20px;

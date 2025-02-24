@@ -2,12 +2,12 @@
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 /* @import "animate.css"; */
-
-
-
-:root {
-    --primary-color: #FF6B6B;
-    --secondary-color: #FF5252;
-    --active-color: #FF3D3D;
+html {
+  scroll-behavior: smooth;
 }
 
+:root {
+  --primary-color: #ff6b6b;
+  --secondary-color: #ff5252;
+  --active-color: #ff3d3d;
+}
