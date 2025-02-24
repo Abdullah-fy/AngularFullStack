@@ -8,18 +8,12 @@ export enum PaymentMethod {
   
   export class order {
     constructor(
-      public customerId?: string,
-      public PhoneNumber?: number, 
+      public CashierId?: string,
       public paymentMethod?: PaymentMethod, 
-      public shippingAddress?: string ,
       public CreditCardNumber?:number,
       public ExpiryMonth?:number,
       public ExpiryYear?:number,
       public CVVCode?:number,
-      public orderStatus?: 'pending' | 'shipped' | 'canceled',
-      public quantity?: number,
-      public price?: number,
-      public total?: number
     ) {}
   }
   

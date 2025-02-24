@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+
+import { User } from '../_models/user';
+
 import {  map, tap } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -165,4 +169,14 @@ export class AuthService {
   //     })
   //   );
   // }
+
+  private currentUser: User | null = null;
+
+  setCurrentUser(user: User) : void {
+    this.currentUser = user;
+  }
+
+  getCurrentUserId(): string {
+    return this.currentUser?._id || '';
+  }
 }
