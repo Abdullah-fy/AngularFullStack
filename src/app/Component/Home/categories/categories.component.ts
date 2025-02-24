@@ -6,6 +6,5 @@ import { Component } from '@angular/core';
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
-export class CategoriesComponent {
-
+export class CategoriesComponent { 
 }

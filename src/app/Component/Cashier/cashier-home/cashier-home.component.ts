@@ -12,13 +12,7 @@ import { error } from 'jquery';
 
 @Component({
   selector: 'app-cashier-home',
-  imports: [
-    MatIconModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    SideNavComponent,
-    MatSidenavModule,
-  ],
+  imports: [MatSidenavModule, SideNavComponent],
   templateUrl: './cashier-home.component.html',
   styleUrl: './cashier-home.component.css',
 })
