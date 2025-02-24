@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../_services/auth.service'; // Adjust the path as needed
 import { catchError, throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -34,29 +40,29 @@ export class ForgetPasswordComponent {
         next: (response) => {
           console.log('Reset link sent successfully:', response);
           Swal.fire({
-                      title: 'Success!',
-                      text: response.message || 'Reset Link Sent Successfully',
-                      icon: 'success',
-                      toast: true, // Enable toast mode
-                      position: 'top-end', // Position: top-right
-                      showConfirmButton: false,
-                      timer: 3000, // Auto-close after 3 seconds
-                      timerProgressBar: true, // Show progress bar
-                    });
+            title: 'Success!',
+            text: response.message || 'Reset Link Sent Successfully',
+            icon: 'success',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
         },
         error: (err) => {
-                  Swal.fire({
-                              title: 'Oops...',
-                              text: err.message,
-                              icon: 'error',
-                              toast: true, // Enable toast mode
-                              position: 'top-end', // Position: top-right
-                              showConfirmButton: false,
-                              timer: 3000, // Auto-close after 3 seconds
-                              timerProgressBar: true, // Show progress bar
-                            });
-                }
-    });
+          Swal.fire({
+            title: 'Oops...',
+            text: err.message,
+            icon: 'error',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        },
+      });
     }
   }
 

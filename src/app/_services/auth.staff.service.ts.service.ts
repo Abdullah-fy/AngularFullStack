@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthStaffServiceTsService {
   private baseUrl = 'http://localhost:3000/auth';
 
-  constructor(private http: HttpClient, private router:Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
   ssignup(staff: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/ssignup`, staff).pipe(
       tap((response: any) => {
@@ -21,20 +21,21 @@ export class AuthStaffServiceTsService {
         alert('Signup failed. Please try again.');
         return throwError(() => new Error('Signup failed. Please try again.'));
       })
-    );  
+    );
   }
 
   slogin(credentials: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/slogin`, credentials).pipe(
       tap((response: any) => {
-        
         console.log('Login successful:', response);
-        alert('login sucessfully')
+        alert('login sucessfully');
       }),
       catchError((error) => {
         console.error('Login error:', error);
-        alert("wrong mail or password");
-        return throwError(() => new Error('Login failed. Please check your credentials.'));
+        alert('wrong mail or password');
+        return throwError(
+          () => new Error('Login failed. Please check your credentials.')
+        );
       })
     );
   }

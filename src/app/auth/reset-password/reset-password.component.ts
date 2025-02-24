@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../_services/auth.service';
@@ -38,7 +43,7 @@ export class ResetPasswordComponent implements OnInit {
     if (!this.token) {
       console.error('No token found in the URL.');
       alert('Invalid or missing token.');
-      window.location.href = '/'; // Redirect to home page
+      window.location.href = '/';
     }
   }
 
@@ -64,67 +69,68 @@ export class ResetPasswordComponent implements OnInit {
   onSubmit() {
     if (this.resetPasswordForm.valid) {
       const { password, passwordConfirm } = this.resetPasswordForm.value;
-  
+
       console.log('Reset Password Form Submitted:', {
         token: this.token,
         password: password,
         passwordConfirm: passwordConfirm,
       });
-  
+
       if (!this.token) {
         console.error('Token is undefined. Cannot proceed.');
         alert('An error occurred. Please try again.');
         return;
       }
-  
-      // Send both password and passwordConfirm to the backend
-      this.authService.resetPassword(this.token, password, passwordConfirm).subscribe({
-        next: (response) => {
-          console.log('Password reset response:', response);
-          Swal.fire({
-                      title: 'Success!',
-                      text: response.message || 'Password Updated successfully',
-                      icon: 'success',
-                      toast: true, // Enable toast mode
-                      position: 'top-end', // Position: top-right
-                      showConfirmButton: false,
-                      timer: 3000, // Auto-close after 3 seconds
-                      timerProgressBar: true, // Show progress bar
-                    });
-          this.router.navigate(['/home']);
-        },
-        error: (err) => { Swal.fire({
-                    title: 'Oops...',
-                    text: err.message,
-                    icon: 'error',
-                    toast: true, 
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000, 
-                    timerProgressBar: true,
-                  });
-                                }
-    });
+
+      this.authService
+        .resetPassword(this.token, password, passwordConfirm)
+        .subscribe({
+          next: (response) => {
+            console.log('Password reset response:', response);
+            Swal.fire({
+              title: 'Success!',
+              text: response.message || 'Password Updated successfully',
+              icon: 'success',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+            });
+            this.router.navigate(['/home']);
+          },
+          error: (err) => {
+            Swal.fire({
+              title: 'Oops...',
+              text: err.message,
+              icon: 'error',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+            });
+          },
+        });
     }
   }
-
 
   // onSubmit() {
   //   if (this.resetPasswordForm.valid) {
   //     const { password, passwordConfirm } = this.resetPasswordForm.value;
-  
+
   //     console.log('Reset Password Form Submitted:', {
   //       token: this.token,
   //       password: password,
   //       passwordConfirm: passwordConfirm,
   //     });
-  
+
   //     if (!this.token) {
   //       console.error('Token is undefined. Cannot proceed.');
   //       alert('An error occurred. Please try again.');
   //       return;
   //     }
-  
+
   //     // Send both password and passwordConfirm to the backend
   //     this.authService.resetPassword(this.token, password, passwordConfirm).subscribe(
   //       (response) => {
@@ -139,23 +145,22 @@ export class ResetPasswordComponent implements OnInit {
   //   }
   // }
 
-
   // onSubmit() {
   //   if (this.resetPasswordForm.valid) {
   //     const { password } = this.resetPasswordForm.value;
-  
+
   //     console.log('Reset Password Form Submitted:', {
   //       token: this.token,
   //       password: password,
   //       passwordConfirm: this.resetPasswordForm.value.passwordConfirm,
   //     });
-  
+
   //     if (!this.token) {
   //       console.error('Token is undefined. Cannot proceed.');
   //       alert('An error occurred. Please try again.');
   //       return;
   //     }
-  
+
   //     this.authService.resetPassword(this.token, password).subscribe(
   //       (response) => {
   //         console.log('Password reset response:', response);
@@ -168,9 +173,6 @@ export class ResetPasswordComponent implements OnInit {
   //     );
   //   }
   // }
-
-
-
 
   // onSubmit() {
   //   if (this.resetPasswordForm.valid) {
@@ -200,7 +202,6 @@ export class ResetPasswordComponent implements OnInit {
   //   }
   // }
 }
-
 
 // import { Component, OnInit } from '@angular/core';
 // import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -243,7 +244,7 @@ export class ResetPasswordComponent implements OnInit {
 //     if (!this.token) {
 //       console.error('No token found in the URL.');
 //       alert('Invalid or missing token.');
-//       window.location.href = '/'; // Redirect to home page
+//       window.location.href = '/';
 //     }
 //   }
 
