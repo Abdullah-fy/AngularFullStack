@@ -30,7 +30,7 @@ export class SideNavComponent implements OnInit {
   constructor(private cashierService:OrderService){}
 
   ngOnInit(): void {
-    const cashierId='67b88cb8a3fa0e2deca918a3'
+   const cashierId = localStorage.getItem('StaffId') || '';
     this.getCashierData(cashierId)
   }
 
@@ -43,6 +43,11 @@ export class SideNavComponent implements OnInit {
         console.log('Error fetching cashier data:', err);
       }
     });
+  }
+
+  logout()
+  {
+    localStorage.clear();
   }
 
 }

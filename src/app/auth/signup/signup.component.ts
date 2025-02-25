@@ -93,9 +93,17 @@ export class SignupComponent implements OnInit {
           timerProgressBar: true,
         });
         console.log('User logged in successfully!', response);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('userId', response.data.newUser._id);
-        localStorage.setItem('role', response.data.newUser.role);
+        // localStorage.setItem('token', JSON.stringify(response));
+        let original = response;
+        const transformed = {
+          status: original.status,
+          token: original.token,
+          userId: original.data.newUser._id,
+          role: original.data.newUser.role,
+        };
+        localStorage.setItem('token', JSON.stringify(transformed));
+        // localStorage.setItem('userId', response.data.newUser._ id);
+        // localStorage.setItem('role', response.data.newUser.role);
         this.router.navigate(['/home']);
       },
       error: (err) => {
