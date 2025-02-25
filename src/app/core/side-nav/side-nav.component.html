@@ -9,6 +9,9 @@
         <a mat-list-item class="item" routerLink="/cashier/getInventory/checkout" routerLinkActive="active-link">
             Checkout
         </a>
+        <a mat-list-item class="item" routerLink="/slogin" routerLinkActive="active-link" (click)="logout()">
+          Logout
+      </a>
     </mat-nav-list>
     </mat-sidenav>
   
@@ -17,7 +20,7 @@
         <button mat-icon-button (click)="isSideNavOpen = !isSideNavOpen">
           <i class="fa-solid fa-bars"></i> 
         </button>
-        <span>Cashier {{cashierData?.firstName}} {{cashierData?.lastName}}</span>
+        <span>Cashier {{cashierData!.firstName}} {{cashierData!.lastName}}</span>
       </mat-toolbar>
       <div class="content">
       </div>
