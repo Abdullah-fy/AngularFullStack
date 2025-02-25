@@ -86,27 +86,61 @@
 
     <div class="card p-4 my-5">
       <h3 class="text-center mb-4">My Orders</h3> 
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Status</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr *ngFor="let order of orderhistory; let i = index">
-            <th scope="row">{{i+1}}</th>
-            <td>{{order.Name}}</td>
-            <td>{{order.quantity}}</td>
-            <td>{{order.orderStatus}}</td>
-          </tr>
+      
+      <div *ngIf="orderhistory && orderhistory.length > 0; else noOrders">
+        <div *ngFor="let order of orderhistory; let i = index" class="mb-4">
+          <div class="order-header bg-light p-2 d-flex justify-content-between align-items-center rounded">
+            <div>
+              <strong>Order {{i+1}}</strong> 
+            </div>
+            <span class="badge" [ngClass]="{
+              'bg-warning text-dark': order.Orderstatus === 'pending',
+              'bg-success': order.Orderstatus === 'shipped',
+              'bg-danger': order.Orderstatus === 'canceled'
+            }">
+              {{order.Orderstatus}}
+            </span>
+          </div>
           
-        </tbody>
-      </table>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <!-- <th>Image</th> -->
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Each product gets its own row -->
+              <tr *ngFor="let item of order.items">
+                <!-- <td class="align-middle">
+                  <img 
+                    [src]="item.images"
+                    alt="product image" 
+                    class="img-fluid" 
+                    style="max-width: 100px; max-height: 80px; object-fit: contain;"
+                  >
+                </td> -->
+                <td>{{item.quantity}}</td>
+                <td>${{item.price}}</td>
+              </tr>
+            </tbody>
+            <tfoot class="table-light">
+              <tr>
+                <td colspan="2" class="text-end"><strong>Total:</strong></td>
+                <td><strong>${{order.paymentDetails?.totalAmount}}</strong></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      
+      <ng-template #noOrders>
+        <div class="alert alert-info text-center">
+          <p>You don't have any orders yet.</p>
+          <button class="btn btn-primary mt-2" routerLink="/products">Start Shopping</button>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

@@ -5,6 +5,30 @@ export enum PaymentMethod {
     BankTransfer = 'bank_transfer',
     CashOnDelivery = 'cash_on_delivery'
   }
+
+  export interface OrderItem {
+    productId: string;
+    sellerId: string;
+    quantity: number;
+    price: number;
+    isAvailable: boolean;
+  }
+
+
+  export enum OrderStatus {
+    Pending = 'pending',
+    Shipped = 'shipped',
+    Canceled = 'canceled'
+  }
+
+  export interface OrderItem {
+    productId: string;
+    sellerId: string;
+    quantity: number;
+    price: number;
+    isAvailable: boolean;
+    images: [string], 
+  }
   
   export class order {
     constructor(
@@ -16,10 +40,8 @@ export enum PaymentMethod {
       public ExpiryMonth?:number,
       public ExpiryYear?:number,
       public CVVCode?:number,
-      public orderStatus?: 'pending' | 'shipped' | 'canceled',
-      public quantity?: number,
-      public price?: number,
-      public total?: number
+      public Orderstatus?: OrderStatus,
+      public items?: OrderItem[],
     ) {}
   }
   

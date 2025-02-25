@@ -1,3 +1,4 @@
+import { UserService } from './../../_services/user.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -5,9 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { order } from '../../_models/order';
 import { OrderService } from '../../_services/order.service';
-import { AuthService } from '../../_services/auth.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,26 +16,15 @@ import { AuthService } from '../../_services/auth.service';
 }) 
 export class UserProfileComponent implements OnInit {
   orderhistory: any[] = [];
-  customerId: string = "";
+  customerId?: string;
   userForm!: FormGroup;
+  user : any = [];
 
-  constructor(private formBuilder: FormBuilder, private orderService: OrderService, private authService: AuthService) { }
+  storedData = localStorage.getItem('token');
+  userId = this.storedData ? JSON.parse(this.storedData).userId : null;
 
-  getOrderHistory(): void {
-    if(this.customerId) {
-      this.orderService.getOrderByCustomerId(this.customerId).subscribe(
-        {
-          next: (data) => {
-            this.orderhistory = data;
-            console.log('Order History:', this.orderhistory);
-          },
-          error: (error) => {
-            console.error('error fetchinh order history: ', error);
-          }
-        }
-      );
-    }
-  }
+  constructor(private formBuilder: FormBuilder, private orderService: OrderService, private userService: UserService) { }
+
 
   ngOnInit(): void {
     this.userForm = this.formBuilder.nonNullable.group({
@@ -49,21 +37,46 @@ export class UserProfileComponent implements OnInit {
       isActive: [1]
     }, { validators: this.matchPassword });
 
-    this.customerId = this.authService.getCurrentUserId();
+    
 
     this.getOrderHistory();
+    
   }
 
+  getTotalQuantity(items: any[]): number {
+    if (!items || !items.length) {
+      return 0;
+    }
+    
+    return items.reduce((total, item) => total + (item.quantity || 0), 0);
+  }
+
+  getOrderHistory(): void {
+    // console.log(this.userId);
+    this.orderService.getOrderByCustomerId(this.userId).subscribe(
+      {
+        next: (data) => {
+          this.orderhistory = data;
+          // console.log(this.orderhistory);
+        },
+        error: (error) => {
+          console.error('error fetchinh order history: ', error);
+        }
+      }
+    );
+    
+  }
 
   password: string = '';
   confirmPassword: string = '';
 
   roles = ['customer', 'seller', 'admin', 'manager', 'cashier', 'salesClerk', 'supplier'];
 
-  // loadUserProfile(): void {
-  //   this.userService.getById("mariam").subscribe(data => {
-  //     this.user = data;
-  //   });
+  loadUserProfile(): void {
+    this.userService.getById("fatma").subscribe(data => {
+      this.user = data;
+    });
+  }
 
 
   matchPassword: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
