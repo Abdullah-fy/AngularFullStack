@@ -136,6 +136,7 @@ export class MainComponent implements OnInit {
         var ordderanalysis=this.countApprovedItemsByMonthv(this.sellerOrders);
         
         console.log('here',this.countApprovedItemsByMonth(this.sellerOrders));
+        this.monthlySalesData=this.countApprovedItemsByMonth(this.sellerOrders);
         
         console.log('Monthly counts:', JSON.stringify(ordderanalysis, null, 2));
       },
