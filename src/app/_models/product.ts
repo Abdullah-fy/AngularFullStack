@@ -6,7 +6,7 @@ export class Product {
         public price: number, 
         public category: string, 
         public images: [string], 
-        public stock: number, 
+        public stockQuantity: number, 
         public stockId: string,
         public branchLocation: string,
         public createdAt: string  = "",
