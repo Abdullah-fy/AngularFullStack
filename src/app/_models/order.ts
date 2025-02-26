@@ -6,15 +6,7 @@ export enum PaymentMethod {
     CashOnDelivery = 'cash_on_delivery'
   }
 
-  export interface OrderItem {
-    productId: string;
-    sellerId: string;
-    quantity: number;
-    price: number;
-    isAvailable: boolean;
-  }
-
-
+  
   export enum OrderStatus {
     Pending = 'pending',
     Shipped = 'shipped',
@@ -33,7 +25,6 @@ export enum PaymentMethod {
   export class order {
     constructor(
       //added items array 
-      public _id?:string,
       public customerId?: string,
       public PhoneNumber?: number, 
       public paymentMethod?: PaymentMethod, 

@@ -30,8 +30,8 @@ export const routes: Routes = [
   { path: 'forgetPassword', component: ForgetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
-  {path: 'Main',component:MainComponent},
-  { path: 'Seller/products', component: SellerProductsComponent},
+  {path: 'Main',component:MainComponent,  canActivate: [AuthGuard]},
+  { path: 'Seller/products', component: SellerProductsComponent,  canActivate: [AuthGuard]},
 
   { path: 'slogin', component: SloginComponent },
   { path: 'ssignup', component: SsignupComponent   },

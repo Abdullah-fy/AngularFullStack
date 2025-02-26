@@ -104,7 +104,13 @@ export class SignupComponent implements OnInit {
         localStorage.setItem('token', JSON.stringify(transformed));
         // localStorage.setItem('userId', response.data.newUser._ id);
         // localStorage.setItem('role', response.data.newUser.role);
-        this.router.navigate(['/home']);
+        // this.router.navigate(['/home']);
+        
+        if(response.role == 'customer'){
+          this.router.navigate(['/home']);
+        }else if(response.role == 'seller'){
+        this.router.navigate(['/Main']);
+        }
       },
       error: (err) => {
         Swal.fire({

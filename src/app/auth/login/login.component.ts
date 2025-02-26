@@ -51,7 +51,11 @@ export class LoginComponent implements OnInit {
           // localStorage.setItem('userId', response.userId);
           // localStorage.setItem('role', response.role);
           let token = localStorage.getItem('token');
-          this.router.navigate(['/home']);
+          if(response.role == 'customer'){
+            this.router.navigate(['/home']);
+          }else if(response.role == 'seller'){
+          this.router.navigate(['/Main']);
+          }
         },
         error: (err) => {
           Swal.fire({

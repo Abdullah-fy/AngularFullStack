@@ -393,18 +393,18 @@
                     </tr>
                   </thead>
                   <tbody id="orderbody">
-                    @for (order of sellerOrders; track order?._id) {
+                    <!-- @for (order of sellerOrders; track order?._id) {
                         @for (item of order.items; track item.productId; let i = $index) {
                             <tr>
-                                @if (i === 0) {
+                                @if (i === 0) { -->
                                     <!-- Show order ID and customer ID only for first item with rowspan -->
-                                    <td [rowSpan]="order?.items?.length ?? 1">{{ order?._id }}</td>
+                                    <!-- <td [rowSpan]="order?.items?.length ?? 1">{{ order?._id }}</td>
                                     <td [rowSpan]="order?.items?.length">{{ order.customerId }}</td>
-                                }
+                                } -->
                                 <!-- Item-specific columns -->
-                                <td>{{ item.price }}</td>
+                                <!-- <td>{{ item.price }}</td>
                                 <td>
-                                    <ng-container *ngIf="item.itemStatus === 'pending'">
+                                    <ng-container *ngIf="item.orderStatus === 'pending'">
                                         <select [(ngModel)]="selectedOption" 
                                                 (change)="onSelectChange(order?._id, item.productId, selectedOption)"
                                                 [disabled]="isDisabled">
@@ -416,20 +416,20 @@
                                     </ng-container>
                                 </td>
                             </tr>
-                        }
-                        @empty {
+                        } -->
+                        <!-- @empty { -->
                             <!-- Empty state for items within an order -->
-                            <tr>
+                            <!-- <tr>
                                 <td colspan="4">No items in this order</td>
                             </tr>
                         }
                     }
-                    @empty {
+                    @empty { -->
                         <!-- Empty state for entire orders list -->
-                        <tr>
+                        <!-- <tr>
                             <td colspan="4">No orders found</td>
                         </tr>
-                    }
+                    } -->
                 </tbody>
                 </table>
                 
