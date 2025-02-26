@@ -27,6 +27,7 @@ export class ProductService {
     if (search) params = params.set('search', search);
     if (minPrice !== null) params = params.set('minPrice', minPrice.toString());
     if (maxPrice !== null) params = params.set('maxPrice', maxPrice.toString());
+    params = params.set('inStock', 'true');
 
     return this.http.get<Product[]>(`${this.url}/filteredProducts`, { params });
   }
