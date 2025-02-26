@@ -1,4 +1,5 @@
 import { Component,OnInit,NgModule,ChangeDetectorRef } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {ProductService} from '../../_services/product.service';
 import { Product } from '../../_models/product';
 import { OrderService } from '../../_services/order.service';
@@ -21,6 +22,9 @@ import {
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { SellerAnalysisComponent } from '../seller-analysis/seller-analysis.component';
+import {ProfitAnalysisComponent} from '../profit-analysis/profit-analysis.component';
+import {OrderStatusAnalysisComponent} from '../order-status-analysis/order-status-analysis.component';
+import { GetsetproductsService } from '../../_services/getsetproducts.service';
 
 
 
@@ -29,18 +33,20 @@ import { SellerAnalysisComponent } from '../seller-analysis/seller-analysis.comp
 
 @Component({
   selector: 'app-main',
-  imports: [FormsModule,CommonModule,MatIconModule,
+  imports: [FormsModule,CommonModule,MatIconModule,RouterModule,
     MatButtonModule,
     MatDialogModule,
     MatDialogContent,MatDialogClose,MatDialogTitle,MatDialogActions,
     SellerAnalysisComponent,
+    ProfitAnalysisComponent,
+    OrderStatusAnalysisComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css',
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class MainComponent implements OnInit {
-  constructor( private productService:ProductService, private orderService:OrderService,private dialog: MatDialog,private cdr: ChangeDetectorRef){}
+  constructor( private productService:ProductService, private orderService:OrderService,private dialog: MatDialog,private cdr: ChangeDetectorRef,private sellerProductsService: GetsetproductsService){}
 
   sellerProducts:Product[]=[];
 
@@ -69,7 +75,9 @@ export class MainComponent implements OnInit {
     this.productService.getProducts().subscribe({
       next:(data)=>{this.sellerProducts=[...data],console.log(data);
         this.filteredProducts = [...data];
-        this.cdr.detectChanges();},
+        this.cdr.detectChanges();
+        this.sellerProductsService.setProducts(this.sellerProducts);
+      },
       error:(error)=>{console.error('Error loading seller products:', error);}
     }) 
   }

@@ -1,0 +1,23 @@
+.table-responsive {
+    background: white;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+  }
+  
+  .pagination {
+    margin-top: 20px;
+    justify-content: center;
+  }
+  
+  .page-link {
+    cursor: pointer;
+  }
+  
+  .btn-outline-secondary {
+    border-color: #ddd;
+    color: #666;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+  }

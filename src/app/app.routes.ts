@@ -11,6 +11,7 @@ import { AuthGuard } from './guard/auth-guard.guard';
 import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { MainComponent } from './shared/main/main.component';
+import { SellerProductsComponent } from '../app/shared/seller-products/seller-products.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full' }, 
@@ -27,5 +28,6 @@ export const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   {path: 'Main',component:MainComponent},
+  { path: 'Seller/products', component: SellerProductsComponent}
 
 ];
