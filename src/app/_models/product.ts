@@ -6,9 +6,13 @@ export class Product {
         public price: number, 
         public category: string, 
         public images: [string], 
-        public stockQuantity: number, 
+        public stock: number, 
+        public stockId: string,
+        public branchLocation: string,
         public createdAt: string  = "",
         public isBestSeller: boolean,
         public salesCount: number,
-        public SellerInfo: {_id: number, name: string}) {}
+        public SellerInfo: {_id: number, name: string},
+        public isActive?: boolean,
+    ) {}
 } 

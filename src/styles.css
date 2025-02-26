@@ -3,15 +3,12 @@
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 /* @import "animate.css"; */
-
-
-
-:root {
-    --primary-color: #FF6B6B;
-    --secondary-color: #FF5252;
-    --active-color: #FF3D3D;
+html {
+  scroll-behavior: smooth;
 }
 
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:root {
+  --primary-color: #ff6b6b;
+  --secondary-color: #ff5252;
+  --active-color: #ff3d3d;
+}

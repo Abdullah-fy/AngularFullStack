@@ -1,3 +1,4 @@
+import { UserService } from './../../_services/user.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -5,17 +6,25 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { OrderService } from '../../_services/order.service';
 
 @Component({
   selector: 'app-user-profile',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
-})
+}) 
 export class UserProfileComponent implements OnInit {
+  orderhistory: any[] = [];
+  customerId?: string;
   userForm!: FormGroup;
+  user : any = [];
 
-  constructor(private formBuilder: FormBuilder) { }
+  storedData = localStorage.getItem('token');
+  userId = this.storedData ? JSON.parse(this.storedData).userId : null;
+
+  constructor(private formBuilder: FormBuilder, private orderService: OrderService, private userService: UserService) { }
+
 
   ngOnInit(): void {
     this.userForm = this.formBuilder.nonNullable.group({
@@ -27,18 +36,47 @@ export class UserProfileComponent implements OnInit {
       role: ['', Validators.required],
       isActive: [1]
     }, { validators: this.matchPassword });
+
+    
+
+    this.getOrderHistory();
+    
   }
 
+  getTotalQuantity(items: any[]): number {
+    if (!items || !items.length) {
+      return 0;
+    }
+    
+    return items.reduce((total, item) => total + (item.quantity || 0), 0);
+  }
+
+  getOrderHistory(): void {
+    // console.log(this.userId);
+    this.orderService.getOrderByCustomerId(this.userId).subscribe(
+      {
+        next: (data) => {
+          this.orderhistory = data;
+          // console.log(this.orderhistory);
+        },
+        error: (error) => {
+          console.error('error fetchinh order history: ', error);
+        }
+      }
+    );
+    
+  }
 
   password: string = '';
   confirmPassword: string = '';
 
   roles = ['customer', 'seller', 'admin', 'manager', 'cashier', 'salesClerk', 'supplier'];
 
-  // loadUserProfile(): void {
-  //   this.userService.getById("mariam").subscribe(data => {
-  //     this.user = data;
-  //   });
+  loadUserProfile(): void {
+    this.userService.getById("fatma").subscribe(data => {
+      this.user = data;
+    });
+  }
 
 
   matchPassword: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -68,4 +106,6 @@ export class UserProfileComponent implements OnInit {
       });
     }
   }
+
+
 }

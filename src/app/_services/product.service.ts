@@ -19,7 +19,7 @@ export class ProductService {
 
   // list products 
   getAll():Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.url}/products`);
+    return this.http.get<Product[]>(`${this.url}/onlineProducts`);
   }
   
   // get filtered products
