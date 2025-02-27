@@ -6,10 +6,7 @@ export enum PaymentMethod {
     CashOnDelivery = 'cash_on_delivery'
   }
 
-<<<<<<< HEAD
-=======
   
->>>>>>> 689adb42fa7b49ff4d66361789921b3eaeec21c6
   export enum OrderStatus {
     Pending = 'pending',
     Shipped = 'shipped',
