@@ -10,6 +10,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OrderService } from '../../_services/order.service';
 import { Product } from '../../_models/product';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -32,7 +33,8 @@ export class UserProfileComponent implements OnInit {
     private orderService: OrderService, 
     private authService: AuthService,
     private ProductService: ProductService,
-    private userService: UserService
+    private userService: UserService, 
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -124,6 +126,10 @@ export class UserProfileComponent implements OnInit {
       return password === confirmPassword ? null : { passwordMismatch: true };
     }
     return null;
+  }
+
+  startShopping(): void { 
+    this.router.navigate(['/products']);
   }
 
   onSubmit() {
