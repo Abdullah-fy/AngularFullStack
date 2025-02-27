@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 import { Product } from '../_models/product';
 
 
@@ -35,6 +38,43 @@ export class ProductService {
   getProductById(id: string) {
     return this.http.get<Product>(`${this.url}/products/${id}`);
 
+  }
+
+
+  //Era product sevice
+  private apiUrl="http://localhost:3000/seller";
+  private productsSubject = new BehaviorSubject<any[]>([]);
+  products$ = this.productsSubject.asObservable();
+
+  getProducts():Observable<any>{
+    return this.http.get(`${this.apiUrl}/products`, {
+      headers: new HttpHeaders({
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      }),
+      params: { '_t': Date.now() } // Cache buster
+    }).pipe(
+      tap(data => this.productsSubject.next(data as Product[]))
+    );
+  }
+
+  DeleteProduct(productId:any)
+  {
+    return this.http.delete(`${this.apiUrl}/products/${productId}`);
+  }
+
+  addProduct(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/products`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    }).pipe(
+      tap(() => this.getProducts().subscribe()) // Refresh list after addition
+    );
+  }
+
+  //update product stock
+  updateStock(productId: string, quantity: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/products/${productId}/stock`, { quantity });
   }
 
   

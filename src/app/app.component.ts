@@ -14,7 +14,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 export class AppComponent {
   title = 'Project';
   hideHeaderAndFooter = false;
-  hiddenRoutes = ['/cashier/getInventory','/cashier/getInventory/checkout']; // Add all routes where you want to hide header/footer
+  hiddenRoutes = ['/cashier/getInventory','/cashier/getInventory/checkout','/Main','Seller/products']; // Add all routes where you want to hide header/footer
 
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {

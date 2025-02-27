@@ -6,6 +6,7 @@ export enum PaymentMethod {
     CashOnDelivery = 'cash_on_delivery'
   }
 
+<<<<<<< HEAD
   export interface OrderItem {
     productId: string;
     sellerId: string;
@@ -15,6 +16,9 @@ export enum PaymentMethod {
   }
 
 
+=======
+  
+>>>>>>> 16a9541dcaca5c62d736b03926c5544c2f00c4c2
   export enum OrderStatus {
     Pending = 'pending',
     Shipped = 'shipped',
@@ -32,6 +36,7 @@ export enum PaymentMethod {
   
   export class order {
     constructor(
+      //added items array 
       public customerId?: string,
       public PhoneNumber?: number, 
       public paymentMethod?: PaymentMethod, 
@@ -40,6 +45,7 @@ export enum PaymentMethod {
       public ExpiryMonth?:number,
       public ExpiryYear?:number,
       public CVVCode?:number,
+      public updatedAt?: Date,
       public Orderstatus?: OrderStatus,
       public items?: OrderItem[],
     ) {}
