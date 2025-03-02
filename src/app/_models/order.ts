@@ -6,7 +6,6 @@ export enum PaymentMethod {
     CashOnDelivery = 'cash_on_delivery'
   }
 
-<<<<<<< HEAD
   export interface OrderItem {
     productId: string;
     sellerId: string;
@@ -16,9 +15,8 @@ export enum PaymentMethod {
   }
 
 
-=======
+
   
->>>>>>> 16a9541dcaca5c62d736b03926c5544c2f00c4c2
   export enum OrderStatus {
     Pending = 'pending',
     Shipped = 'shipped',

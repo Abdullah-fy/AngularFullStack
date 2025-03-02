@@ -3,18 +3,21 @@
     <h3 class="text-center mb-4">User Profile</h3>
     
     <!-- User info summary -->
-    <div *ngIf="user && user.firstName" class="mb-4">
+    <div *ngIf="user && user.firstName && !isEditing" class="mb-4">
       <div class="card bg-light">
         <div class="card-body">
-          <h4 class="card-title">Account Information</h4>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="card-title">Account Information</h4>
+            <button class="custom-btn" (click)="toggleEditMode()">Update Profile</button>
+          </div>
           <div class="row">
             <div class="col-md-6">
-              <p><strong>Name:</strong> {{user.firstName}} {{user.lastName}}</p>
+              <p><strong>First Name:</strong> {{user.firstName}} </p>
+              <p><strong>Last Name:</strong> {{user.lastName}}</p>
               <p><strong>Email:</strong> {{user.email}}</p>
             </div>
             <div class="col-md-6">
-              <p><strong>Account Type:</strong> {{user.role || 'Customer'}}</p>
-              <p><strong>Status:</strong> 
+              <p><strong>Status: </strong> 
                 <span class="badge" [ngClass]="{'bg-success': user.isActive, 'bg-danger': !user.isActive}">
                   {{user.isActive ? 'Active' : 'Inactive'}}
                 </span>
@@ -26,84 +29,93 @@
     </div>
     
     <!-- Edit profile form -->
-    <h4 class="mb-3">Edit Profile</h4>
-    <form class="row g-3" [formGroup]="userForm" (ngSubmit)="onSubmit()">
-      
-      <div class="col-md-6">
-        <label for="firstName" class="form-label">First Name</label> 
-        <input 
-          type="text"  
-          class="form-control" 
-          id="firstName" 
-          required 
-          formControlName="firstName"
-        >
-        <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-danger">
-          <small *ngIf="userForm.get('firstName')?.hasError('required')">First Name is required</small>
-          <small *ngIf="userForm.get('firstName')?.hasError('pattern')">First Name must contain only letters and valid separators</small>
-        </div>        
-      </div>
+    <div *ngIf="isEditing" class="mb-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="card-title">Edit Profile</h4>
+            <button class="btn btn-danger" (click)="toggleEditMode()">Cancel</button>
+          </div>
+          
+          <form class="row g-3" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="col-md-6">
+              <label for="firstName" class="form-label">First Name</label> 
+              <input 
+                type="text"  
+                class="form-control" 
+                id="firstName" 
+                required 
+                formControlName="firstName"
+              >
+              <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-danger">
+                <small *ngIf="userForm.get('firstName')?.hasError('required')">First Name is required</small>
+                <small *ngIf="userForm.get('firstName')?.hasError('pattern')">First Name must contain only letters and valid separators</small>
+              </div>        
+            </div>
 
-      <div class="col-md-6">
-        <label for="lastName" class="form-label">Last Name</label>
-        <input 
-          type="text" 
-          class="form-control" 
-          id="lastName" 
-          required
-          formControlName="lastName"
-        >
-        <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="text-danger">
-          <small *ngIf="userForm.get('lastName')?.hasError('required')">Last Name is required</small>
-          <small *ngIf="userForm.get('lastName')?.hasError('pattern')">Last Name must contain only letters and valid separators</small>
+            <div class="col-md-6">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="lastName" 
+                required
+                formControlName="lastName"
+              >
+              <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="text-danger">
+                <small *ngIf="userForm.get('lastName')?.hasError('required')">Last Name is required</small>
+                <small *ngIf="userForm.get('lastName')?.hasError('pattern')">Last Name must contain only letters and valid separators</small>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <label for="email" class="form-label">Email</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email" 
+                required
+                formControlName="email"
+              >
+              <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+                <small *ngIf="userForm.get('email')?.hasError('required')">Email is required</small>
+                <small *ngIf="userForm.get('email')?.hasError('email')">Invalid email format</small>
+              </div>        
+            </div>
+
+            <div class="col-md-6">
+              <label for="password" class="form-label">Password</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password"
+                formControlName="password"
+              >
+              <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+                <small *ngIf="userForm.get('password')?.hasError('pattern')">Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character</small>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <input 
+                type="password"  
+                class="form-control" 
+                id="confirmPassword"
+                formControlName="confirmPassword"
+              >
+              <div *ngIf="userForm.hasError('passwordMismatch') && userForm.get('confirmPassword')?.touched" class="text-danger">
+                <small>Passwords must match</small>
+              </div>
+            </div>
+
+            <div class="col-12 mt-4 text-center">
+              <button class="custom-btn" type="submit" [disabled]="userForm.invalid">Update</button>
+            </div>
+          </form>
         </div>
       </div>
-
-      <div class="col-md-12">
-        <label for="email" class="form-label">Email</label>
-        <input 
-          type="email" 
-          class="form-control" 
-          id="email" 
-          required
-          formControlName="email"
-        >
-        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
-          <small *ngIf="userForm.get('email')?.hasError('required')">Email is required</small>
-          <small *ngIf="userForm.get('email')?.hasError('email')">Invalid email format</small>
-        </div>        
-      </div>
-
-      <div class="col-md-6">
-        <label for="password" class="form-label">Change Password</label>
-        <input 
-          type="password" 
-          class="form-control" 
-          id="password"
-          formControlName="password"
-        >
-        <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
-          <small *ngIf="userForm.get('password')?.hasError('pattern')">Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character</small>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <label for="confirmPassword" class="form-label">Confirm Password</label>
-        <input 
-          type="password"  
-          class="form-control" 
-          id="confirmPassword"
-          formControlName="confirmPassword"
-        >
-        <div *ngIf="userForm.hasError('passwordMismatch') && userForm.get('confirmPassword')?.touched" class="text-danger">
-          <small>Passwords must match</small>
-        </div>
-      </div>
-
-      <div class="col-12 mt-3">
-        <button class="custom-btn" type="submit">Update Profile</button>
-      </div>
-    </form>
+    </div>
 
     <!-- Order history section -->
     <div class="card p-4 my-5">
@@ -160,6 +172,7 @@
       <!-- No orders message -->
       <div *ngIf="!orderhistory || orderhistory.length === 0" class="text-center py-4">
         <p>You don't have any orders yet.</p>
+        <button class="btn btn-primary mt-3" (click)="startShopping()">Start Shopping</button>
       </div>
     </div>
   </div>
