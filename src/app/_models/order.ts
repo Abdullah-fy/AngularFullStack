@@ -5,18 +5,6 @@ export enum PaymentMethod {
     BankTransfer = 'bank_transfer',
     CashOnDelivery = 'cash_on_delivery'
   }
-
-<<<<<<< HEAD
-  export interface OrderItem {
-    productId: string;
-    sellerId: string;
-    quantity: number;
-    price: number;
-    isAvailable: boolean;
-  }
-
-
-
   
   export enum OrderStatus {
     Pending = 'pending',
@@ -24,8 +12,7 @@ export enum PaymentMethod {
     Canceled = 'canceled'
   }
 
-=======
->>>>>>> 00cdd3818002041f7d11c3eb063e5244aea47ba9
+
   export interface OrderItem {
     productId: string;
     sellerId: string;
