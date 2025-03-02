@@ -2,31 +2,6 @@
   <div class="card shadow-lg p-4">
     <h3 class="text-center mb-4">User Profile</h3>
     
-    <!-- User info summary -->
-    <div *ngIf="user && user.firstName" class="mb-4">
-      <div class="card bg-light">
-        <div class="card-body">
-          <h4 class="card-title">Account Information</h4>
-          <div class="row">
-            <div class="col-md-6">
-              <p><strong>Name:</strong> {{user.firstName}} {{user.lastName}}</p>
-              <p><strong>Email:</strong> {{user.email}}</p>
-            </div>
-            <div class="col-md-6">
-              <p><strong>Account Type:</strong> {{user.role || 'Customer'}}</p>
-              <p><strong>Status:</strong> 
-                <span class="badge" [ngClass]="{'bg-success': user.isActive, 'bg-danger': !user.isActive}">
-                  {{user.isActive ? 'Active' : 'Inactive'}}
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Edit profile form -->
-    <h4 class="mb-3">Edit Profile</h4>
     <form class="row g-3" [formGroup]="userForm" (ngSubmit)="onSubmit()">
       
       <div class="col-md-6">
@@ -75,14 +50,16 @@
       </div>
 
       <div class="col-md-6">
-        <label for="password" class="form-label">Change Password</label>
+        <label for="password" class="form-label">Password</label>
         <input 
           type="password" 
           class="form-control" 
           id="password"
+          required
           formControlName="password"
         >
         <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+          <small *ngIf="userForm.get('password')?.hasError('required')">Password is required</small>
           <small *ngIf="userForm.get('password')?.hasError('pattern')">Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character</small>
         </div>
       </div>
@@ -93,74 +70,43 @@
           type="password"  
           class="form-control" 
           id="confirmPassword"
+          required
           formControlName="confirmPassword"
         >
-        <div *ngIf="userForm.hasError('passwordMismatch') && userForm.get('confirmPassword')?.touched" class="text-danger">
-          <small>Passwords must match</small>
+        <div *ngIf="userForm.get('confirmPassword')?.invalid && userForm.get('confirmPassword')?.touched" class="text-danger">
+          <small *ngIf="userForm.get('confirmPassword')?.hasError('required')">Confirm Password is required</small>
+          <small *ngIf="userForm.get('confirmPassword')?.hasError('passwordMismatch')">Passwords must match</small>
         </div>
       </div>
 
       <div class="col-12 mt-3">
-        <button class="custom-btn" type="submit">Update Profile</button>
+        <button class="btn custom-btn px-4" type="submit">Update Profile</button>
       </div>
     </form>
 
-    <!-- Order history section -->
     <div class="card p-4 my-5">
       <h3 class="text-center mb-4">My Orders</h3> 
-      
-      <div *ngIf="orderhistory && orderhistory.length > 0;">
-        <div *ngFor="let order of orderhistory; let i = index" class="mb-4">
-          <div class="order-header bg-light p-2 d-flex justify-content-between align-items-center rounded">
-            <div>
-              <strong>Order {{i+1}}</strong> 
-              <span class="ms-3">{{order.orderDate | date: 'medium'}}</span>
-            </div>
-            <span class="badge" [ngClass]="{
-              'bg-warning text-dark': order.Orderstatus === 'pending',
-              'bg-success': order.Orderstatus === 'shipped',
-              'bg-danger': order.Orderstatus === 'canceled'
-            }">
-              {{order.Orderstatus}}
-            </span>
-          </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let order of orderhistory; let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{order.Name}}</td>
+            <td>{{order.quantity}}</td>
+            <td>{{order.orderStatus}}</td>
+          </tr>
           
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">Product</th>
-                <th scope="col">Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Each product gets its own row -->
-              <tr *ngFor="let item of order.items">
-                <td class="align-middle">
-                  <div class="product-image-container">
-                    <img 
-                      [src]="item.productImage || 'assets/default-product.jpg'"
-                      alt="product image" 
-                      class="product-image"
-                    >
-                  </div>
-                </td>
-                <td class="align-middle">{{item.productName}}</td>
-              </tr>
-            </tbody>
-            <tfoot class="table-light">
-              <tr>
-                <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                <td><strong>&euro;{{order.paymentDetails?.totalAmount}}</strong></td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-      
-      <!-- No orders message -->
-      <div *ngIf="!orderhistory || orderhistory.length === 0" class="text-center py-4">
-        <p>You don't have any orders yet.</p>
-      </div>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

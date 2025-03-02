@@ -6,28 +6,20 @@ export enum PaymentMethod {
     CashOnDelivery = 'cash_on_delivery'
   }
 
-<<<<<<< HEAD
-=======
-  
->>>>>>> 689adb42fa7b49ff4d66361789921b3eaeec21c6
-  export enum OrderStatus {
-    Pending = 'pending',
-    Shipped = 'shipped',
-    Canceled = 'canceled'
-  }
-
   export interface OrderItem {
     productId: string;
     sellerId: string;
     quantity: number;
     price: number;
-    isAvailable: boolean;
-    images: [string], 
+    isAvailable?: boolean;
+    itemStatus?: 'rejected' | 'pending' | 'approved';
   }
   
   export class order {
     constructor(
       //added items array 
+      public _id?:string,
+      public items?: OrderItem[],
       public customerId?: string,
       public PhoneNumber?: number, 
       public paymentMethod?: PaymentMethod, 
@@ -37,8 +29,11 @@ export enum PaymentMethod {
       public ExpiryYear?:number,
       public CVVCode?:number,
       public updatedAt?: Date,
-      public Orderstatus?: OrderStatus,
-      public items?: OrderItem[],
+      public orderStatus?: 'pending' | 'shipped' | 'canceled',
+      public quantity?: number,
+      public price?: number,
+      public total?: number
+
     ) {}
   }
   

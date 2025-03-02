@@ -1,11 +1,9 @@
-export class Staff {
-  constructor(
-  public _id?: string,
-  public firstName?: string,
-  public lastName?: string,
-  public email?: string,
-  public branchId?: string,
-  public role?: 'cashier' | 'clerk',
-  public isActive?: boolean,
-  ){}
+export interface Staff {
+  _id?: string;
+  firstName?: string;
+  lastName?: string;
+  email: string;
+  branchId?: string;
+  role: 'cashier' | 'clerk';
+  isActive?: boolean;
 }

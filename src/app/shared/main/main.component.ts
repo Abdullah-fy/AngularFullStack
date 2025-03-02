@@ -1,5 +1,4 @@
 import { Component,OnInit,NgModule,ChangeDetectorRef } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {ProductService} from '../../_services/product.service';
 import { Product } from '../../_models/product';
 import { OrderService } from '../../_services/order.service';
@@ -21,10 +20,6 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { SellerAnalysisComponent } from '../seller-analysis/seller-analysis.component';
-import {ProfitAnalysisComponent} from '../profit-analysis/profit-analysis.component';
-import {OrderStatusAnalysisComponent} from '../order-status-analysis/order-status-analysis.component';
-import { GetsetproductsService } from '../../_services/getsetproducts.service';
 
 
 
@@ -33,20 +28,16 @@ import { GetsetproductsService } from '../../_services/getsetproducts.service';
 
 @Component({
   selector: 'app-main',
-  imports: [FormsModule,CommonModule,MatIconModule,RouterModule,
+  imports: [FormsModule,CommonModule,MatIconModule,
     MatButtonModule,
     MatDialogModule,
-    MatDialogContent,MatDialogClose,MatDialogTitle,MatDialogActions,
-    SellerAnalysisComponent,
-    ProfitAnalysisComponent,
-    OrderStatusAnalysisComponent
-  ],
+    MatDialogContent,MatDialogClose,MatDialogTitle,MatDialogActions],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css',
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class MainComponent implements OnInit {
-  constructor( private productService:ProductService, private orderService:OrderService,private dialog: MatDialog,private cdr: ChangeDetectorRef,private sellerProductsService: GetsetproductsService){}
+  constructor( private productService:ProductService, private orderService:OrderService,private dialog: MatDialog,private cdr: ChangeDetectorRef){}
 
   sellerProducts:Product[]=[];
 
@@ -75,9 +66,7 @@ export class MainComponent implements OnInit {
     this.productService.getProducts().subscribe({
       next:(data)=>{this.sellerProducts=[...data],console.log(data);
         this.filteredProducts = [...data];
-        this.cdr.detectChanges();
-        this.sellerProductsService.setProducts(this.sellerProducts);
-      },
+        this.cdr.detectChanges();},
       error:(error)=>{console.error('Error loading seller products:', error);}
     }) 
   }
@@ -120,8 +109,8 @@ export class MainComponent implements OnInit {
         this.sellerOrders.forEach(order => {
           order.items?.forEach(item => {
             if(item.sellerId==this.sellerId&&item.productId==productId){
-             // item.itemStatus='rejected'; /////////you are not updating DB!!!! //call updateorder
-              this.UpdateItemstate(order.customerId,item.productId,'rejected');
+              item.itemStatus='rejected'; /////////you are not updating DB!!!! //call updateorder
+              this.UpdateItemstate(order._id,item.productId,'rejected');
               //reload/get orders array again 
               this.loadSellerOrders(this.sellerId);
 
@@ -143,8 +132,7 @@ export class MainComponent implements OnInit {
       next:(data)=>{this.sellerOrders=data,console.log(data);
         var ordderanalysis=this.countApprovedItemsByMonthv(this.sellerOrders);
         
-        // console.log('here',this.countApprovedItemsByMonth(this.sellerOrders));
-        // this.monthlySalesData=this.countApprovedItemsByMonth(this.sellerOrders);
+        console.log('here',this.countApprovedItemsByMonth(this.sellerOrders));
         
         console.log('Monthly counts:', JSON.stringify(ordderanalysis, null, 2));
       },
@@ -191,28 +179,28 @@ openFormDialog(): void {
 
 //////analysis ///////
 //1. orders analysis 
-// countApprovedItemsByMonth(orders: order[]) {
-//   const monthlyCounts = new Array(12).fill(0);
+countApprovedItemsByMonth(orders: order[]) {
+  const monthlyCounts = new Array(12).fill(0);
 
-//   orders.forEach(order => {
-//     if (!order.updatedAt) return;
+  orders.forEach(order => {
+    if (!order.updatedAt) return;
     
-//     const orderDate: Date |any = order.updatedAt ? new Date(order.updatedAt) : undefined;
-//     if (isNaN(orderDate.getTime())) return;
+    const orderDate: Date |any = order.updatedAt ? new Date(order.updatedAt) : undefined;
+    if (isNaN(orderDate.getTime())) return;
 
-//     // Only process orders from target year
-//     if (orderDate.getFullYear() !== 2025) return;
+    // Only process orders from target year
+    if (orderDate.getFullYear() !== 2025) return;
 
-//     const monthIndex = orderDate.getMonth(); // 0-11 (January-December)
-//     const approvedCount = order.items?.filter(
-//       item => item.itemStatus === 'approved'
-//     ).length;
+    const monthIndex = orderDate.getMonth(); // 0-11 (January-December)
+    const approvedCount = order.items?.filter(
+      item => item.itemStatus === 'approved'
+    ).length;
 
-//     monthlyCounts[monthIndex] += approvedCount;
-//   });
+    monthlyCounts[monthIndex] += approvedCount;
+  });
 
-//   return monthlyCounts;
-// }
+  return monthlyCounts;
+}
 
 ///
  countApprovedItemsByMonthv(orders: order[]): { month: string; count: number }[] {
@@ -292,7 +280,6 @@ applyFilter() {
 
 
 
-  ////sslaes analysis data 
-  monthlySalesData: number[] = [0,0,1,4,8,0,0,0,1,4,8,10];
+  
 
 }

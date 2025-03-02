@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
     <!-- Side Navigation -->
     <mat-sidenav [(opened)]="isSideNavOpen" mode="side">
-      <mat-toolbar color="primary">Menu</mat-toolbar> 
+      <mat-toolbar color="primary">Menu</mat-toolbar>
       <mat-nav-list>
         <a mat-list-item class="item"routerLink="/cashier/getInventory" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
             Home
@@ -9,9 +9,6 @@
         <a mat-list-item class="item" routerLink="/cashier/getInventory/checkout" routerLinkActive="active-link">
             Checkout
         </a>
-        <a mat-list-item class="item" routerLink="/slogin" routerLinkActive="active-link" (click)="logout()">
-          Logout
-      </a>
     </mat-nav-list>
     </mat-sidenav>
   
@@ -20,7 +17,7 @@
         <button mat-icon-button (click)="isSideNavOpen = !isSideNavOpen">
           <i class="fa-solid fa-bars"></i> 
         </button>
-        <span>Cashier {{cashierData!.firstName}} {{cashierData!.lastName}}</span>
+        <span>Cashier {{cashierData?.firstName}} {{cashierData?.lastName}}</span>
       </mat-toolbar>
       <div class="content">
       </div>

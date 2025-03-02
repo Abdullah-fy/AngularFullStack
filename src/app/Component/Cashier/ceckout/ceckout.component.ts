@@ -21,16 +21,13 @@ export class CeckoutComponent implements OnInit {
     produtId:any;
     ProductName:any;
     pic:any;
-    CashierId?:any;
-    Order: order=new order;
+    cashierId='67b88cb8a3fa0e2deca918a3'
 
 
     constructor(private productService:ProductService,private cashierService:OrderService,private router:Router) {}
   
     ngOnInit(): void {
-      this.CashierId =  localStorage.getItem('StaffId') || '';
-      this.Order.CashierId=this.CashierId;
-      this.loadCart(this.CashierId);                          
+      this.loadCart(this.cashierId);                          
     }
   
     //load cart item
@@ -64,8 +61,8 @@ export class CeckoutComponent implements OnInit {
   
     //Add item to cart
     addToCart(productId: string, quantity: number = 1): void {
-      this.cashierService.addToCart(this.CashierId,productId, quantity).subscribe({
-        next: () => this.loadCart(this.CashierId),
+      this.cashierService.addToCart(this.cashierId,productId, quantity).subscribe({
+        next: () => this.loadCart(this.cashierId),
         error: (err) => {
           Swal.fire({
             icon: 'error',
@@ -78,16 +75,16 @@ export class CeckoutComponent implements OnInit {
   
     //reomve from cart
     removeFromCart(productId: string): void {
-      this.cashierService.removeFromCart(this.CashierId,productId).subscribe({
-        next: () => this.loadCart(this.CashierId),
+      this.cashierService.removeFromCart(this.cashierId,productId).subscribe({
+        next: () => this.loadCart(this.cashierId),
         error: (err) => console.error('Error removing item from cart:', err),
       });
     }
   
     //decrese item quantity in cart
     decreaseCartItem(productId: string, quantity: number = 1): void {
-      this.cashierService.decreaseCartItem(this.CashierId,productId, quantity).subscribe({
-        next: () => this.loadCart(this.CashierId),
+      this.cashierService.decreaseCartItem(this.cashierId,productId, quantity).subscribe({
+        next: () => this.loadCart(this.cashierId),
         error: (err) => console.error('Error decreasing item quantity:', err),
       });
     }
@@ -136,7 +133,7 @@ export class CeckoutComponent implements OnInit {
       }
     
       //create obj
-      
+      Order: order = new order(this.cashierId);
       paymentMethod = PaymentMethod;
     
       //create order
@@ -172,8 +169,7 @@ export class CeckoutComponent implements OnInit {
           })
           return 
         }
-        console.log(this.Order)
-
+    
         this.cashierService.createOrder(this.Order).subscribe({
           next: (data) => console.log('order created:', data),
           error: (err) => Swal.fire({

@@ -9,7 +9,7 @@
 
 mat-sidenav {
   width: 200px; /* Width of the side nav */
-  background-color: var(--primary-color) !important;
+  background-color: var(--primary-color);
   border-radius: 0% 4% 4% 0%;
 }
 

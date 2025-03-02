@@ -78,12 +78,9 @@
         <li>
           
           <ul>
-            <li>
-              <!-- <a href="newProduct.html"><i class="material-icons-outlined">arrow_right</i>Add Product</a> -->
+            <li><a href="newProduct.html"><i class="material-icons-outlined">arrow_right</i>Add Product</a>
             </li>
-            <li><a class="nav-link active" routerLink="/Seller/products">
-              Manage Products
-            </a>
+            <li><a href="Products.html"><i class="material-icons-outlined">arrow_right</i>Products</a>
             </li>
             <li><a href="ecommerce-orders.html"><i class="material-icons-outlined">arrow_right</i>Orders</a>
             </li>   
@@ -146,15 +143,7 @@
               <div>
                 <h4 class="mb-0" id="Totalorders"></h4>
                 <p class="mb-3">Total Orders</p>
-                <div id="chart1">
-                  <!--  -->
-                  <div class="card mt-4">
-                    <div class="card-body">
-                      <app-sales-chart [monthlySales]="monthlySalesData"></app-sales-chart>
-                    </div>
-                  </div>
-                  <!--  -->
-                </div>
+                <div id="chart1"></div>
               </div>
             </div>
           </div>
@@ -186,7 +175,6 @@
               <div class="">
                 <h5 class="mb-0" id="totalprofit"></h5>
                 <p class="mb-0">Total Profit</p>
-                <app-profit-analysis [sellerOrders]="sellerOrders"></app-profit-analysis>
               </div>
               <div class="dropdown">
                 <a href="javascript:;" class="dropdown-toggle-nocaret options dropdown-toggle"
@@ -219,10 +207,8 @@
                 <div class="d-flex align-items-start justify-content-between">
                   <div class="">
                     <h5 class="mb-0">Order Status</h5>
-                    <!-- parent.component.html -->
-                    <app-order-status-analysis [sellerOrders]="sellerOrders"></app-order-status-analysis>
                   </div>
-                  <!-- <div class="dropdown">
+                  <div class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle-nocaret options dropdown-toggle"
                       data-bs-toggle="dropdown">
                       <span class="material-icons-outlined fs-5">more_vert</span>
@@ -232,39 +218,33 @@
                       <li><a class="dropdown-item" href="javascript:;">Another action</a></li>
                       <li><a class="dropdown-item" href="javascript:;">Something else here</a></li>
                     </ul>
-                  </div> -->
+                  </div>
                 </div>
                 <div class="position-relative">
                   <div class="piechart-legend">
                     <h2 class="mb-1" id="totalorders"></h2>
-                    <!-- <app-seller-analysis></app-seller-analysis> -->
-                    <!--  -->
-                    <!-- In your analysis component template -->
-                    
-                    <!-- <h6 class="mb-0">Total Orders</h6> -->
+                    <h6 class="mb-0">Total Orders</h6>
                   </div>
-                  <div id="chart6">
-                   
-                  </div>
+                  <div id="chart6"></div>
                 </div>
                 <div class="d-flex flex-column gap-3">
                   <div class="d-flex align-items-center justify-content-between">
-                    <!-- <p class="mb-0 d-flex align-items-center gap-2 w-25"><span
-                        class="material-icons-outlined fs-6 text-primary">fiber_manual_record</span>pendding</p> -->
+                    <p class="mb-0 d-flex align-items-center gap-2 w-25"><span
+                        class="material-icons-outlined fs-6 text-primary">fiber_manual_record</span>pendding</p>
                     <div class="">
                       <p class="mb-0" id="penddingorder"></p>
                     </div>
                   </div>
                   <div class="d-flex align-items-center justify-content-between">
-                    <!-- <p class="mb-0 d-flex align-items-center gap-2 w-25"><span
-                        class="material-icons-outlined fs-6 text-danger">fiber_manual_record</span>delivered</p> -->
+                    <p class="mb-0 d-flex align-items-center gap-2 w-25"><span
+                        class="material-icons-outlined fs-6 text-danger">fiber_manual_record</span>delivered</p>
                     <div class="">
                       <p class="mb-0" id="deliveredorder"></p>
                     </div>
                   </div>
                   <div class="d-flex align-items-center justify-content-between">
-                    <!-- <p class="mb-0 d-flex align-items-center gap-2 w-25"><span
-                        class="material-icons-outlined fs-6 text-success">fiber_manual_record</span>inway</p> -->
+                    <p class="mb-0 d-flex align-items-center gap-2 w-25"><span
+                        class="material-icons-outlined fs-6 text-success">fiber_manual_record</span>inway</p>
                     <div class="">
                       <p class="mb-0" id="inwayorder"></p>
                     </div>
@@ -393,18 +373,18 @@
                     </tr>
                   </thead>
                   <tbody id="orderbody">
-                    <!-- @for (order of sellerOrders; track order?._id) {
+                    @for (order of sellerOrders; track order?._id) {
                         @for (item of order.items; track item.productId; let i = $index) {
                             <tr>
-                                @if (i === 0) { -->
+                                @if (i === 0) {
                                     <!-- Show order ID and customer ID only for first item with rowspan -->
-                                    <!-- <td [rowSpan]="order?.items?.length ?? 1">{{ order?._id }}</td>
+                                    <td [rowSpan]="order?.items?.length ?? 1">{{ order?._id }}</td>
                                     <td [rowSpan]="order?.items?.length">{{ order.customerId }}</td>
-                                } -->
+                                }
                                 <!-- Item-specific columns -->
-                                <!-- <td>{{ item.price }}</td>
+                                <td>{{ item.price }}</td>
                                 <td>
-                                    <ng-container *ngIf="item.orderStatus === 'pending'">
+                                    <ng-container *ngIf="item.itemStatus === 'pending'">
                                         <select [(ngModel)]="selectedOption" 
                                                 (change)="onSelectChange(order?._id, item.productId, selectedOption)"
                                                 [disabled]="isDisabled">
@@ -416,20 +396,20 @@
                                     </ng-container>
                                 </td>
                             </tr>
-                        } -->
-                        <!-- @empty { -->
+                        }
+                        @empty {
                             <!-- Empty state for items within an order -->
-                            <!-- <tr>
+                            <tr>
                                 <td colspan="4">No items in this order</td>
                             </tr>
                         }
                     }
-                    @empty { -->
+                    @empty {
                         <!-- Empty state for entire orders list -->
-                        <!-- <tr>
+                        <tr>
                             <td colspan="4">No orders found</td>
                         </tr>
-                    } -->
+                    }
                 </tbody>
                 </table>
                 
