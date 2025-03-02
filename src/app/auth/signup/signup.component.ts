@@ -92,40 +92,13 @@ export class SignupComponent implements OnInit {
           timer: 3000,
           timerProgressBar: true,
         });
-
         console.log('User logged in successfully!', response);
-        // localStorage.setItem('token', JSON.stringify(response));
-        let original = response;
-        const transformed = {
-          status: original.status,
-          token: original.token,
-          userId: original.data.newUser._id,
-          role: original.data.newUser.role,
-        };
-        localStorage.setItem('token', JSON.stringify(transformed));
-        // localStorage.setItem('userId', response.data.newUser._   id);
-        // localStorage.setItem('role', response.data.newUser.role);
-        console.log(response.token);
-        console.log(response.data.newUser.role);
-        console.log('second');
-
-        if (response.data.newUser.role === 'seller') {
-          this.router.navigate(['/Seller/products']);
-        } else if (response.data.newUser.role === 'customer') {
-          this.router.navigate(['/home']);
-        }
-
-        // if (
-        //   response.data.newUser.role == 'seller' ||
-        //   response.data.newUser.role == 'Seller'
-        // ) {
-        //   this.router.navigate(['/Main']);
-        // } else if (response.data.newUser.role == 'customer') {
-        //   this.router.navigate(['/Main']);
-        // }
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('userId', response.data.newUser._id);
+        localStorage.setItem('role', response.data.newUser.role);
+        this.router.navigate(['/home']);
       },
       error: (err) => {
-        console.log('signerror');
         Swal.fire({
           title: 'Oops...',
           text: err.message,

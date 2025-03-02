@@ -1,0 +1,161 @@
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-primary">
+      <thead>
+        <tr>
+          <th scope="col">Customer ID</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Status</th>
+          <th scope="col">Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of orders; track $index) {
+        <tr>
+          <td>{{ item.customerId }}</td>
+          <td>{{ item.PhoneNumber }}</td>
+          <td>{{ item.Orderstatus }}</td>
+          <td>
+            <button (click)="toggleDetails(item._id)">Show Details</button>
+          </td>
+        </tr>
+        @if (selectedOrderId === item._id) {
+        <tr>
+          <td colspan="4">
+            <div>
+              <h4>Order Details</h4>
+              <p><strong>ID:</strong> {{ item._id }}</p>
+              <p>
+                <strong>Payment Method:</strong>
+                {{ item.paymentDetails?.paymentMethod }}
+              </p>
+              <p>
+                <strong>Total Amount:</strong>
+                {{ item.paymentDetails?.totalAmount }}
+              </p>
+              <p>
+                <strong>Shipping Address:</strong>
+                {{ item.paymentDetails?.shippingAddress }}
+              </p>
+              <p>
+                <strong>Payment Status:</strong>
+                {{ item.paymentDetails?.paymentStatus }}
+              </p>
+              <h5>Items:</h5>
+              <ul>
+                @for (orderItem of item.items; track $index) {
+                <li>
+                  Product ID: {{ orderItem.productId }}, Quantity:
+                  {{ orderItem.quantity }}, Price: {{ orderItem.price }}, Status:
+                  <select
+                    [(ngModel)]="orderItem.itemStatus"
+                    (change)="
+                      updateItemStatus(
+                        item._id,
+                        orderItem.productId,
+                        orderItem.itemStatus!
+                      )
+                    "
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="canceled">Canceled</option>
+                  </select>
+                </li>
+                }
+              </ul>
+              <p><strong>Updated At:</strong> {{ item.updatedAt | date }}</p>
+            </div>
+          </td>
+        </tr>
+        } }@empty {
+        <tr>
+          <td colspan="3">NO DATA EXIST!!!</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- <div class="table-responsive">
+    <table class="table table-primary">
+      <thead>
+        <tr>
+          <th scope="col">Customer ID</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Status</th>
+          <th scope="col">Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of orders; track $index) {
+        <tr>
+          <td>{{ item.customerId }}</td>
+          <td>{{ item.PhoneNumber }}</td>
+          <td>{{ item.Orderstatus }}</td>
+          <td>
+            <button (click)="toggleDetails(item._id)">Show Details</button>
+          </td>
+          <td>
+          </td>
+        </tr>
+        @if (selectedOrderId === item._id) {
+        <tr>
+          <td colspan="4">
+            <div>
+              <h4>Order Details</h4>
+              <p><strong>ID:</strong> {{ item._id }}</p>
+              <p>
+                <strong>Payment Method:</strong>
+                {{ item.paymentDetails?.paymentMethod }}
+              </p>
+              <p>
+                <strong>Total Amount:</strong>
+                {{ item.paymentDetails?.totalAmount }}
+              </p>
+              <p>
+                <strong>Shipping Address:</strong>
+                {{ item.paymentDetails?.shippingAddress }}
+              </p>
+              <p>
+                <strong>Payment Status:</strong>
+                {{ item.paymentDetails?.paymentStatus }}
+              </p>
+              <h5>Items:</h5>
+              <ul>
+                @for (orderItem of item.items; track $index) {
+                <li>
+                  Product ID: {{ orderItem.productId }}, Quantity:
+                  {{ orderItem.quantity }}, Price: {{ orderItem.price }}, Status:
+                  <select
+                    [(ngModel)]="orderItem.itemStatus"
+                    (change)="
+                      updateItemStatus(
+                        item._id,
+                        orderItem.productId,
+                        orderItem.itemStatus!
+                      )
+                    "
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="canceled">Canceled</option>
+                  </select>
+                </li>
+                }
+              </ul>
+  
+              <p><strong>Updated At:</strong> {{ item.updatedAt | date }}</p>
+            </div>
+          </td>
+        </tr>
+        } }@empty {
+        <tr>
+          <td colspan="3">NO DATA EXIST!!!</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div> -->

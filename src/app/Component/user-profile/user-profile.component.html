@@ -2,6 +2,7 @@
   <div class="card shadow-lg p-4">
     <h3 class="text-center mb-4">User Profile</h3>
     
+<<<<<<< HEAD
     <!-- User info summary -->
     <div *ngIf="user && user.firstName && !isEditing" class="mb-4">
       <div class="card bg-light">
@@ -52,6 +53,24 @@
                 <small *ngIf="userForm.get('firstName')?.hasError('pattern')">First Name must contain only letters and valid separators</small>
               </div>        
             </div>
+=======
+    <form class="row g-3" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      
+      <div class="col-md-6">
+        <label for="firstName" class="form-label">First Name</label> 
+        <input 
+          type="text"  
+          class="form-control" 
+          id="firstName" 
+          required 
+          formControlName="firstName"
+        >
+        <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-danger">
+          <small *ngIf="userForm.get('firstName')?.hasError('required')">First Name is required</small>
+          <small *ngIf="userForm.get('firstName')?.hasError('pattern')">First Name must contain only letters and valid separators</small>
+        </div>        
+      </div>
+>>>>>>> 00cdd3818002041f7d11c3eb063e5244aea47ba9
 
             <div class="col-md-6">
               <label for="lastName" class="form-label">Last Name</label>
@@ -115,28 +134,83 @@
           </form>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
+=======
 
-    <!-- Order history section -->
+      <div class="col-md-12">
+        <label for="email" class="form-label">Email</label>
+        <input 
+          type="email" 
+          class="form-control" 
+          id="email" 
+          required
+          formControlName="email"
+        >
+        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+          <small *ngIf="userForm.get('email')?.hasError('required')">Email is required</small>
+          <small *ngIf="userForm.get('email')?.hasError('email')">Invalid email format</small>
+        </div>        
+      </div>
+
+      <div class="col-md-6">
+        <label for="password" class="form-label">Password</label>
+        <input 
+          type="password" 
+          class="form-control" 
+          id="password"
+          required
+          formControlName="password"
+        >
+        <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+          <small *ngIf="userForm.get('password')?.hasError('required')">Password is required</small>
+          <small *ngIf="userForm.get('password')?.hasError('pattern')">Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character</small>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <input 
+          type="password"  
+          class="form-control" 
+          id="confirmPassword"
+          required
+          formControlName="confirmPassword"
+        >
+        <div *ngIf="userForm.get('confirmPassword')?.invalid && userForm.get('confirmPassword')?.touched" class="text-danger">
+          <small *ngIf="userForm.get('confirmPassword')?.hasError('required')">Confirm Password is required</small>
+          <small *ngIf="userForm.get('confirmPassword')?.hasError('passwordMismatch')">Passwords must match</small>
+        </div>
+      </div>
+
+      <div class="col-12 mt-3">
+        <button class="btn custom-btn px-4" type="submit">Update Profile</button>
+      </div>
+    </form>
+>>>>>>> 00cdd3818002041f7d11c3eb063e5244aea47ba9
+
     <div class="card p-4 my-5">
       <h3 class="text-center mb-4">My Orders</h3> 
-      
-      <div *ngIf="orderhistory && orderhistory.length > 0;">
-        <div *ngFor="let order of orderhistory; let i = index" class="mb-4">
-          <div class="order-header bg-light p-2 d-flex justify-content-between align-items-center rounded">
-            <div>
-              <strong>Order {{i+1}}</strong> 
-              <span class="ms-3">{{order.orderDate | date: 'medium'}}</span>
-            </div>
-            <span class="badge" [ngClass]="{
-              'bg-warning text-dark': order.Orderstatus === 'pending',
-              'bg-success': order.Orderstatus === 'shipped',
-              'bg-danger': order.Orderstatus === 'canceled'
-            }">
-              {{order.Orderstatus}}
-            </span>
-          </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let order of orderhistory; let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{order.Name}}</td>
+            <td>{{order.quantity}}</td>
+            <td>{{order.orderStatus}}</td>
+          </tr>
           
+<<<<<<< HEAD
           <table class="table table-hover">
             <thead>
               <tr>
@@ -174,6 +248,10 @@
         <p>You don't have any orders yet.</p>
         <button class="btn btn-primary mt-3" (click)="startShopping()">Start Shopping</button>
       </div>
+=======
+        </tbody>
+      </table>
+>>>>>>> 00cdd3818002041f7d11c3eb063e5244aea47ba9
     </div>
   </div>
 </div>

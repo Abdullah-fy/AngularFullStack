@@ -47,15 +47,11 @@ export class LoginComponent implements OnInit {
           });
           console.log('User logged in successfully!', response);
           // localStorage.setItem('token' , JSON.stringify(response));
-          localStorage.setItem('token', JSON.stringify(response));
-          // localStorage.setItem('userId', response.userId);
-          // localStorage.setItem('role', response.role);
-
-          if (response.role === 'seller') {
-            this.router.navigate(['/Seller/products']);
-          } else if (response.role === 'customer') {
-            this.router.navigate(['/home']);
-          }
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('userId', response.userId);
+          localStorage.setItem('role', response.role);
+          let token = localStorage.getItem('token');
+          this.router.navigate(['/home']);
         },
         error: (err) => {
           Swal.fire({

@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import { UserService } from './../../_services/user.service';
 import { ProductService } from './../../_services/product.service';
+=======
+>>>>>>> 00cdd3818002041f7d11c3eb063e5244aea47ba9
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -7,9 +10,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { order } from '../../_models/order';
 import { OrderService } from '../../_services/order.service';
+<<<<<<< HEAD
 import { Product } from '../../_models/product';
 import { Router } from '@angular/router';
+=======
+import { AuthService } from '../../_services/auth.service';
+>>>>>>> 00cdd3818002041f7d11c3eb063e5244aea47ba9
 
 @Component({
   selector: 'app-user-profile',
@@ -19,16 +27,19 @@ import { Router } from '@angular/router';
 }) 
 export class UserProfileComponent implements OnInit {
   orderhistory: any[] = [];
-  customerId?: string;
+  customerId: string = "";
   userForm!: FormGroup;
+<<<<<<< HEAD
   user: any = {};
   product: Product[] = [];
   body: any = {};
   isEditing: boolean = false;
+=======
+>>>>>>> 00cdd3818002041f7d11c3eb063e5244aea47ba9
 
-  storedData = localStorage.getItem('token');
-  userId = this.storedData ? JSON.parse(this.storedData).userId : null;
+  constructor(private formBuilder: FormBuilder, private orderService: OrderService, private authService: AuthService) { }
 
+<<<<<<< HEAD
   constructor(
     private formBuilder: FormBuilder, 
     private orderService: OrderService, 
@@ -39,14 +50,41 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.initUserForm();
+=======
+  getOrderHistory(): void {
+    if(this.customerId) {
+      this.orderService.getOrderByCustomerId(this.customerId).subscribe(
+        {
+          next: (data) => {
+            this.orderhistory = data;
+            console.log('Order History:', this.orderhistory);
+          },
+          error: (error) => {
+            console.error('error fetchinh order history: ', error);
+          }
+        }
+      );
+    }
+  }
 
-    // Fetch user data
-    this.loadUserProfile();
-    
-    // Fetch order history
+  ngOnInit(): void {
+    this.userForm = this.formBuilder.nonNullable.group({
+      firstName: ['', [Validators.required, Validators.pattern("^[A-Za-z]+([ '-][A-Za-z]+)*$")]],
+      lastName: ['', [Validators.required, Validators.pattern("^[A-Za-z]+([ '-][A-Za-z]+)*$")]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.pattern("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")]],
+      confirmPassword: ['', Validators.required],
+      role: ['', Validators.required],
+      isActive: [1]
+    }, { validators: this.matchPassword });
+>>>>>>> 00cdd3818002041f7d11c3eb063e5244aea47ba9
+
+    this.customerId = this.authService.getCurrentUserId();
+
     this.getOrderHistory();
   }
 
+<<<<<<< HEAD
   loadUserProfile(): void {
     if (this.userId) {
       // console.log(this.userId); 
@@ -126,6 +164,27 @@ export class UserProfileComponent implements OnInit {
       return password === confirmPassword ? null : { passwordMismatch: true };
     }
     return null;
+=======
+
+  password: string = '';
+  confirmPassword: string = '';
+
+  roles = ['customer', 'seller', 'admin', 'manager', 'cashier', 'salesClerk', 'supplier'];
+
+  // loadUserProfile(): void {
+  //   this.userService.getById("mariam").subscribe(data => {
+  //     this.user = data;
+  //   });
+
+
+  matchPassword: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { passwordMismatch: true };
+
+
+
+>>>>>>> 00cdd3818002041f7d11c3eb063e5244aea47ba9
   }
 
   startShopping(): void { 
@@ -150,6 +209,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   onSubmit() {
+<<<<<<< HEAD
     if (this.userForm.valid) {
       const updatedUser = {
         _id: this.userId,
@@ -184,7 +244,16 @@ export class UserProfileComponent implements OnInit {
             confirmButtonText: 'Try Again'
           });
         }
+=======
+    if (this.userForm) {
+      Swal.fire({
+        title: 'Success!',
+        text: 'Your profile has been updated successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+>>>>>>> 00cdd3818002041f7d11c3eb063e5244aea47ba9
       });
+      console.log(this.userForm.value);
     } else {
       // Mark all form controls as touched to trigger validation messages
       Object.keys(this.userForm.controls).forEach(key => {
@@ -199,4 +268,6 @@ export class UserProfileComponent implements OnInit {
       });
     }
   }
+
+
 }
