@@ -47,11 +47,22 @@ export class LoginComponent implements OnInit {
           });
           console.log('User logged in successfully!', response);
           // localStorage.setItem('token' , JSON.stringify(response));
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('userId', response.userId);
-          localStorage.setItem('role', response.role);
-          let token = localStorage.getItem('token');
+          // localStorage.setItem('token', response.token);
+          // localStorage.setItem('userId', response.useId);
+          // localStorage.setItem('role', response.role);r
+          // let token = localStorage.getItem('token');
+          console.log('User logged in successfully!', response);
+          // localStorage.setItem('token', JSON.stringify(response));
+          let original = response;
+          const transformed = {
+            status: original.status,
+            token: original.token,
+            userId: original.userId,
+            role: original.role,
+          };
+          localStorage.setItem('token', JSON.stringify(transformed));
           this.router.navigate(['/home']);
+
         },
         error: (err) => {
           Swal.fire({
