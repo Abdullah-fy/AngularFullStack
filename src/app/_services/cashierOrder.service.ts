@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { order } from '../_models/cashierOrder';
+import {getData} from './gettokenstaff.service'
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +12,12 @@ export class OrderService {
   private apiUrl2 = 'http://localhost:3000/cart';
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private getData:getData) {}
 
   createOrder(Order: order): Observable<any> {
-    return this.http.post(`${this.apiUrl}/add`, Order);
+    return this.http.post(`${this.apiUrl}/add`, Order,{
+      headers: new HttpHeaders(this.getData.getAuthHeaders()),
+    });
   }
 
   getAllOrders(filters: any = {}): Observable<any> {
@@ -25,20 +28,26 @@ export class OrderService {
     return this.http.get(`${this.apiUrl}/getOrders/${cashierId}`)
   }
 
-  getCashier(cashierId:string):Observable<any>{
-    return this.http.get(`${this.apiUrl}/getCashier/${cashierId}`)
+  getCashier(CashierId:string):Observable<any>{
+    return this.http.get(`${this.apiUrl}/getCashier/${CashierId}`)
   }
 
   getInventory(branchId:string):Observable<any>{
-    return this.http.get(`${this.apiUrl}/getInventory/${branchId}`);
+    return this.http.get(`${this.apiUrl}/getInventory/${branchId}`,{
+      headers: new HttpHeaders(this.getData.getAuthHeaders()),
+    });
   }
 
-  addToCart(CasherId:string,productId:string,quantity:number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/addtocart`,{CasherId,productId,quantity});
+  addToCart(CashierId:string,productId:string,quantity:number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/addtocart`,{CashierId,productId,quantity},{
+      headers: new HttpHeaders(this.getData.getAuthHeaders()),
+    });
   }
 
   getCart(CashierId:string):Observable<any>{
-    return this.http.get(`${this.apiUrl}/${CashierId}`)
+    return this.http.get(`${this.apiUrl}/${CashierId}`,{
+      headers: new HttpHeaders(this.getData.getAuthHeaders()),
+    })
   }
 
   //remove item from cart
@@ -57,7 +66,4 @@ export class OrderService {
     });
   }
 
-  clearCart(customerId:string): Observable<any> {
-    return this.http.delete(`${this.apiUrl2}/clear`, { body: { customerId } });
-  }
 }

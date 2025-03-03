@@ -8,17 +8,12 @@ import { Product } from '../../../_models/product';
 import { ProductService } from '../../../_services/product.service';
 import Swal from 'sweetalert2';
 import { CartService } from '../../../_services/cart.service';
-import { error } from 'jquery';
+import { data, error } from 'jquery';
+import { Staff } from '../../../_models/staff';
 
 @Component({
   selector: 'app-cashier-home',
-  imports: [
-    MatIconModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    SideNavComponent,
-    MatSidenavModule,
-  ],
+  imports: [MatSidenavModule, SideNavComponent],
   templateUrl: './cashier-home.component.html',
   styleUrl: './cashier-home.component.css',
 })
@@ -26,7 +21,7 @@ export class CashierHomeComponent implements OnInit {
   constructor(
     private cashierService: OrderService,
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
   ) {}
 
   inventoryItem: any[] = [];
@@ -34,11 +29,13 @@ export class CashierHomeComponent implements OnInit {
   Name: any;
   pic: any;
   inventoryName: any;
+  CashierId:any;
+  staff:Staff=new Staff()
 
   ngOnInit(): void {
-    const branchId = '67bb6911389062153fbdc3ae';
-    const cashierId='67b88cb8a3fa0e2deca918a3'
-    this.fetchProduct(branchId);
+    this.CashierId =  localStorage.getItem('StaffId') || '';
+    this.getinvId()
+    
   }
   //getinventory product
   fetchProduct(branchId: string) {
@@ -73,8 +70,8 @@ export class CashierHomeComponent implements OnInit {
   }
 
   //addtocart
-  addtocart(CasherId: string, productId: string, quantity: number = 1): void {
-    this.cashierService.addToCart(CasherId, productId, quantity).subscribe({
+  addtocart(productId: string, quantity: number = 1): void {
+    this.cashierService.addToCart(this.CashierId, productId, quantity).subscribe({
       error: (err) => {
         Swal.fire({
           icon: 'error',
@@ -90,6 +87,18 @@ export class CashierHomeComponent implements OnInit {
       title: "itam add to cart",
       showConfirmButton: false,
       timer: 1000
+  })
+
+}
+
+getinvId()
+{
+  this.cashierService.getCashier(this.CashierId).subscribe({
+    next:(data)=>{this.staff=data
+      const branchId = this.staff.branchId || "haha";
+      this.fetchProduct(branchId);
+    },
+    error:(err)=>console.log(`Error retriving inv ${err}`)
   })
 
 }
