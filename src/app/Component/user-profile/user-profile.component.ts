@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 }) 
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit { 
   orderhistory: any[] = [];
   customerId?: string;
   userForm!: FormGroup;
