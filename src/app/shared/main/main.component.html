@@ -364,55 +364,38 @@
                   </thead>
                   <tbody id="orderbody">
                     @for (order of sellerOrders; track order?._id) {
-                    @for (order of sellerOrders; track order?._id) {
                         @for (item of order.items; track item.productId; let i = $index) {
                             <tr>
                                 @if (i === 0) {
-                                    <!-- Show order ID and customer ID only for first item with rowspan --> 
+                                    <!-- Show order ID only for first item with rowspan --> 
                                     <td [rowSpan]="order?.items?.length ?? 1">{{ order?._id }}</td>
-                                    <td [rowSpan]="order?.items?.length">{{ order.customerId }}</td>
-                                }
                                 }
                                 <!-- Item-specific columns -->
                                 <td>{{ item.price }}</td>
                                 <td>{{ item.price }}</td>
                                 <td>
-                                    <!-- <ng-container *ngIf="item.orderStatus === 'pending'">
-                                        <select [(ngModel)]="selectedOption" 
-                                                (change)="onSelectChange(order?._id, item.productId, selectedOption)"
-                                                [disabled]="isDisabled">
-                                            <option *ngFor="let option of options" [value]="option">{{ option }}</option>
-                                        </select>
-                                    </ng-container> -->
-                                    <!-- <ng-container *ngIf="item.itemStatus !== 'pending'"> -->
-                                        <p>{{ item.itemStatus }}</p>
-                                    <!-- </ng-container> -->
+                                    <p>{{ item.itemStatus }}</p>
                                 </td>
                                 <td>
-                                  <p>{{ formatDate(order.updatedAt) }}</p>
+                                    <p>{{ formatDate(order.updatedAt) }}</p>
                                 </td>
                             </tr>
-                        }
-                        @empty {
                         }
                         @empty {
                             <!-- Empty state for items within an order -->
                             <tr>
-                            <tr>
-                                <td colspan="4">No items in this order</td>
+                                <td colspan="5">No items in this order</td>
                             </tr>
                         }
                     }
                     @empty {
-                    @empty {
                         <!-- Empty state for entire orders list -->
                         <tr>
-                        <tr>
-                            <td colspan="4">No orders found</td>
+                            <td colspan="5">No orders found</td>
                         </tr>
                     }
-                    }
                 </tbody>
+                
                 </table>
                 
                 
