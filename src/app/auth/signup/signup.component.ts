@@ -93,6 +93,10 @@ export class SignupComponent implements OnInit {
           timerProgressBar: true,
         });
         console.log('User logged in successfully!', response);
+        // localStorage.setItem('token', response.token);
+        // localStorage.setItem('userId', response.data.newUser._id);
+        // localStorage.setItem('role', response.data.newUser.role);
+         console.log('User logged in successfully!', response);
         // localStorage.setItem('token', JSON.stringify(response));
         let original = response;
         const transformed = {
@@ -102,34 +106,7 @@ export class SignupComponent implements OnInit {
           role: original.data.newUser.role,
         };
         localStorage.setItem('token', JSON.stringify(transformed));
-        // localStorage.setItem('userId', response.data.newUser._ id);
-        // localStorage.setItem('role', response.data.newUser.role);
-        // this.router.navigate(['/home']);
-
-  const storedData = localStorage.getItem('token');
-  console.log("Holaaaaaaaaaaaaaaaaaaaaaa")
-  console.log(storedData)
-
-if (storedData) {
-  try {
-    // Parse the JSON string
-    const authData = JSON.parse(storedData);
-    
-    // Access the role property
-    this.role = authData.role; // "customer"
-    console.log('User role:', this.role);
-  } catch (error) {
-    console.error('Error parsing stored data:', error);
-  }}
-
- 
-        if(this.role == 'customer'){
-          this.router.navigate(['/home']);
-        }else if(this.role == 'seller'){
-        this.router.navigate(['/Main']);
-        }else{
-          this.router.navigate(['/products']);
-        }
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         Swal.fire({

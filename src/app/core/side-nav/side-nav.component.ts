@@ -25,7 +25,7 @@ import { Staff } from '../../_models/staff';
 })
 export class SideNavComponent implements OnInit {
   isSideNavOpen = true; 
-  cashierData!:Staff ;
+  cashierData?:Staff ;
 
   constructor(private cashierService:OrderService){}
 

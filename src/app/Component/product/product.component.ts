@@ -31,45 +31,78 @@ export class ProductComponent implements OnInit {
 
   constructor(private productService: ProductService, private route: ActivatedRoute, private router: Router) {}
 
+  
+
   ngOnInit() {
+    this.getAllProducts();
+    
     this.route.paramMap.subscribe(params => {
-      this.select = params.get('name') || "1"; 
+      this.select = params.get('name') || "1";
       if (this.select) {
-        this.filterProducts(); 
+        this.filterProducts();
       } else {
         console.error("Category Name is undefined");
       }
     });
   }
 
-  // get all products
-  getAllProducts() {
-    this.productService.getAll().subscribe({
-      next: (data) => {
-        this.products = data;
-        this.filterProducts(); 
-      },
-      error: (error) => {
-        console.error('Error fetching all products:', error);
-      }
-    });
-  }
+  // Modify your getAllProducts method in ProductComponent
+getAllProducts() {
+  this.productService.getAll().subscribe({
+    next: (data: any[]) => {
+      let products: Product[] = [];
 
-  //get filtered products
+      data.forEach(item => {
+        this.productService.getProductById(item._id).subscribe({
+          next: (productDetails: any) => {
+            const product = new Product(
+              item._id,
+              productDetails.name || 'Unknown Product',
+              productDetails.description || '',
+              productDetails.price || 0,
+              productDetails.category || '',
+              productDetails.images || ['assets/default-product.jpg'],
+              item.stock, 
+              productDetails.stockId || '',
+              productDetails.branchLocation || '',
+              productDetails.createdAt || new Date().toISOString(),
+              productDetails.isBestSeller || false,
+              productDetails.salesCount || 0,
+              productDetails.SellerInfo || {_id: 0, name: 'Unknown Seller'},
+              productDetails.isActive !== undefined ? productDetails.isActive : true
+            );
+            
+            products.push(product);
+            
+            if (products.length === data.length) {
+              this.products = products;
+              this.filterProducts();
+            }
+          },
+          error: (error) => console.error(`Error fetching details for product ${item._id}:`, error)
+        });
+      });
+    },
+    error: (error) => console.error('Error fetching products:', error)
+  });
+}
+
+  
+
   filterProducts() {
     const categoryValue = this.categories[this.select] || "";
+    
+    this.filteredProducts = this.products.filter(product => {
 
-    this.productService.getFilteredProducts(categoryValue, this.search, this.minPrice, this.maxPrice).subscribe({
-      next: (data) => {
-        const filteredByCategory = Array.isArray(data) ? data : [];
-        this.filteredProducts = filteredByCategory.filter(product => {
-          return product.name.toLowerCase().includes(this.search.toLowerCase()); 
-        });
-      },
-      error: (error) => {
-        console.error("error: ", error);
-        this.filteredProducts = [];
-      }
+      const categoryMatch = !categoryValue || product.category === categoryValue;
+      
+      const searchMatch = !this.search || 
+        product.name.toLowerCase().includes(this.search.toLowerCase());
+      
+      const minPriceMatch = !this.minPrice || product.price >= this.minPrice;
+      const maxPriceMatch = !this.maxPrice || product.price <= this.maxPrice;
+      
+      return categoryMatch && searchMatch && minPriceMatch && maxPriceMatch;
     });
   }
 

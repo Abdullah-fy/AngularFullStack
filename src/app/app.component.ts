@@ -1,20 +1,40 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './core/footer/footer.component';
-import { HeaderComponent } from "./core/header/header.component";
+import { HeaderComponent } from './core/header/header.component';
 import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { AnalysisComponent } from './Component/SuperAdmin/Analysis/analysis/analysis.component';
+import { OrderListComponent } from "./Component/SuperAdmin/orders/order-list/order-list.component";
+import { ProductListComponent } from "./Component/SuperAdmin/products/product-list/product-list.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FooterComponent, HeaderComponent,CommonModule,MatSidenavModule],
+  imports: [
+    RouterOutlet,
+    FooterComponent,
+    HeaderComponent,
+    CommonModule,
+    MatSidenavModule,
+    AnalysisComponent,
+    OrderListComponent,
+    ProductListComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'Project';
   hideHeaderAndFooter = false;
-  hiddenRoutes = ['/cashier/getInventory','/cashier/getInventory/checkout','/Main','/Seller/products','/Main/profile']; // Add all routes where you want to hide header/footer
+  hiddenRoutes = [
+    '/cashier/getInventory',
+    '/cashier/getInventory/checkout',
+    '/SuperAdminAnalysis',
+    '/SuperAdminBranches',
+    '/SuperAdminBranches/internal-order',
+    '/deliver',
+    '/Main','/Seller/products','/Main/profile'
+  ]; // Add all routes where you want to hide header/footer
 
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {

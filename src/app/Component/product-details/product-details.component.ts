@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../_services/cart.service';
 import  Swal  from 'sweetalert2';
+import { AuthService } from '../../_services/auth.service';
+
 
 @Component({
   selector: 'app-product-details',
@@ -14,12 +16,13 @@ import  Swal  from 'sweetalert2';
   styleUrl: './product-details.component.css'
 })
 export class ProductDetailsComponent implements OnInit {
+
   product: Product | null = null; 
   quantity: number = 1;
   customerId: string = "yasoo" 
   productId: string | null = null;
 
-  constructor( private productService: ProductService, private route: ActivatedRoute, private router: Router, private cartService: CartService) {}
+  constructor( private productService: ProductService, private route: ActivatedRoute, private router: Router, private cartService: CartService, private authService: AuthService) {}
 
   ngOnInit(): void {
 
@@ -30,10 +33,10 @@ export class ProductDetailsComponent implements OnInit {
       });
       }
 
-    const productId = String(this.route.snapshot.paramMap.get('id')); 
-    this.productService.getProductById(productId).subscribe((data) => {
-      this.product = data;
-    });
+    // const productId = String(this.route.snapshot.paramMap.get('id')); 
+    // this.productService.getProductById(productId).subscribe((data) => {
+    //   this.product = data;
+    // });
 
   }
 
@@ -53,7 +56,28 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
+
+  
   addToCart(): void {
+    if (!this.authService.isLoggedIn()) {
+      // Just show a quick toast notification
+      Swal.fire({
+        icon: 'info',
+        title: 'Login Required',
+        text: 'Please login to add products to your cart',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000
+      });
+      
+      // Immediately redirect to login page with return URL
+      this.router.navigate(['/login'], { 
+        queryParams: { returnUrl: `/product-details/${this.productId}` } 
+      });
+      return;
+    }
+
     if(this.product && this.productId) {
       this.cartService.addToCart(this.productId, this.quantity).subscribe ({
         next: ()=> {

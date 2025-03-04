@@ -35,7 +35,7 @@ import {AuthService} from '../../_services/auth.service';
 
 @Component({
   selector: 'app-main',
-  imports: [FormsModule,CommonModule,MatIconModule,RouterModule,
+  imports: [FormsModule,CommonModule,MatIconModule,
     MatButtonModule,
     MatDialogModule,
     MatDialogContent,MatDialogClose,MatDialogTitle,MatDialogActions,
@@ -149,8 +149,8 @@ loadSellerProduct() {
         this.sellerOrders.forEach(order => {
           order.items?.forEach(item => {
             if(item.sellerId==this.sellerId&&item.productId==productId){
-             // item.itemStatus='rejected'; /////////you are not updating DB!!!! //call updateorder
-              this.UpdateItemstate(order.customerId,item.productId,'rejected');
+              item.itemStatus='rejected'; /////////you are not updating DB!!!! //call updateorder
+              this.UpdateItemstate(order._id,item.productId,'rejected');
               //reload/get orders array again 
               this.loadSellerOrders(this.sellerId);
 

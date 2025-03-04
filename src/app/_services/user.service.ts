@@ -1,7 +1,8 @@
+import { User } from './../_models/user';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../_models/user';  
+import { param } from 'jquery';
 
 @Injectable({
   providedIn: 'root'
@@ -26,15 +27,15 @@ export class UserService {
 
   
 
-  private url = 'http://localhost:3000/users/'  
+  private url = 'http://localhost:3000/users/'; 
 
   constructor(private http: HttpClient) { }
 
-  getById(email:any): Observable<User> {
-    return this.http.get<User>(this.url+email);
+  getUserById(customerId: string): Observable<User> {
+    return this.http.patch<User>(`${this.url}getuserByid`, { id: customerId });
   }
 
   update(user: User): Observable<User> {
-    return this.http.put<User>(this.url, user);
+    return this.http.put<User>(`${this.url}${user._id}`, user);
   }
 }
