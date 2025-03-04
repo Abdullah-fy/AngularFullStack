@@ -53,6 +53,11 @@ interface Order {
           transform: translateY(-5px);
         }
       }
+
+      .status-card h6 {
+      color: white !important; /* Ensure status text is white */
+    }
+      
       .progress {
         height: 4px;
       }

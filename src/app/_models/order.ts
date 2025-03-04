@@ -6,6 +6,8 @@ export enum PaymentMethod {
     CashOnDelivery = 'cash_on_delivery'
   }
 
+
+
   
   export enum OrderStatus {
     Pending = 'pending',
@@ -19,7 +21,14 @@ export enum PaymentMethod {
     quantity: number;
     price: number;
     isAvailable: boolean;
-    images: [string], 
+    //images: [string], 
+    itemStatus:ItemStatus,
+  }
+
+  export enum ItemStatus {
+    rejected = 'rejected',
+    pending = 'pending',
+    approved = 'approved'
   }
   
   export class order {
@@ -36,6 +45,7 @@ export enum PaymentMethod {
       public updatedAt?: Date,
       public Orderstatus?: OrderStatus,
       public items?: OrderItem[],
+      public _id?:string,
     ) {}
   }
   

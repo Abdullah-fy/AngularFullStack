@@ -21,7 +21,7 @@ import Swal from 'sweetalert2';
 })
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
-
+  role=""
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -105,11 +105,30 @@ export class SignupComponent implements OnInit {
         // localStorage.setItem('userId', response.data.newUser._ id);
         // localStorage.setItem('role', response.data.newUser.role);
         // this.router.navigate(['/home']);
-        
-        if(response.role == 'customer'){
+
+  const storedData = localStorage.getItem('token');
+  console.log("Holaaaaaaaaaaaaaaaaaaaaaa")
+  console.log(storedData)
+
+if (storedData) {
+  try {
+    // Parse the JSON string
+    const authData = JSON.parse(storedData);
+    
+    // Access the role property
+    this.role = authData.role; // "customer"
+    console.log('User role:', this.role);
+  } catch (error) {
+    console.error('Error parsing stored data:', error);
+  }}
+
+ 
+        if(this.role == 'customer'){
           this.router.navigate(['/home']);
-        }else if(response.role == 'seller'){
+        }else if(this.role == 'seller'){
         this.router.navigate(['/Main']);
+        }else{
+          this.router.navigate(['/products']);
         }
       },
       error: (err) => {

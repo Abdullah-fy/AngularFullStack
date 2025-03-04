@@ -16,6 +16,8 @@ import {CashierHomeComponent } from './Component/Cashier/cashier-home/cashier-ho
 import { SloginComponent } from './auth/slogin/slogin.component';
 import { SsignupComponent } from './auth/ssignup/ssignup.component';
 import { AuthStaffGuardGuard } from './guard/auth-staff-guard.guard';
+import {SellerProfileComponent} from './shared/seller-profile/seller-profile.component';
+
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full' }, 
     {path: 'home', component:HomeComponent},  
@@ -31,6 +33,7 @@ export const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   {path: 'Main',component:MainComponent,  canActivate: [AuthGuard]},
+  {path:'Main/profile', component: SellerProfileComponent},
   { path: 'Seller/products', component: SellerProductsComponent,  canActivate: [AuthGuard]},
 
   { path: 'slogin', component: SloginComponent },

@@ -32,7 +32,7 @@ export class SellerAnalysisComponent {
     plugins: {
       title: {
         display: true,
-        text: `Monthly Sales Analysis ${new Date().getFullYear()}`
+        text: `Monthly Sales Analysis ${new Date().getFullYear()}` // Now matches counted year
       }
     },
     scales: {
@@ -46,7 +46,7 @@ export class SellerAnalysisComponent {
         }
       },
       y: {
-        beginAtZero: true,
+       // beginAtZero: true,
         title: {
           display: true,
           text: 'Items Sold'
