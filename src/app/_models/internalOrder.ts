@@ -4,7 +4,7 @@ export interface Product {
   }
   
   export interface internalOrder {
-    id:string;
+    _id:string;
     branchId: string;
     requestedBy: string;
     status: 'Pending' | 'Approved';

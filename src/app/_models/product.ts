@@ -14,5 +14,6 @@ export class Product {
         public salesCount: number,
         public SellerInfo: {_id: number, name: string},
         public isActive?: boolean,
+        public productId?:string,
     ) {}
 } 

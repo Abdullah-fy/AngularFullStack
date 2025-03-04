@@ -9,19 +9,27 @@
             <!-- Order Form -->
             <form (ngSubmit)="onSubmit()">
               <!-- Product ID -->
-              <div class="mb-3">
-                <label for="productId" class="form-label">Product ID</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="productId"
-                  [(ngModel)]="order.productId"
-                  name="productId"
-                  placeholder="Enter Product ID"
-                  required
-                />
-              </div>
-  
+              
+                <div class="mb-3">
+                  <!-- Search Input -->
+                  
+                
+                  <!-- Select Dropdown -->
+                  <label for="productId" class="form-label">Select Product</label>
+                  <select
+                    class="form-control"
+                    id="productId"
+                    [(ngModel)]="order.productId"
+                    name="productId"
+                    required
+                  >
+                  @for(item of products;track item._id ){
+                    <option >
+                     {{ item.productId }}
+                    </option>
+                  }
+                  </select>
+                </div>
               <!-- Quantity -->
               <div class="mb-3">
                 <label for="quantity" class="form-label">Quantity</label>

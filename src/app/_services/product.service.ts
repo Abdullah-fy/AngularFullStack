@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs';
+import { tap,filter } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from '../_models/product';
+import {GettokensellerService} from '../_services/gettokenseller.service';
+import {SellerauthaddService} from '../_services/sellerauthadd.service';
 
 
 @Injectable({ 
@@ -13,7 +15,7 @@ import { Product } from '../_models/product';
 
 export class ProductService { 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private getData:GettokensellerService,private sellerauthaddService:SellerauthaddService) { }
 
   private url: string = "http://localhost:3000/seller";
 
@@ -45,37 +47,61 @@ export class ProductService {
   private apiUrl="http://localhost:3000/seller";
   private productsSubject = new BehaviorSubject<any[]>([]);
   products$ = this.productsSubject.asObservable();
-
-  getProducts():Observable<any>{
-    return this.http.get(`${this.apiUrl}/products`, {
-      headers: new HttpHeaders({
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache'
-      }),
+  
+  getProducts(sellerId: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/products/seller/${sellerId}`, {
+      headers: new HttpHeaders(this.getData.getAuthHeaders()),
       params: { '_t': Date.now() } // Cache buster
     }).pipe(
       tap(data => this.productsSubject.next(data as Product[]))
     );
   }
-
-  DeleteProduct(productId:any)
-  {
-    return this.http.delete(`${this.apiUrl}/products/${productId}`);
+  
+  DeleteProduct(productId: any) {
+    return this.http.delete(`${this.apiUrl}/products/${productId}`, {
+      headers: new HttpHeaders(this.getData.getAuthHeaders()),
+    });
   }
-
+  
   addProduct(formData: FormData): Observable<any> {
+    // Extract and parse the sellerInfo field from formData
+    const sellerInfoString = formData.get('sellerInfo') as string; // Get sellerInfo as string
+    let sellerId: string | null = null;
+
+    if (sellerInfoString) {
+      try {
+        const sellerInfo = JSON.parse(sellerInfoString); // Convert string to object
+        sellerId = sellerInfo.id; // Extract sellerId
+        console.log('Seller ID:', sellerId);
+      } catch (error) {
+        console.error('Error parsing sellerInfo:', error);
+      }
+    }
+
     return this.http.post(`${this.apiUrl}/products`, formData, {
       reportProgress: true,
       observe: 'events'
     }).pipe(
-      tap(() => this.getProducts().subscribe()) // Refresh list after addition
+      // tap(() => {
+      //   if (sellerId) {
+      //     this.getProducts(sellerId).subscribe(); // Refresh list after addition
+      //   }
+      // })
+      filter(event => event.type === 4),
+      tap(() => setTimeout(() => this.getProducts(sellerId).subscribe(), 500))
     );
-  }
+}
 
-  //update product stock
+  
+  // Update product stock
   updateStock(productId: string, quantity: number): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/products/${productId}/stock`, { quantity });
+    return this.http.patch(`${this.apiUrl}/products/${productId}/stock`, { quantity }, );
   }
 
+  getUserNameById(id: string): Observable<any> {
+    const baseUrl = 'http://localhost:3000/users';
+    return this.http.patch<any>(`${baseUrl}/getuserByid`, { id });
+  }
+  
   
 } 

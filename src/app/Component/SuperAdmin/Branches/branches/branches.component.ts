@@ -36,8 +36,8 @@ export class BranchesComponent implements OnInit {
       }
     );
   }
-  MakeorderTobranch(branch:any){
-    this.router.navigate(['SuperAdminBranches/internal-order'], {
+ ShowBranch(branch:any){
+    this.router.navigate(['SuperAdminBranches/branchDetails',branch.branchLocation], {
       state: { branch }, // Pass the branch object as state
     });
     

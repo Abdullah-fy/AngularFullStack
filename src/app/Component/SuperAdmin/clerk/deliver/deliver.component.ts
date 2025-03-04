@@ -12,7 +12,7 @@ import { getData } from '../../../../_services/getData.service';
 export class DeliverComponent implements OnInit{
 
   orders:internalOrder[]=[];
-  user:string="67ab7aa37d727e43ee3d1a16";
+  user:string="67c0e2eacd9ee525f3d92d89";
   constructor(private branchService:BranchService ,private getdata:getData){}
 ngOnInit(): void {
   this.getAllorders();
@@ -34,5 +34,7 @@ this.branchService.getAllorders(this.user!).subscribe(
   }
 )
 }
+
+Confirm(order:string){}
 
 }

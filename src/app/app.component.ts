@@ -32,16 +32,28 @@ export class AppComponent {
     '/cashier/getInventory',
     '/cashier/getInventory/checkout',
     '/SuperAdminAnalysis',
+                  '/SuperAdminBranches','/SuperAdminBranches/internal-order','/deliver',
+                  '/SuperAdminBranches/branchDetails/:branchLocation','/ProductDetails','/admProducts','/admOrders', // Add all routes where you want to hide header/footer
     '/SuperAdminBranches',
     '/SuperAdminBranches/internal-order',
     '/deliver',
+    '/Main','/Seller/products','/Main/profile'
   ]; // Add all routes where you want to hide header/footer
 
-  constructor(private router: Router) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.hideHeaderAndFooter = this.hiddenRoutes.includes(event.url);
-      }
-    });
-  }
+                  constructor(private router: Router) {
+                    this.router.events.subscribe((event) => {
+                      if (event instanceof NavigationEnd) {
+                        this.hideHeaderAndFooter = this.isRouteHidden(event.url);
+                      }
+                    });
+                  }
+                
+                  isRouteHidden(url: string): boolean {
+                    return this.hiddenRoutes.some((route) => {
+                      // Convert route pattern to a regex to match dynamic parameters
+                      const routePattern = route.replace(/:[^/]+/g, '[^/]+'); // Replace :param with a regex pattern
+                      const regex = new RegExp(`^${routePattern}$`);
+                      return regex.test(url);
+                    });
+                  }
 }

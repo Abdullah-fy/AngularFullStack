@@ -35,7 +35,7 @@
         <img src="assets/images/logo-icon.png" class="logo-img" alt="">
       </div>
       <div class="logo-name flex-grow-1">
-        <h5 class="mb-0">furn</h5>
+        <h5 class="mb-0">PerfuMe</h5>
       </div>
       <div class="sidebar-close">
         <span class="material-icons-outlined">close</span>
@@ -51,18 +51,26 @@
             <div class="menu-title">Dashboard</div>
           </a>
           <ul>
-            <li><a href=""><i class="material-icons-outlined">arrow_right</i>Analysis</a>
+            <li><a [routerLink]="['/SuperAdminAnalysis']"
+                   
+              ><i class="material-icons-outlined" routerLinkActive="router-link-active">arrow_right</i>Analysis</a>
             </li>
           </ul>
         </li>
         <li>
           
           <ul>
-            <li><a href=""><i class="material-icons-outlined">arrow_right</i>Add Product</a>
+            <li><a routerLink="/SuperAdminBranches"  routerLinkActive="router-link-active"><i class="material-icons-outlined">arrow_right</i>Branches</a>
             </li>
-            <li><a routerLink="/admProducts"><i class="material-icons-outlined">arrow_right</i>Products</a>
+            <li><a routerLink="/admProducts" routerLinkActive="router-link-active"><i class="material-icons-outlined">arrow_right</i>Products</a>
             </li>
-            <li><a href=""><i class="material-icons-outlined">arrow_right</i>Orders</a>
+            <li><a routerLink="/admOrders" routerLinkActive="router-link-active"><i class="material-icons-outlined">arrow_right</i>Orders</a>
+            </li>
+            <li><a routerLink="/deliver" routerLinkActive="router-link-active"><i class="material-icons-outlined">arrow_right</i>internal Orders deliver</a>
+
+            </li>
+            <li><a routerLink="/deliver" routerLinkActive="router-link-active"><i class="material-icons-outlined">arrow_right</i>internal Orders recive</a>
+              
             </li>
             
           </ul>  

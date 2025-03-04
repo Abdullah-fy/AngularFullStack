@@ -20,3 +20,17 @@ export interface OrdersAnalysis {
     ordersanalysis: OrdersAnalysis;
     UseraAnalysis: UserAnalysis;
   }
+
+  export interface StockAnalysis {
+    ProductStockBranches: number[];
+    BranchesNames: string[];
+  }
+  
+  export interface RevenueAnalysis {
+    ProductRevenueBranches: number[];
+  }
+  
+  export interface ProductAnalysis {
+    StockAnalysis: StockAnalysis;
+    RevenueAnalysis: RevenueAnalysis;
+  }

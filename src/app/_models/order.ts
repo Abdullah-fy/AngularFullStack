@@ -25,8 +25,6 @@ export enum PaymentMethod {
   export class order {
     constructor(
       //added items array 
-      public _id?:string,
-      public items?: OrderItem[],
       public customerId?: string,
       public PhoneNumber?: number, 
       public paymentMethod?: PaymentMethod, 
@@ -39,8 +37,9 @@ export enum PaymentMethod {
       public orderStatus?: 'pending' | 'shipped' | 'canceled',
       public quantity?: number,
       public price?: number,
-      public total?: number
-
+      public total?: number,
+      public _id?:string,
+      public items?: OrderItem[],
     ) {}
   }
   

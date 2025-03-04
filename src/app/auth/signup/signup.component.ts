@@ -21,7 +21,7 @@ import Swal from 'sweetalert2';
 })
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
-
+  role=""
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
