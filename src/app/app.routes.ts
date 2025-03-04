@@ -10,12 +10,12 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
-
 import { MainComponent } from './shared/main/main.component';
 import {CashierHomeComponent } from './Component/Cashier/cashier-home/cashier-home.component'
 import { SloginComponent } from './auth/slogin/slogin.component';
 import { SsignupComponent } from './auth/ssignup/ssignup.component';
 import { AuthStaffGuardGuard } from './guard/auth-staff-guard.guard';
+import {SellerProfileComponent} from './shared/seller-profile/seller-profile.component';
 import { AnalysisComponent } from './Component/SuperAdmin/Analysis/analysis/analysis.component';
 import { BranchesComponent } from './Component/SuperAdmin/Branches/branches/branches.component';
 import { InternalOrderComponent } from './Component/SuperAdmin/Branches/internal-order/internal-order.component';
@@ -39,7 +39,9 @@ export const routes: Routes = [
   { path: 'forgetPassword', component: ForgetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
-  {path: 'Main',component:MainComponent},
+  {path: 'Main',component:MainComponent,  canActivate: [AuthGuard]},
+  {path:'Main/profile', component: SellerProfileComponent},
+  { path: 'Seller/products', component: SellerProfileComponent,  canActivate: [AuthGuard]},
   { path: 'slogin', component: SloginComponent },
   { path: 'ssignup', component: SsignupComponent   },
   { path: 'SuperAdminAnalysis', component: AnalysisComponent   },

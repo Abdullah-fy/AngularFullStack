@@ -16,12 +16,19 @@ import { SuccessModalComponent } from '../success-modal/success-modal.component'
 })
 export class FormDialogComponent {
   productForm: FormGroup;
-  selectedFile: File | null = null;
+  //selectedFile: File | null = null;
+  selectedFiles: File[] = [];
   uploadProgress = 0;
   isSubmitting = false;
+  categories = [
+    { value: 'all', display: 'All' },
+    { value: 'forHer', display: 'For Her' },
+    { value: 'forHim', display: 'For Him' }
+  ];
 
   @ViewChild(SuccessModalComponent) successModal!: SuccessModalComponent;
-
+  sellerid:any;
+  username:any;
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
@@ -31,9 +38,17 @@ export class FormDialogComponent {
       name: ['', Validators.required],
       price: [null, [Validators.required, Validators.min(0)]],
       description: ['', Validators.required],
-      category: ['', Validators.required],
+      category: ['all', Validators.required],
       stockQuantity: [null, [Validators.required, Validators.min(1)]], 
     });
+
+    this.sellerid=this.getUserId();
+
+    
+      this.productService.getUserNameById(this.sellerid).subscribe(
+        (user) => this.username=user.firstName,
+        (error) => console.error('Error:', error)
+      );
   }
 
 
@@ -44,18 +59,40 @@ get descriptionControl() { return this.productForm.get('description'); }
 get categoryControl() { return this.productForm.get('category'); }
 get stockQuantityControl() { return this.productForm.get('stockQuantity'); }
 
+// onFileSelected(event: any) {
+//   this.selectedFile = event.target.files[0];
+//   this.fileTouched = true;
+// }
+
 onFileSelected(event: any) {
-  this.selectedFile = event.target.files[0];
-  this.fileTouched = true;
+  const files: FileList = event.target.files;
+  if (files.length > 0) {
+    this.selectedFiles = Array.from(files).slice(0, 4); // Limit to 4 files
+    this.fileTouched = true;
+  }
 }
 
 generateUniqueId(): string {
   return `id-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
 }
 
+getUserId(): string | null {
+  const storedToken = localStorage.getItem('token'); // Retrieve token from local storage
+  if (storedToken) {
+      try {
+          const tokenData = JSON.parse(storedToken); // Parse JSON
+          return tokenData.userId || null; // Return userId if exists
+      } catch (error) {
+          console.error('Error parsing token:', error);
+          return null;
+      }
+  }
+  return null;
+}
+
 
   onSubmit() {
-    if (this.productForm.valid && this.selectedFile) {
+    if (this.productForm.valid && this.selectedFiles) {
       this.isSubmitting = true;
 
      //
@@ -76,13 +113,20 @@ generateUniqueId(): string {
 
       console.log('Form Values:', this.productForm.value);
 
+      this.selectedFiles.forEach((file, index) => {
+        formData.append('images', file, file.name);
+      });
+
+      
+      
+      console.log('User:', this.username);
       const sellerInfo: any = {
-        id: '1',
-        name: 'john' 
+        id: this.sellerid,
+        name: this.username 
       };
 
       // Append image file
-      formData.append('images', this.selectedFile, this.selectedFile.name);
+      //formData.append('images', this.selectedFile, this.selectedFile.name);
       formData.append('sellerInfo', JSON.stringify(sellerInfo));
       let id:string=this.generateUniqueId();
       formData.append('_id', id);
@@ -99,16 +143,11 @@ generateUniqueId(): string {
       this.productService.addProduct(formData).subscribe({
         next: (response) => {
           this.isSubmitting = false;
-          // Handle success
-          //this.successModal.show(); 
-         // setTimeout(() => {
             this.dialogRef.close(this.productForm.value);
-         // }, 2000);
         },
         error: (error) => {
           this.isSubmitting = false;
           console.log(error);
-          // Handle error
         },
         complete: () => {
           this.isSubmitting = false;

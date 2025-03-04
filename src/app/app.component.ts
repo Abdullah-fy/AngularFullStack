@@ -31,7 +31,12 @@ export class AppComponent {
     '/cashier/getInventory/checkout',
     '/SuperAdminAnalysis',
                   '/SuperAdminBranches','/SuperAdminBranches/internal-order','/deliver',
-                  '/SuperAdminBranches/branchDetails/:branchLocation','/ProductDetails','/admProducts','/admOrders']; // Add all routes where you want to hide header/footer
+                  '/SuperAdminBranches/branchDetails/:branchLocation','/ProductDetails','/admProducts','/admOrders', // Add all routes where you want to hide header/footer
+    '/SuperAdminBranches',
+    '/SuperAdminBranches/internal-order',
+    '/deliver',
+    '/Main','/Seller/products','/Main/profile'
+  ]; // Add all routes where you want to hide header/footer
 
                   constructor(private router: Router) {
                     this.router.events.subscribe((event) => {

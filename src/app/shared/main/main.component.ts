@@ -1,4 +1,5 @@
-import { Component,OnInit,NgModule,ChangeDetectorRef } from '@angular/core';
+import { Component,OnInit,NgModule,ChangeDetectorRef ,ViewChild } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {ProductService} from '../../_services/product.service';
 import { Product } from '../../_models/product';
 import { OrderService } from '../../_services/order.service';
@@ -20,6 +21,12 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { SellerAnalysisComponent } from '../seller-analysis/seller-analysis.component';
+import {ProfitAnalysisComponent} from '../profit-analysis/profit-analysis.component';
+import {OrderStatusAnalysisComponent} from '../order-status-analysis/order-status-analysis.component';
+import { GetsetproductsService } from '../../_services/getsetproducts.service';
+import { SuccessModalComponent } from '../success-modal/success-modal.component';
+import {AuthService} from '../../_services/auth.service';
 
 
 
@@ -31,21 +38,27 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [FormsModule,CommonModule,MatIconModule,
     MatButtonModule,
     MatDialogModule,
-    MatDialogContent,MatDialogClose,MatDialogTitle,MatDialogActions],
+    MatDialogContent,MatDialogClose,MatDialogTitle,MatDialogActions,
+    SellerAnalysisComponent,
+    ProfitAnalysisComponent,
+    OrderStatusAnalysisComponent,
+    SuccessModalComponent
+  ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css',
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class MainComponent implements OnInit {
-  constructor( private productService:ProductService, private orderService:OrderService,private dialog: MatDialog,private cdr: ChangeDetectorRef){}
+  constructor( private productService:ProductService, private orderService:OrderService,private dialog: MatDialog,private cdr: ChangeDetectorRef,private sellerProductsService: GetsetproductsService, private authService:AuthService){}
 
   sellerProducts:Product[]=[];
 
-  //change later////
-  sellerId='679c85ec89cf48577e8152f4';
+  sellerId:any=this.getUserId();
 
   ngOnInit(): void {
-      this.loadSellerProduct();
+    //getuser data:
+    this.sellerId=this.getUserId();
+     this.loadSellerProduct();
       this.loadSellerOrders(this.sellerId);
       console.log(this.sellerId);
       console.log(this.options); 
@@ -61,15 +74,42 @@ export class MainComponent implements OnInit {
       // console.log('hell'+ordderanalysis);
   }
 
-  
-  loadSellerProduct(){
-    this.productService.getProducts().subscribe({
-      next:(data)=>{this.sellerProducts=[...data],console.log(data);
-        this.filteredProducts = [...data];
-        this.cdr.detectChanges();},
-      error:(error)=>{console.error('Error loading seller products:', error);}
-    }) 
+
+//get seller id
+getUserId(): string | null {
+  const storedToken = localStorage.getItem('token'); // Retrieve token from local storage
+  if (storedToken) {
+      try {
+          const tokenData = JSON.parse(storedToken); // Parse JSON
+          return tokenData.userId || null; // Return userId if exists
+      } catch (error) {
+          console.error('Error parsing token:', error);
+          return null;
+      }
   }
+  return null;
+}
+
+  
+loadSellerProduct() {
+  this.productService.getProducts(this.sellerId).subscribe({
+    next: (data) => {
+      const activeProducts = (data as Product[]).filter(product => product.isActive === true);
+
+      this.sellerProducts = [...activeProducts];
+      console.log(activeProducts);
+
+      this.filteredProducts = [...activeProducts];
+      this.cdr.detectChanges();
+
+      this.sellerProductsService.setProducts(this.sellerProducts);
+    },
+    error: (error) => {
+      console.error('Error loading seller products:', error);
+    }
+  });
+}
+
 
   Deleteproduct(productId:any){
     this.productService.DeleteProduct(productId).subscribe({
@@ -129,12 +169,10 @@ export class MainComponent implements OnInit {
   loadSellerOrders(sellerId:any)
   {
     this.orderService.getorders(sellerId).subscribe({
-      next:(data)=>{this.sellerOrders=data,console.log(data);
-        var ordderanalysis=this.countApprovedItemsByMonthv(this.sellerOrders);
-        
-        console.log('here',this.countApprovedItemsByMonth(this.sellerOrders));
-        
-        console.log('Monthly counts:', JSON.stringify(ordderanalysis, null, 2));
+      next:(data)=>{
+        this.sellerOrders=data,console.log(data);
+         this.monthlySalesData=this.countApprovedOrdersByMonth(this.sellerOrders);
+         this.sellerProductsService.setOrders(data);
       },
       error:(error)=>{console.error('Error loading seller products:', error);}
     })
@@ -169,6 +207,12 @@ openFormDialog(): void {
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
       this.loadSellerProduct();
+
+      this.dialog.open(SuccessModalComponent, {
+        data: { message: 'Product created successfully!' },
+        width: '400px'
+      });
+
       console.log('User confirmed');
     } else {
       console.log('User canceled');
@@ -179,28 +223,37 @@ openFormDialog(): void {
 
 //////analysis ///////
 //1. orders analysis 
-countApprovedItemsByMonth(orders: order[]) {
+countApprovedOrdersByMonth(orders: order[]) {
   const monthlyCounts = new Array(12).fill(0);
+  const currentYear = new Date().getFullYear(); 
 
   orders.forEach(order => {
-    if (!order.updatedAt) return;
+     if (!order.updatedAt) return;
+      
+      let orderDate: Date |any = order.updatedAt ? new Date(order.updatedAt) : undefined;
+      if (isNaN(orderDate.getTime())) return;
+    // Use orderDate field that reflects when the order was approved
+     orderDate = orderDate ? new Date(orderDate) : null; 
     
-    const orderDate: Date |any = order.updatedAt ? new Date(order.updatedAt) : undefined;
-    if (isNaN(orderDate.getTime())) return;
+    // Validate date
+    if (!orderDate || isNaN(orderDate.getTime())) return;
+    
+    // Check if the order is from current year
+    if (orderDate.getFullYear() !== currentYear) return;
 
-    // Only process orders from target year
-    if (orderDate.getFullYear() !== 2025) return;
-
-    const monthIndex = orderDate.getMonth(); // 0-11 (January-December)
+    // Count approved items
     const approvedCount = order.items?.filter(
-      item => item.itemStatus === 'approved'
-    ).length;
+      item => item.itemStatus?.toLowerCase() === 'approved' // Case-insensitive check
+    ).length || 0;
 
-    monthlyCounts[monthIndex] += approvedCount;
+    // Add to correct month (0-11)
+    monthlyCounts[orderDate.getMonth()] += approvedCount;
   });
 
   return monthlyCounts;
 }
+
+
 
 ///
  countApprovedItemsByMonthv(orders: order[]): { month: string; count: number }[] {
@@ -245,6 +298,29 @@ countApprovedItemsByMonth(orders: order[]) {
   return allMonths.sort((a, b) => a.month.localeCompare(b.month));
 }
 
+///order_date coulm helper function
+formatDate(date: any): string {
+  if (!date) {
+    return 'N/A'; // Handle undefined or null values
+  }
+
+  const parsedDate = new Date(date); // Convert MongoDB date to JavaScript Date
+  if (isNaN(parsedDate.getTime())) {
+    return 'Invalid Date';
+  }
+
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false, // 24-hour format
+  }).format(parsedDate);
+}
+
+
 
 //update stock 
 openUpdateStockDialog(product: Product): void {
@@ -280,6 +356,15 @@ applyFilter() {
 
 
 
+  ////sslaes analysis data 
+  monthlySalesData: number[] = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+
+
+  //seller logout
+  logSellerOut() {
+    this.authService.logout();
+  }
   
 
 }
