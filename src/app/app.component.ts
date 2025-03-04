@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { AnalysisComponent } from './Component/SuperAdmin/Analysis/analysis/analysis.component';
 import { OrderListComponent } from "./Component/SuperAdmin/orders/order-list/order-list.component";
 import { ProductListComponent } from "./Component/SuperAdmin/products/product-list/product-list.component";
+import { AdminSidenavComponent } from "./core/admin-sidenav/admin-sidenav.component";
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ import { ProductListComponent } from "./Component/SuperAdmin/products/product-li
     MatSidenavModule,
     AnalysisComponent,
     OrderListComponent,
-    ProductListComponent
+    ProductListComponent,
+    AdminSidenavComponent
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

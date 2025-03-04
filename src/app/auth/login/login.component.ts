@@ -61,7 +61,13 @@ export class LoginComponent implements OnInit {
             role: original.role,
           };
           localStorage.setItem('token', JSON.stringify(transformed));
+          if(response.role==='customer' || response.role == 'Customer'){
           this.router.navigate(['/home']);
+        }else if(response.role==='seller' || response.role == 'Seller'){
+          this.router.navigate(['/Main']);
+        }else {
+          this.router.navigate(['/dashboard']);
+        }
 
         },
         error: (err) => {
