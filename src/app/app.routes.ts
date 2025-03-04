@@ -21,6 +21,9 @@ import { BranchesComponent } from './Component/SuperAdmin/Branches/branches/bran
 import { InternalOrderComponent } from './Component/SuperAdmin/Branches/internal-order/internal-order.component';
 import { DeliverComponent } from './Component/SuperAdmin/clerk/deliver/deliver.component';
 import { ProductListComponent } from './Component/SuperAdmin/products/product-list/product-list.component';
+import { ProductDetailsAdminComponent } from './Component/SuperAdmin/products/product-details-admin/product-details-admin.component';
+import { BrancheDetailsComponent } from './Component/SuperAdmin/Branches/branche-details/branche-details.component';
+import { OrderListComponent } from './Component/SuperAdmin/orders/order-list/order-list.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full' }, 
@@ -40,6 +43,7 @@ export const routes: Routes = [
   { path: 'slogin', component: SloginComponent },
   { path: 'ssignup', component: SsignupComponent   },
   { path: 'SuperAdminAnalysis', component: AnalysisComponent   },
+  {path:'ProductDetails',component:ProductDetailsAdminComponent},
   {path: 'SuperAdminBranches',
     component: BranchesComponent,
     children: [
@@ -47,9 +51,15 @@ export const routes: Routes = [
         path: 'internal-order', // Child route
         component: InternalOrderComponent,
       },
+      {
+        path: 'branchDetails/:branchLocation', // Child route
+        component: BrancheDetailsComponent,
+      }
     ],
   },
   { path: 'admProducts', component: ProductListComponent   },
+  { path: 'admOrders', component: OrderListComponent   },
+
   {
     path:'deliver',component:DeliverComponent
   },

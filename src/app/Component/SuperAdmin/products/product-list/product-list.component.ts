@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminProductService } from '../../../../_services/admin-product.service';
 import { AdminProduct } from '../../../../_models/admin-product';
+import { SideBarComponent } from '../../core/side-bar/side-bar.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,SideBarComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })

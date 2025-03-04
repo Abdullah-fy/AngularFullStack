@@ -133,14 +133,14 @@
                     <th>branch</th>
                     <th>Status</th>
                     <th>Date</th>
-                    <th>quantity</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody id="customer-table-body">
                   
                     @for(item of orders;track item.branchId ){
                         <tr>
-                        <td><a>{{item.id}}</a></td>
+                        <td><a>{{item._id}}</a></td>
                         <td>{{item.branchId}}</td>
                         <td>
                           <span class="lable-table bg-primary-subtle text-primary rounded border border-warning-subtle font-text2 fw-bold">
@@ -148,7 +148,8 @@
                           </span>
                         </td>
                         <td>{{item.createdAt}}</td>
-                        <td>{{item.products}}</td>
+                       
+                       <td><button class="btn btn-success btn-sm confirm-btn" (click)="Confirm(item._id)">Confirm</button></td> 
                         </tr>
                     }
                 </tbody>

@@ -3,6 +3,7 @@ import { Inventory } from '../_models/Inventory';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { internalOrder } from '../_models/internalOrder';
+import { Product } from '../_models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,13 @@ export class BranchService {
 
     const params = new HttpParams().set('userId', user);
     return this.http.get<internalOrder[]>(`${this.apiUrl}getallclerkorders/${user}`)
+  }
+  getAllProducts(BranchId:string):Observable<Product[]>{
+    return this.http.get<Product[]>(`${this.apiUrl}getBranchProduct/${BranchId}`);
+  }
+  
+  getProductsInbranch(BranchId:string):Observable<Product[]>{
+
+    return this.http.get<Product[]>(`${this.apiUrl}getProdInBranch/${BranchId}`);
   }
 }

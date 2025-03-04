@@ -3,10 +3,11 @@ import { Order } from '../../../../_models/admin/order';
 import { AdminOrderService } from '../../../../_services/admin-order.service';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SideBarComponent } from '../../core/side-bar/side-bar.component';
 
 @Component({
   selector: 'app-order-list',
-  imports: [DatePipe, FormsModule],
+  imports: [DatePipe, FormsModule,SideBarComponent],
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.css',
 })

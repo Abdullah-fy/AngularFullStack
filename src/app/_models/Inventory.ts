@@ -1,4 +1,6 @@
 export interface Inventory {
+    
+  _id:string;
   branchId:string
     branchLocation: string;
     products: InventoryProduct[];

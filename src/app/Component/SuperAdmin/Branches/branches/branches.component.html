@@ -54,8 +54,8 @@
         @for(item of branches;track item.branchLocation ){
 
           <a
-            [routerLink]="['SuperAdminBranches/internal-order']"
-            (click)="MakeorderTobranch(item)"
+            [routerLink]="['SuperAdminBranches/BranchDetails']"
+            (click)="ShowBranch(item)"
             class="btn btn-primary"
           >
           <button  class="btn btn-primary m-2">{{item.branchLocation}} Branch</button>
