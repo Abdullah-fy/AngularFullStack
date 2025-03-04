@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
         }else if(response.role==='seller' || response.role == 'Seller'){
           this.router.navigate(['/Main']);
         }else {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/SuperAdminAnalysis']);
         }
 
         },

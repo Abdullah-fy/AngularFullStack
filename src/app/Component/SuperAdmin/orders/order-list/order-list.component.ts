@@ -4,6 +4,7 @@ import { AdminOrderService } from '../../../../_services/admin-order.service';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SideBarComponent } from '../../core/side-bar/side-bar.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-order-list',
@@ -47,11 +48,29 @@ export class OrderListComponent implements OnInit {
           const item = order.items.find((i) => i.productId === productId);
           if (item) item.itemStatus = newStatus;
         }
-        alert('Status updated successfully');
+        Swal.fire({
+                    title: 'success',
+                    text: "Order item updated Successfully",
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                  });
       },
       error: (err) => {
         console.error('Error updating status:', err);
-        alert('Failed to update status');
+        Swal.fire({
+                    title: 'Oops...',
+                    text: err.message,
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                  });
       },
     });
   }

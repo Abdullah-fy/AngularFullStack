@@ -106,7 +106,16 @@ export class SignupComponent implements OnInit {
           role: original.data.newUser.role,
         };
         localStorage.setItem('token', JSON.stringify(transformed));
+
+        if(response.data.newUser.role==='customer' || response.data.newUser.role == 'Customer'){
         this.router.navigate(['/home']);
+      }else if(response.data.newUser.role==='seller' || response.data.newUser.role == 'Seller'){
+        this.router.navigate(['/Main/profile']);
+      }else {
+        this.router.navigate(['/SuperAdminAnalysis']);
+      }
+
+        // this.router.navigate(['/home']);
       },
       error: (err) => {
         Swal.fire({

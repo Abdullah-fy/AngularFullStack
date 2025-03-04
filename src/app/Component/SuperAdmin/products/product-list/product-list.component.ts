@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AdminProductService } from '../../../../_services/admin-product.service';
 import { AdminProduct } from '../../../../_models/admin-product';
 import { SideBarComponent } from '../../core/side-bar/side-bar.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-list',
@@ -97,12 +98,30 @@ export class ProductListComponent {
               this.products[index].price = this.updatedPrice!;
               this.products[index].stockQuantity = this.updatedStockQuantity!;
             }
-            alert('Product updated successfully');
+            Swal.fire({
+                        title: 'success',
+                        text:"Product Updated Successfulyly",
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                      });
             this.cancelEdit();
           },
           error: (error) => {
             console.error('Error updating product:', error);
-            alert('Failed to update product');
+            Swal.fire({
+                        title: 'Oops...',
+                        text: error.message,
+                        icon: 'error',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                      });
           },
         });
     }
