@@ -10,7 +10,6 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
-
 import { MainComponent } from './shared/main/main.component';
 import {CashierHomeComponent } from './Component/Cashier/cashier-home/cashier-home.component'
 import { SloginComponent } from './auth/slogin/slogin.component';
@@ -40,7 +39,6 @@ export const routes: Routes = [
   {path: 'Main',component:MainComponent,  canActivate: [AuthGuard]},
   {path:'Main/profile', component: SellerProfileComponent},
   { path: 'Seller/products', component: SellerProfileComponent,  canActivate: [AuthGuard]},
-
   { path: 'slogin', component: SloginComponent },
   { path: 'ssignup', component: SsignupComponent   },
   { path: 'SuperAdminAnalysis', component: AnalysisComponent   },

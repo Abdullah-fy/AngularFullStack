@@ -77,7 +77,7 @@ export class SellerProfileComponent {
   roles = ['customer', 'seller', 'admin', 'manager', 'cashier', 'salesClerk', 'supplier'];
 
   loadUserProfile(): void {
-    this.userService.getById("fatma").subscribe(data => {
+    this.userService.getUserById("fatma").subscribe(data => {
       this.user = data;
     });
   }
